@@ -23,6 +23,25 @@ function resolveSafePath(relativePath: string) {
   return valid ? absolutePath : null;
 }
 
+const imageMimeToExtension: Record<string, string> = {
+  "image/jpeg": ".jpg",
+  "image/png": ".png",
+  "image/webp": ".webp",
+  "image/gif": ".gif",
+  "image/svg+xml": ".svg",
+};
+
+const maxUploadBytes = 8 * 1024 * 1024;
+
+function safeBaseName(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9-_]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 60);
+}
+
 async function walkFiles(directory: string): Promise<string[]> {
   const entries = await fs.readdir(directory, { withFileTypes: true });
   const files: string[] = [];
@@ -98,3 +117,54 @@ export async function PUT(request: Request) {
   }
 }
 
+export async function POST(request: Request) {
+  try {
+    const formData = await request.formData();
+    const file = formData.get("file");
+
+    if (!(file instanceof File)) {
+      return NextResponse.json({ ok: false, error: "No file uploaded" }, { status: 400 });
+    }
+
+    if (!(file.type in imageMimeToExtension)) {
+      return NextResponse.json(
+        { ok: false, error: "Unsupported file type. Allowed: jpg, png, webp, gif, svg" },
+        { status: 400 },
+      );
+    }
+
+    if (file.size <= 0 || file.size > maxUploadBytes) {
+      return NextResponse.json(
+        { ok: false, error: "Invalid file size. Maximum is 8MB." },
+        { status: 400 },
+      );
+    }
+
+    const uploadsDir = path.join(process.cwd(), "public", "uploads", "admin");
+    await fs.mkdir(uploadsDir, { recursive: true });
+
+    const originalName = file.name || "image";
+    const parsed = path.parse(originalName);
+    const preferredExt = imageMimeToExtension[file.type] ?? ".png";
+    const ext = preferredExt || parsed.ext || ".png";
+    const base = safeBaseName(parsed.name || "image") || "image";
+    const timestamp = Date.now();
+    const randomPart = Math.random().toString(36).slice(2, 8);
+    const fileName = `${base}-${timestamp}-${randomPart}${ext}`;
+    const outputPath = path.join(uploadsDir, fileName);
+
+    const buffer = Buffer.from(await file.arrayBuffer());
+    await fs.writeFile(outputPath, buffer);
+
+    return NextResponse.json({
+      ok: true,
+      path: `/uploads/admin/${fileName}`,
+      name: fileName,
+      size: file.size,
+      mimeType: file.type,
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Upload failed";
+    return NextResponse.json({ ok: false, error: message }, { status: 400 });
+  }
+}

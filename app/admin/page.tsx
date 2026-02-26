@@ -58,8 +58,8 @@ function asStringList(value: unknown): string[] {
 
 function Card({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="rounded-2xl border border-[#dce3ef] bg-white p-5 shadow-[0_10px_28px_rgba(15,23,42,0.06)] sm:p-6">
-      <h3 className="mb-4 text-right text-[1.05rem] font-bold text-[#0f172a]">{title}</h3>
+    <section className="rounded-3xl border border-[#1b3550] bg-[linear-gradient(180deg,#102238_0%,#0b1a2b_100%)] p-5 shadow-[0_18px_42px_rgba(2,10,20,0.45)] sm:p-6">
+      <h3 className="mb-4 text-right text-[1.05rem] font-bold text-[#e6f0fb]">{title}</h3>
       {children}
     </section>
   );
@@ -79,11 +79,11 @@ function Field({
   multiline?: boolean;
 }) {
   const base =
-    "w-full rounded-xl border border-[#d9e1ee] bg-[#f8fafc] px-3 py-2.5 text-sm text-[#0f172a] outline-none transition-colors focus:border-[#3b82f6] focus:bg-white";
+    "w-full rounded-xl border border-[#26435f] bg-[#0a1929] px-3 py-2.5 text-sm text-[#e6f0fb] outline-none transition-colors placeholder:text-[#7f96b0] focus:border-[#28d58b] focus:bg-[#0d2135]";
 
   return (
     <label className="block text-right">
-      <span className="mb-1.5 block text-sm font-semibold text-[#334155]">{label}</span>
+      <span className="mb-1.5 block text-sm font-semibold text-[#a9bdd4]">{label}</span>
       {multiline ? (
         <textarea
           value={value}
@@ -108,13 +108,20 @@ function TabBtn({ active, label, onClick }: { active: boolean; label: string; on
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors ${
-        active ? "bg-[#1d4ed8] text-white" : "bg-white text-[#334155]"
+      className={`w-full rounded-xl border px-4 py-2.5 text-sm font-semibold transition-all ${
+        active
+          ? "border-[#28d58b] bg-[#133528] text-[#d5ffe9] shadow-[0_10px_26px_rgba(40,213,139,0.16)]"
+          : "border-[#223c57] bg-[#0e1f31] text-[#9eb4cc] hover:border-[#31526f] hover:text-[#dbe8f7]"
       }`}
     >
       {label}
     </button>
   );
+}
+
+function isImageField(field: ObjField) {
+  const key = field.key.toLowerCase();
+  return key.includes("image") || field.label.includes("صورة");
 }
 
 function ObjListEditor({
@@ -136,32 +143,157 @@ function ObjListEditor({
   removeRow: (path: string[], index: number) => void;
   addRow: (path: string[], item: unknown) => void;
 }) {
+  const [uploadingByKey, setUploadingByKey] = useState<Record<string, boolean>>({});
+  const [uploadError, setUploadError] = useState("");
   const rows = asObjectList(readPath(content, path));
+
+  const getUploadKey = (index: number, key: string) => `${path.join(".")}::${index}::${key}`;
+
+  const uploadImage = async (index: number, key: string, file: File) => {
+    const uploadKey = getUploadKey(index, key);
+    setUploadError("");
+    setUploadingByKey((prev) => ({ ...prev, [uploadKey]: true }));
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("/api/admin/files", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = (await response.json()) as { ok?: boolean; path?: string; error?: string };
+      if (!response.ok || !data.ok || !data.path) {
+        throw new Error(data.error ?? "فشل رفع الصورة");
+      }
+
+      updateField(path, index, key, data.path);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "فشل رفع الصورة";
+      setUploadError(message);
+    } finally {
+      setUploadingByKey((prev) => ({ ...prev, [uploadKey]: false }));
+    }
+  };
 
   return (
     <div className="mt-5 space-y-3">
-      <p className="text-right text-sm font-bold text-[#334155]">{title}</p>
+      <p className="text-right text-sm font-bold text-[#b6c8dc]">{title}</p>
+      {uploadError ? (
+        <p className="rounded-xl border border-[#6e2230] bg-[#36121b] px-3 py-2 text-right text-xs font-semibold text-[#ffb8c4]">
+          {uploadError}
+        </p>
+      ) : null}
       {rows.map((row, index) => (
-        <div key={`${title}-${index}`} className="space-y-3 rounded-xl border border-[#dde5f1] bg-[#f8fafc] p-3">
+        <div key={`${title}-${index}`} className="space-y-3 rounded-xl border border-[#244260] bg-[#0a1a2b] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
           <div className={`grid gap-3 ${fields.length > 2 ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
-            {fields.map((item) => (
-              <Field
-                key={`${item.key}-${index}`}
-                label={item.label}
-                value={asString(row[item.key])}
-                onChange={(next) => updateField(path, index, item.key, next)}
-                dir={item.dir ?? "rtl"}
-                multiline={item.multiline}
-              />
-            ))}
+            {fields.map((item) => {
+              const value = asString(row[item.key]);
+              const imageLike = isImageField(item);
+              const uploadKey = getUploadKey(index, item.key);
+              const isUploading = Boolean(uploadingByKey[uploadKey]);
+
+              if (!imageLike) {
+                return (
+                  <Field
+                    key={`${item.key}-${index}`}
+                    label={item.label}
+                    value={value}
+                    onChange={(next) => updateField(path, index, item.key, next)}
+                    dir={item.dir ?? "rtl"}
+                    multiline={item.multiline}
+                  />
+                );
+              }
+
+              return (
+                <div key={`${item.key}-${index}`} className="space-y-2">
+                  <Field
+                    label={item.label}
+                    value={value}
+                    onChange={(next) => updateField(path, index, item.key, next)}
+                    dir={item.dir ?? "ltr"}
+                    multiline={item.multiline}
+                  />
+
+                  <div className="flex flex-wrap items-center justify-end gap-2">
+                    <label className="inline-flex cursor-pointer items-center rounded-xl border border-[#2d8f66] bg-[#133526] px-3 py-2 text-xs font-semibold text-[#b9f5d8]">
+                      اختر من الجهاز
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(event) => {
+                          const file = event.target.files?.[0];
+                          if (!file) return;
+                          void uploadImage(index, item.key, file);
+                          event.currentTarget.value = "";
+                        }}
+                      />
+                    </label>
+                    {isUploading ? (
+                      <span className="text-xs font-semibold text-[#9dd9bd]">جاري رفع الصورة...</span>
+                    ) : null}
+                  </div>
+
+                  <div className="overflow-hidden rounded-2xl border border-[#2b4965] bg-[linear-gradient(180deg,#0a1828_0%,#081423_100%)] p-3">
+                    {value ? (
+                      <>
+                        <div className="group relative overflow-hidden rounded-xl border border-[#31516f] bg-[#0b1b2d]">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={value}
+                            alt="preview"
+                            className="h-44 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] sm:h-56"
+                          />
+                          <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-[#02070f]/85 to-transparent px-3 pb-2 pt-6">
+                            <a
+                              href={value}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="rounded-lg border border-[#3f6283] bg-[#0e243a]/90 px-2.5 py-1 text-[11px] font-semibold text-[#cfe2f7] hover:border-[#4f7ca5]"
+                            >
+                              فتح الصورة كاملة
+                            </a>
+                            <span className="rounded-md border border-[#2d8f66] bg-[#133526] px-2 py-1 text-[10px] font-semibold text-[#b9f5d8]">
+                              معاينة
+                            </span>
+                          </div>
+                        </div>
+                        <p className="mt-2 truncate text-right text-[11px] text-[#8da4bc]" dir="ltr">
+                          {value}
+                        </p>
+                      </>
+                    ) : (
+                      <div className="rounded-xl border border-dashed border-[#2b4965] bg-[#0a1a2b] p-6 text-center text-xs font-semibold text-[#7f96b0]">
+                        لا توجد صورة بعد. اختر صورة من جهازك لعرض معاينة.
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
           <div className="text-right">
-            <button type="button" onClick={() => removeRow(path, index)} className="rounded-xl border border-[#fecaca] bg-[#fef2f2] px-3 py-2 text-sm font-semibold text-[#b91c1c]">حذف</button>
+            <button
+              type="button"
+              onClick={() => removeRow(path, index)}
+              className="rounded-xl border border-[#6e2230] bg-[#36121b] px-3 py-2 text-sm font-semibold text-[#ff9dad]"
+            >
+              حذف
+            </button>
           </div>
         </div>
       ))}
       <div className="text-right">
-        <button type="button" onClick={() => addRow(path, newItem)} className="rounded-xl border border-[#bfdbfe] bg-[#eff6ff] px-4 py-2 text-sm font-semibold text-[#1d4ed8]">+ إضافة</button>
+        <button
+          type="button"
+          onClick={() => addRow(path, newItem)}
+          className="rounded-xl border border-[#2d8f66] bg-[#133526] px-4 py-2 text-sm font-semibold text-[#b9f5d8]"
+        >
+          + إضافة
+        </button>
       </div>
     </div>
   );
@@ -186,15 +318,27 @@ function StrListEditor({
 
   return (
     <div className="mt-5 space-y-3">
-      <p className="text-right text-sm font-bold text-[#334155]">{title}</p>
+      <p className="text-right text-sm font-bold text-[#b6c8dc]">{title}</p>
       {rows.map((row, index) => (
-        <div key={`${title}-${index}`} className="grid gap-3 rounded-xl border border-[#dde5f1] bg-[#f8fafc] p-3 md:grid-cols-[1fr_auto] md:items-end">
+        <div key={`${title}-${index}`} className="grid gap-3 rounded-xl border border-[#244260] bg-[#0a1a2b] p-3 md:grid-cols-[1fr_auto] md:items-end">
           <Field label={`العنصر ${index + 1}`} value={row} onChange={(next) => updateField(path, index, next)} />
-          <button type="button" onClick={() => removeRow(path, index)} className="rounded-xl border border-[#fecaca] bg-[#fef2f2] px-3 py-2 text-sm font-semibold text-[#b91c1c]">حذف</button>
+          <button
+            type="button"
+            onClick={() => removeRow(path, index)}
+            className="rounded-xl border border-[#6e2230] bg-[#36121b] px-3 py-2 text-sm font-semibold text-[#ff9dad]"
+          >
+            حذف
+          </button>
         </div>
       ))}
       <div className="text-right">
-        <button type="button" onClick={() => addRow(path, "")} className="rounded-xl border border-[#bfdbfe] bg-[#eff6ff] px-4 py-2 text-sm font-semibold text-[#1d4ed8]">+ إضافة</button>
+        <button
+          type="button"
+          onClick={() => addRow(path, "")}
+          className="rounded-xl border border-[#2d8f66] bg-[#133526] px-4 py-2 text-sm font-semibold text-[#b9f5d8]"
+        >
+          + إضافة
+        </button>
       </div>
     </div>
   );
@@ -279,34 +423,146 @@ export default function AdminPage() {
       setSaving(false);
     }
   };
+
+  const tabDescriptions: Record<EditorTab, string> = {
+    agency: "إدارة أقسام الوكالة: معرض الأعمال وآراء العملاء.",
+    market: "إدارة دراسات الحالة، الأرقام، والأسئلة الشائعة لقسم ماركت.",
+    media: "إدارة خدمات ومشاريع ميديا ولماذا نحن والأسئلة الشائعة.",
+    tech: "إدارة مشاريع قسم تك والفلاتر والمحتوى المرتبط بها.",
+  };
+
+  const statGroups: Record<EditorTab, Array<{ label: string; count: number }>> = {
+    agency: [
+      { label: "مشاريع المعرض", count: asObjectList(readPath(content, ["pages", "agency", "portfolio", "projects"])).length },
+      { label: "فلاتر المعرض", count: asObjectList(readPath(content, ["pages", "agency", "portfolio", "filters"])).length },
+      { label: "إحصائيات العملاء", count: asObjectList(readPath(content, ["pages", "agency", "clientStories", "stats"])).length },
+    ],
+    market: [
+      { label: "تبويبات الحالات", count: asStringList(readPath(content, ["pages", "market", "caseStudies", "tabs"])).length },
+      { label: "مؤشرات الحالة", count: asObjectList(readPath(content, ["pages", "market", "caseStudies", "metrics"])).length },
+      { label: "أسئلة ماركت", count: asObjectList(readPath(content, ["pages", "market", "faq", "items"])).length },
+    ],
+    media: [
+      { label: "مشاريع ميديا", count: asObjectList(readPath(content, ["pages", "media", "projects", "items"])).length },
+      { label: "إحصائيات لماذا نحن", count: asObjectList(readPath(content, ["pages", "media", "whyUs", "stats"])).length },
+      { label: "أسئلة ميديا", count: asObjectList(readPath(content, ["pages", "media", "faq", "items"])).length },
+    ],
+    tech: [
+      { label: "مشاريع تك", count: asObjectList(readPath(content, ["pages", "tech", "projectsSection", "projects"])).length },
+      { label: "فلاتر تك", count: asObjectList(readPath(content, ["pages", "tech", "projectsSection", "filters"])).length },
+      { label: "كتل المحتوى", count: asObject(readPath(content, ["pages", "tech"])).projectsSection ? 1 : 0 },
+    ],
+  };
+
+  const activeStats = statGroups[tab];
+
   return (
-    <main className="min-h-screen bg-[#f1f5f9] text-[#0f172a]">
-      <header className="sticky top-0 z-20 border-b border-[#d5deec] bg-white/95 backdrop-blur">
-        <div className="mx-auto flex w-full max-w-[1320px] flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-8">
-          <div className="text-right">
-            <h1 className="text-[1.4rem] font-extrabold">لوحة إدارة المحتوى</h1>
-            <p className="text-sm text-[#64748b]">CRUD لأقسام: الوكالة، ماركت، ميديا، تك</p>
+    <main className="min-h-screen bg-[radial-gradient(circle_at_82%_12%,rgba(38,216,143,0.16),transparent_34%),radial-gradient(circle_at_18%_84%,rgba(35,109,255,0.14),transparent_30%),linear-gradient(180deg,#050e17_0%,#071523_100%)] text-[#dbe8f5]">
+      <div className="mx-auto w-full max-w-[1680px] px-4 py-4 sm:px-6 lg:px-8">
+        <header className="rounded-3xl border border-[#1a324b] bg-[linear-gradient(180deg,#102033_0%,#0b1828_100%)] p-4 shadow-[0_24px_52px_rgba(2,10,20,0.45)] sm:p-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="text-right">
+              <p className="text-xs font-semibold text-[#8da4bc]">AYSEL ADMIN</p>
+              <h1 className="text-[1.3rem] font-extrabold text-[#f2f8ff] sm:text-[1.45rem]">لوحة التحكم الديناميكية</h1>
+              <p className="text-sm text-[#8da4bc]">نفس هوية موقعك الأصلية مع إدارة محتوى كاملة لجميع الأقسام</p>
+            </div>
+
+            <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto">
+              <div className="relative min-w-[220px] grow sm:grow-0">
+                <input
+                  type="search"
+                  placeholder="ابحث داخل لوحة التحكم..."
+                  className="w-full rounded-xl border border-[#26435f] bg-[#0b1b2d] px-10 py-2.5 text-sm text-[#e6f0fb] placeholder:text-[#7f96b0] outline-none focus:border-[#28d58b]"
+                />
+                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#7f96b0]">⌕</span>
+              </div>
+
+              <button
+                type="button"
+                onClick={save}
+                disabled={loading || saving}
+                className="rounded-xl border border-[#2a8f67] bg-[#163d2d] px-4 py-2.5 text-sm font-bold text-[#d5ffe9] shadow-[0_10px_20px_rgba(40,213,139,0.15)] disabled:opacity-60"
+              >
+                {saving ? "جاري الحفظ..." : "حفظ كل التعديلات"}
+              </button>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <button type="button" onClick={() => setContent(structuredClone(defaultSiteContent))} className="rounded-xl border border-[#fed7aa] bg-[#fff7ed] px-3.5 py-2 text-sm font-semibold text-[#c2410c]">إعادة الافتراضي</button>
-            <button type="button" onClick={save} disabled={loading || saving} className="rounded-xl bg-[#1d4ed8] px-4 py-2 text-sm font-bold text-white disabled:opacity-60">{saving ? "جاري الحفظ..." : "حفظ"}</button>
-            <Link href="/" className="rounded-xl border border-[#d7e0ef] bg-white px-3.5 py-2 text-sm font-semibold text-[#1e293b]">العودة</Link>
-          </div>
-        </div>
-      </header>
+        </header>
 
-      <section className="mx-auto w-full max-w-[1320px] px-4 pb-10 pt-6 sm:px-8">
-        <div className="mb-5 flex flex-wrap gap-2 rounded-2xl border border-[#d9e1ee] bg-[#eef2f8] p-2">
-          {tabs.map((item) => <TabBtn key={item.id} active={tab === item.id} label={item.label} onClick={() => setTab(item.id)} />)}
-        </div>
+        <div className="mt-4 grid gap-4 xl:grid-cols-[280px_minmax(0,1fr)]">
+          <aside className="space-y-4 xl:sticky xl:top-4 xl:self-start">
+            <section className="rounded-3xl border border-[#1a324b] bg-[linear-gradient(180deg,#102033_0%,#0b1828_100%)] p-4">
+              <p className="mb-3 text-right text-sm font-bold text-[#d5e6f7]">الأقسام</p>
+              <div className="space-y-2">
+                {tabs.map((item) => (
+                  <TabBtn key={item.id} active={tab === item.id} label={item.label} onClick={() => setTab(item.id)} />
+                ))}
+              </div>
+            </section>
 
-        {message && <p className="mb-4 rounded-xl border border-[#86efac] bg-[#f0fdf4] px-4 py-3 text-sm font-semibold text-[#166534]">{message}</p>}
-        {error && <p className="mb-4 rounded-xl border border-[#fecaca] bg-[#fef2f2] px-4 py-3 text-sm font-semibold text-[#b91c1c]">{error}</p>}
+            <section className="rounded-3xl border border-[#1a324b] bg-[linear-gradient(180deg,#102033_0%,#0b1828_100%)] p-4">
+              <p className="text-right text-sm font-bold text-[#d5e6f7]">إحصائيات سريعة</p>
+              <div className="mt-3 space-y-2.5">
+                {activeStats.map((item) => (
+                  <article key={item.label} className="rounded-xl border border-[#23415d] bg-[#0a1a2b] px-3 py-2.5">
+                    <p className="text-right text-xs text-[#93abc2]">{item.label}</p>
+                    <p className="text-right font-[var(--font-manrope)] text-2xl font-extrabold text-[#f2f8ff]">{item.count}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
 
-        {loading ? (
-          <div className="rounded-2xl border border-[#d9e1ee] bg-white p-8 text-center text-[#64748b]">جاري تحميل البيانات...</div>
-        ) : (
-          <div className="space-y-5">
+            <section className="rounded-3xl border border-[#1a324b] bg-[linear-gradient(180deg,#102033_0%,#0b1828_100%)] p-4">
+              <p className="mb-3 text-right text-sm font-bold text-[#d5e6f7]">إجراءات سريعة</p>
+              <div className="space-y-2">
+                <button
+                  type="button"
+                  onClick={() => setContent(structuredClone(defaultSiteContent))}
+                  className="w-full rounded-xl border border-[#6f5130] bg-[#352617] px-3 py-2.5 text-sm font-semibold text-[#ffddb3]"
+                >
+                  إعادة المحتوى الافتراضي
+                </button>
+                <button
+                  type="button"
+                  onClick={save}
+                  disabled={loading || saving}
+                  className="w-full rounded-xl border border-[#2a8f67] bg-[#163d2d] px-3 py-2.5 text-sm font-semibold text-[#d5ffe9] disabled:opacity-60"
+                >
+                  حفظ الآن
+                </button>
+                <Link href="/" className="block w-full rounded-xl border border-[#22405d] bg-[#0e1f31] px-3 py-2.5 text-center text-sm font-semibold text-[#c7d9ec]">
+                  العودة للموقع
+                </Link>
+              </div>
+            </section>
+          </aside>
+
+          <section className="rounded-3xl border border-[#1a324b] bg-[linear-gradient(180deg,#0f2033_0%,#0a1726_100%)] p-4 shadow-[0_20px_40px_rgba(2,10,20,0.4)] sm:p-6">
+            <div className="mb-5 grid gap-3 rounded-2xl border border-[#223f5b] bg-[#0a1a2b] p-4 md:grid-cols-[1fr_auto] md:items-center">
+              <div className="text-right">
+                <h2 className="text-xl font-extrabold text-[#f2f8ff]">إدارة قسم {tabs.find((item) => item.id === tab)?.label}</h2>
+                <p className="text-sm text-[#8da4bc]">{tabDescriptions[tab]}</p>
+              </div>
+              <span className="inline-flex items-center justify-center rounded-xl border border-[#2a8f67] bg-[#163d2d] px-3 py-2 text-sm font-semibold text-[#d5ffe9]">
+                وضع التحرير مفعل
+              </span>
+            </div>
+
+            {message && (
+              <p className="mb-4 rounded-xl border border-[#2a8f67] bg-[#163d2d] px-4 py-3 text-sm font-semibold text-[#bff8dc]">
+                {message}
+              </p>
+            )}
+            {error && (
+              <p className="mb-4 rounded-xl border border-[#6e2230] bg-[#36121b] px-4 py-3 text-sm font-semibold text-[#ffb8c4]">
+                {error}
+              </p>
+            )}
+
+            {loading ? (
+              <div className="rounded-2xl border border-[#244260] bg-[#0a1a2b] p-8 text-center text-[#8da4bc]">جاري تحميل البيانات...</div>
+            ) : (
+              <div className="space-y-5">
             {tab === "agency" && (
               <>
                 <Card title="الوكالة - معرض الأعمال">
@@ -441,7 +697,9 @@ export default function AdminPage() {
             )}
           </div>
         )}
-      </section>
+          </section>
+        </div>
+      </div>
     </main>
   );
 }

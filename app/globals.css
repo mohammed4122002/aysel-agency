@@ -31,6 +31,157 @@ body {
   font-family: "Cairo", sans-serif;
 }
 
+.site-motion-root {
+  position: relative;
+  isolation: isolate;
+}
+
+.motion-ready .service-card,
+.motion-ready .pillar-card,
+.motion-ready .needs-card,
+.motion-ready .adv-card,
+.motion-ready .workflow-card,
+.motion-ready .portfolio-card,
+.motion-ready .market-who-card,
+.motion-ready .market-service-card,
+.motion-ready .market-story-card,
+.motion-ready .market-stat-card,
+.motion-ready .market-faq-item,
+.motion-ready .media-card,
+.motion-ready .media-card-soft,
+.motion-ready .media-service-tile,
+.motion-ready .media-service-mini,
+.motion-ready .media-project-card,
+.motion-ready main article {
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 220ms ease,
+    filter 220ms ease,
+    border-color 240ms ease;
+  transform-origin: center;
+}
+
+.motion-ready button,
+.motion-ready a[class*="rounded-2xl"],
+.motion-ready a[class*="rounded-full"] {
+  transition:
+    transform 170ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 200ms ease;
+}
+
+@media (hover: hover) {
+  .motion-ready .service-card:hover,
+  .motion-ready .pillar-card:hover,
+  .motion-ready .needs-card:hover,
+  .motion-ready .adv-card:hover,
+  .motion-ready .workflow-card:hover,
+  .motion-ready .portfolio-card:hover,
+  .motion-ready .market-who-card:hover,
+  .motion-ready .market-service-card:hover,
+  .motion-ready .market-story-card:hover,
+  .motion-ready .market-stat-card:hover,
+  .motion-ready .market-faq-item:hover,
+  .motion-ready .media-card:hover,
+  .motion-ready .media-card-soft:hover,
+  .motion-ready .media-service-tile:hover,
+  .motion-ready .media-service-mini:hover,
+  .motion-ready .media-project-card:hover,
+  .motion-ready main article:hover {
+    transform: translateY(-4px) scale(1.004);
+    filter: brightness(1.016);
+  }
+
+  .motion-ready button:hover,
+  .motion-ready a[class*="rounded-2xl"]:hover,
+  .motion-ready a[class*="rounded-full"]:hover {
+    transform: translateY(-1px);
+  }
+}
+
+.agency-shell::before,
+.market-shell::before,
+.media-shell::before {
+  animation: shell-grid-drift 18s linear infinite;
+}
+
+.agency-shell::after,
+.market-shell::after,
+.media-shell::after {
+  transform-origin: center;
+  animation: shell-beam-pulse 10s ease-in-out infinite;
+}
+
+@keyframes shell-grid-drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(-14px, 8px, 0) scale(1.02);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes shell-beam-pulse {
+  0% {
+    opacity: 0.32;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.56;
+    transform: scale(1.03);
+  }
+
+  100% {
+    opacity: 0.32;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .agency-shell::before,
+  .agency-shell::after,
+  .market-shell::before,
+  .market-shell::after,
+  .media-shell::before,
+  .media-shell::after {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+  }
+
+  .motion-ready .service-card,
+  .motion-ready .pillar-card,
+  .motion-ready .needs-card,
+  .motion-ready .adv-card,
+  .motion-ready .workflow-card,
+  .motion-ready .portfolio-card,
+  .motion-ready .market-who-card,
+  .motion-ready .market-service-card,
+  .motion-ready .market-story-card,
+  .motion-ready .market-stat-card,
+  .motion-ready .market-faq-item,
+  .motion-ready .media-card,
+  .motion-ready .media-card-soft,
+  .motion-ready .media-service-tile,
+  .motion-ready .media-service-mini,
+  .motion-ready .media-project-card,
+  .motion-ready main article,
+  .motion-ready button,
+  .motion-ready a[class*="rounded-2xl"],
+  .motion-ready a[class*="rounded-full"] {
+    transition: none !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
 .agency-shell {
   background:
     radial-gradient(1200px 700px at 78% 34%, rgba(11, 52, 112, 0.55) 0%, rgba(5, 10, 22, 0) 60%),
@@ -830,13 +981,17 @@ body {
 }
 
 .media-projects-section {
+  overflow-x: clip;
+  overflow-y: visible;
   background:
     radial-gradient(980px 320px at 50% -8%, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0) 72%),
     linear-gradient(180deg, #eceef2 0%, #eceef2 100%);
 }
 
 .media-projects-swiper {
-  overflow: visible;
+  overflow-x: clip;
+  overflow-y: visible;
+  touch-action: pan-y;
   padding-inline: 0.15rem 0.15rem;
 }
 
@@ -946,4 +1101,3 @@ body {
     font-size: 13.5px;
   }
 }
-

@@ -346,7 +346,27 @@ export default function MediaPage() {
             <div className="text-right"><span className="inline-flex rounded-full bg-[#dfd9ef] px-4 py-1.5 text-sm font-semibold text-[#8f4dff]">أعمالنا</span><h2 className="mt-4 text-[clamp(1.8rem,4.4vw,3.28rem)] font-extrabold leading-[1.08] text-[#121a2b]">مشاريع مميزة</h2></div>
           </div>
 
-          <Swiper className="media-projects-swiper mt-10 [direction:ltr]" modules={[Navigation, Autoplay]} slidesPerView={1.04} spaceBetween={16} initialSlide={1} speed={780} loop autoplay={{ delay: 4200, disableOnInteraction: false, pauseOnMouseEnter: true }} navigation={{ prevEl: ".media-projects-prev", nextEl: ".media-projects-next" }} onSlideChange={(swiper) => { setActiveProject(swiper.realIndex); }} breakpoints={{ 640: { slidesPerView: 1.35, spaceBetween: 18 }, 960: { slidesPerView: 2.05, spaceBetween: 22 }, 1280: { slidesPerView: 2.9, spaceBetween: 24 } }}>
+          <Swiper
+            className="media-projects-swiper mt-10 [direction:ltr]"
+            modules={[Navigation, Autoplay]}
+            slidesPerView={1.04}
+            spaceBetween={16}
+            initialSlide={1}
+            speed={780}
+            loop
+            touchStartPreventDefault={false}
+            touchMoveStopPropagation={false}
+            autoplay={{ delay: 4200, disableOnInteraction: false, pauseOnMouseEnter: true }}
+            navigation={{ prevEl: ".media-projects-prev", nextEl: ".media-projects-next" }}
+            onSlideChange={(swiper) => {
+              setActiveProject(swiper.realIndex);
+            }}
+            breakpoints={{
+              640: { slidesPerView: 1.35, spaceBetween: 18 },
+              960: { slidesPerView: 2.05, spaceBetween: 22 },
+              1280: { slidesPerView: 2.9, spaceBetween: 24 },
+            }}
+          >
             {projectCards.map((project) => (
               <SwiperSlide key={`${project.client}-${project.title}`} className="media-projects-slide">
                 <article className="media-project-card relative min-h-[545px] [direction:rtl]">

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cairo } from "next/font/google";
+import SiteMotion from "@/components/SiteMotion";
 import "./globals.css";
 
 const cairo = Cairo({
@@ -22,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <body className={`${cairo.variable} font-[Cairo,sans-serif] antialiased`}>
-        {children}
+        <SiteMotion>{children}</SiteMotion>
       </body>
     </html>
   );

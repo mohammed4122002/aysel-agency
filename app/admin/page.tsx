@@ -1,14 +1,54 @@
 ﻿"use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import Link from "next/link";
 import { clearContentCache } from "@/lib/site-content-client";
 import { defaultSiteContent } from "@/lib/site-content-default";
 import { deepMerge } from "@/lib/deep-merge";
+import "./admin.css";
 
-type EditorTab = "agency" | "market" | "media" | "tech";
+type EditorTab = "agency" | "market" | "media" | "tech" | "security";
 
 type ObjField = { key: string; label: string; dir?: "rtl" | "ltr"; multiline?: boolean };
+type Credentials = { username: string; password: string };
+
+const DEFAULT_CREDENTIALS: Credentials = { username: "admin", password: "admin" };
+const CREDENTIALS_KEY = "aysel.admin.credentials";
+const SESSION_KEY = "aysel.admin.session";
+
+function loadStoredCredentials(): Credentials {
+  if (typeof window === "undefined") return DEFAULT_CREDENTIALS;
+  const raw = window.localStorage.getItem(CREDENTIALS_KEY);
+  if (!raw) return DEFAULT_CREDENTIALS;
+  try {
+    const parsed = JSON.parse(raw) as Partial<Credentials>;
+    return {
+      username: typeof parsed.username === "string" ? parsed.username : DEFAULT_CREDENTIALS.username,
+      password: typeof parsed.password === "string" ? parsed.password : DEFAULT_CREDENTIALS.password,
+    };
+  } catch {
+    return DEFAULT_CREDENTIALS;
+  }
+}
+
+function persistCredentials(next: Credentials) {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(CREDENTIALS_KEY, JSON.stringify(next));
+}
+
+function loadSession(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.localStorage.getItem(SESSION_KEY) === "1";
+}
+
+function persistSession(active: boolean) {
+  if (typeof window === "undefined") return;
+  if (active) {
+    window.localStorage.setItem(SESSION_KEY, "1");
+  } else {
+    window.localStorage.removeItem(SESSION_KEY);
+  }
+}
 
 function readPath(obj: unknown, path: string[]) {
   let cursor: unknown = obj;
@@ -56,10 +96,31 @@ function asStringList(value: unknown): string[] {
   return value.map((item) => asString(item));
 }
 
+async function uploadImageFile(file: File) {
+  if (!file.type.startsWith("image/")) {
+    throw new Error("يرجى اختيار صورة فقط.");
+  }
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const response = await fetch("/api/admin/files", {
+    method: "POST",
+    body: formData,
+  });
+
+  const data = (await response.json()) as { ok?: boolean; path?: string; error?: string };
+  if (!response.ok || !data.ok || !data.path) {
+    throw new Error(data.error ?? "فشل رفع الصورة");
+  }
+
+  return data.path;
+}
+
 function Card({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="rounded-3xl border border-[#1b3550] bg-[linear-gradient(180deg,#102238_0%,#0b1a2b_100%)] p-5 shadow-[0_18px_42px_rgba(2,10,20,0.45)] sm:p-6">
-      <h3 className="mb-4 text-right text-[1.05rem] font-bold text-[#e6f0fb]">{title}</h3>
+    <section className="admin-card p-5 sm:p-6">
+      <h3 className="mb-4 text-right text-[1.05rem] font-bold text-[var(--text)]">{title}</h3>
       {children}
     </section>
   );
@@ -71,35 +132,120 @@ function Field({
   onChange,
   dir = "rtl",
   multiline = false,
+  type = "text",
+  placeholder,
 }: {
   label: string;
   value: string;
   onChange: (next: string) => void;
   dir?: "rtl" | "ltr";
   multiline?: boolean;
+  type?: string;
+  placeholder?: string;
 }) {
   const base =
-    "w-full rounded-xl border border-[#26435f] bg-[#0a1929] px-3 py-2.5 text-sm text-[#e6f0fb] outline-none transition-colors placeholder:text-[#7f96b0] focus:border-[#28d58b] focus:bg-[#0d2135]";
+    "admin-focus w-full rounded-xl border border-[var(--border)] bg-[var(--panel)] px-3 py-2.5 text-sm text-[var(--text)] outline-none transition-colors placeholder:text-[var(--text-muted)] focus:border-[var(--primary)] focus:bg-[var(--bg-elevated)]";
 
   return (
     <label className="block text-right">
-      <span className="mb-1.5 block text-sm font-semibold text-[#a9bdd4]">{label}</span>
+      <span className="mb-1.5 block text-sm font-semibold text-[var(--text-soft)]">{label}</span>
       {multiline ? (
         <textarea
           value={value}
           onChange={(event) => onChange(event.target.value)}
           rows={3}
           className={`${base} leading-relaxed`}
+          placeholder={placeholder}
         />
       ) : (
         <input
+          type={type}
           value={value}
           onChange={(event) => onChange(event.target.value)}
           dir={dir}
           className={base}
+          placeholder={placeholder}
         />
       )}
     </label>
+  );
+}
+
+function SingleImageUploader({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (next: string) => void;
+}) {
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleUpload = async (file: File) => {
+    setError("");
+    setUploading(true);
+    try {
+      const path = await uploadImageFile(file);
+      onChange(path);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "فشل رفع الصورة";
+      setError(message);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-2 text-right">
+      <p className="text-sm font-semibold text-[var(--text-soft)]">{label}</p>
+      {error ? (
+        <p className="rounded-xl border border-[rgba(255,107,125,0.5)] bg-[rgba(255,107,125,0.12)] px-3 py-2 text-xs font-semibold text-[var(--danger)]">
+          {error}
+        </p>
+      ) : null}
+      <div className="flex flex-wrap items-center justify-end gap-2">
+        <label className="admin-focus inline-flex cursor-pointer items-center rounded-xl border border-[rgba(47,124,255,0.5)] bg-[rgba(47,124,255,0.16)] px-3 py-2 text-xs font-semibold text-white">
+          اختر من الجهاز
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(event) => {
+              const file = event.target.files?.[0];
+              if (!file) return;
+              void handleUpload(file);
+              event.currentTarget.value = "";
+            }}
+          />
+        </label>
+        {value ? (
+          <button
+            type="button"
+            onClick={() => onChange("")}
+            className="admin-focus rounded-xl border border-[rgba(255,107,125,0.5)] bg-[rgba(255,107,125,0.12)] px-3 py-2 text-xs font-semibold text-[var(--danger)]"
+          >
+            حذف الصورة
+          </button>
+        ) : null}
+        {uploading ? <span className="text-xs font-semibold text-[var(--text-muted)]">جاري رفع الصورة...</span> : null}
+      </div>
+      <div className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--panel)] p-3">
+        {value ? (
+          <>
+            <div className="overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--card)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={value} alt="preview" className="h-32 w-full object-cover sm:h-36" />
+            </div>
+          </>
+        ) : (
+          <div className="rounded-xl border border-dashed border-[var(--border)] bg-[rgba(9,18,34,0.6)] p-6 text-center text-xs font-semibold text-[var(--text-muted)]">
+            لا توجد صورة بعد. اختر صورة من جهازك لعرض معاينة.
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -108,10 +254,10 @@ function TabBtn({ active, label, onClick }: { active: boolean; label: string; on
     <button
       type="button"
       onClick={onClick}
-      className={`w-full rounded-xl border px-4 py-2.5 text-sm font-semibold transition-all ${
+      className={`admin-focus w-full rounded-xl border px-4 py-2.5 text-sm font-semibold transition-all ${
         active
-          ? "border-[#28d58b] bg-[#133528] text-[#d5ffe9] shadow-[0_10px_26px_rgba(40,213,139,0.16)]"
-          : "border-[#223c57] bg-[#0e1f31] text-[#9eb4cc] hover:border-[#31526f] hover:text-[#dbe8f7]"
+          ? "border-[var(--primary)] bg-[rgba(47,124,255,0.2)] text-white shadow-[0_10px_26px_rgba(47,124,255,0.18)]"
+          : "border-[var(--border)] bg-[var(--panel)] text-[var(--text-muted)] hover:border-[var(--border-strong)] hover:text-white"
       }`}
     >
       {label}
@@ -155,20 +301,8 @@ function ObjListEditor({
     setUploadingByKey((prev) => ({ ...prev, [uploadKey]: true }));
 
     try {
-      const formData = new FormData();
-      formData.append("file", file);
-
-      const response = await fetch("/api/admin/files", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = (await response.json()) as { ok?: boolean; path?: string; error?: string };
-      if (!response.ok || !data.ok || !data.path) {
-        throw new Error(data.error ?? "فشل رفع الصورة");
-      }
-
-      updateField(path, index, key, data.path);
+      const imagePath = await uploadImageFile(file);
+      updateField(path, index, key, imagePath);
     } catch (error) {
       const message = error instanceof Error ? error.message : "فشل رفع الصورة";
       setUploadError(message);
@@ -179,14 +313,14 @@ function ObjListEditor({
 
   return (
     <div className="mt-5 space-y-3">
-      <p className="text-right text-sm font-bold text-[#b6c8dc]">{title}</p>
+      <p className="text-right text-sm font-bold text-[var(--text-soft)]">{title}</p>
       {uploadError ? (
-        <p className="rounded-xl border border-[#6e2230] bg-[#36121b] px-3 py-2 text-right text-xs font-semibold text-[#ffb8c4]">
+        <p className="rounded-xl border border-[rgba(255,107,125,0.5)] bg-[rgba(255,107,125,0.12)] px-3 py-2 text-right text-xs font-semibold text-[var(--danger)]">
           {uploadError}
         </p>
       ) : null}
       {rows.map((row, index) => (
-        <div key={`${title}-${index}`} className="space-y-3 rounded-xl border border-[#244260] bg-[#0a1a2b] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+        <div key={`${title}-${index}`} className="space-y-3 rounded-xl border border-[var(--border)] bg-[var(--panel)] p-3 shadow-[var(--shadow-sm)]">
           <div className={`grid gap-3 ${fields.length > 2 ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
             {fields.map((item) => {
               const value = asString(row[item.key]);
@@ -209,16 +343,10 @@ function ObjListEditor({
 
               return (
                 <div key={`${item.key}-${index}`} className="space-y-2">
-                  <Field
-                    label={item.label}
-                    value={value}
-                    onChange={(next) => updateField(path, index, item.key, next)}
-                    dir={item.dir ?? "ltr"}
-                    multiline={item.multiline}
-                  />
+                  <p className="text-right text-sm font-semibold text-[var(--text-soft)]">{item.label}</p>
 
                   <div className="flex flex-wrap items-center justify-end gap-2">
-                    <label className="inline-flex cursor-pointer items-center rounded-xl border border-[#2d8f66] bg-[#133526] px-3 py-2 text-xs font-semibold text-[#b9f5d8]">
+                    <label className="admin-focus inline-flex cursor-pointer items-center rounded-xl border border-[rgba(47,124,255,0.5)] bg-[rgba(47,124,255,0.16)] px-3 py-2 text-xs font-semibold text-white">
                       اختر من الجهاز
                       <input
                         type="file"
@@ -233,40 +361,20 @@ function ObjListEditor({
                       />
                     </label>
                     {isUploading ? (
-                      <span className="text-xs font-semibold text-[#9dd9bd]">جاري رفع الصورة...</span>
+                      <span className="text-xs font-semibold text-[var(--text-muted)]">جاري رفع الصورة...</span>
                     ) : null}
                   </div>
 
-                  <div className="overflow-hidden rounded-2xl border border-[#2b4965] bg-[linear-gradient(180deg,#0a1828_0%,#081423_100%)] p-3">
+                  <div className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--panel)] p-3">
                     {value ? (
                       <>
-                        <div className="group relative overflow-hidden rounded-xl border border-[#31516f] bg-[#0b1b2d]">
+                        <div className="overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--card)]">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={value}
-                            alt="preview"
-                            className="h-44 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] sm:h-56"
-                          />
-                          <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-[#02070f]/85 to-transparent px-3 pb-2 pt-6">
-                            <a
-                              href={value}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="rounded-lg border border-[#3f6283] bg-[#0e243a]/90 px-2.5 py-1 text-[11px] font-semibold text-[#cfe2f7] hover:border-[#4f7ca5]"
-                            >
-                              فتح الصورة كاملة
-                            </a>
-                            <span className="rounded-md border border-[#2d8f66] bg-[#133526] px-2 py-1 text-[10px] font-semibold text-[#b9f5d8]">
-                              معاينة
-                            </span>
-                          </div>
+                          <img src={value} alt="preview" className="h-44 w-full object-cover sm:h-56" />
                         </div>
-                        <p className="mt-2 truncate text-right text-[11px] text-[#8da4bc]" dir="ltr">
-                          {value}
-                        </p>
                       </>
                     ) : (
-                      <div className="rounded-xl border border-dashed border-[#2b4965] bg-[#0a1a2b] p-6 text-center text-xs font-semibold text-[#7f96b0]">
+                      <div className="rounded-xl border border-dashed border-[var(--border)] bg-[rgba(9,18,34,0.6)] p-6 text-center text-xs font-semibold text-[var(--text-muted)]">
                         لا توجد صورة بعد. اختر صورة من جهازك لعرض معاينة.
                       </div>
                     )}
@@ -279,7 +387,7 @@ function ObjListEditor({
             <button
               type="button"
               onClick={() => removeRow(path, index)}
-              className="rounded-xl border border-[#6e2230] bg-[#36121b] px-3 py-2 text-sm font-semibold text-[#ff9dad]"
+              className="admin-focus rounded-xl border border-[rgba(255,107,125,0.5)] bg-[rgba(255,107,125,0.12)] px-3 py-2 text-sm font-semibold text-[var(--danger)]"
             >
               حذف
             </button>
@@ -290,7 +398,7 @@ function ObjListEditor({
         <button
           type="button"
           onClick={() => addRow(path, newItem)}
-          className="rounded-xl border border-[#2d8f66] bg-[#133526] px-4 py-2 text-sm font-semibold text-[#b9f5d8]"
+          className="admin-focus rounded-xl border border-[rgba(47,124,255,0.5)] bg-[rgba(47,124,255,0.16)] px-4 py-2 text-sm font-semibold text-white"
         >
           + إضافة
         </button>
@@ -306,6 +414,7 @@ function StrListEditor({
   updateField,
   removeRow,
   addRow,
+  imageOnly = false,
 }: {
   title: string;
   path: string[];
@@ -313,32 +422,136 @@ function StrListEditor({
   updateField: (path: string[], index: number, value: string) => void;
   removeRow: (path: string[], index: number) => void;
   addRow: (path: string[], item: unknown) => void;
+  imageOnly?: boolean;
 }) {
   const rows = asStringList(readPath(content, path));
+  const [uploadingByIndex, setUploadingByIndex] = useState<Record<number, boolean>>({});
+  const [uploadError, setUploadError] = useState("");
+
+  const uploadAtIndex = async (index: number, file: File) => {
+    setUploadError("");
+    setUploadingByIndex((prev) => ({ ...prev, [index]: true }));
+    try {
+      const imagePath = await uploadImageFile(file);
+      updateField(path, index, imagePath);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "فشل رفع الصورة";
+      setUploadError(message);
+    } finally {
+      setUploadingByIndex((prev) => ({ ...prev, [index]: false }));
+    }
+  };
+
+  const addImage = async (file: File) => {
+    setUploadError("");
+    try {
+      const imagePath = await uploadImageFile(file);
+      addRow(path, imagePath);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "فشل رفع الصورة";
+      setUploadError(message);
+    }
+  };
 
   return (
     <div className="mt-5 space-y-3">
-      <p className="text-right text-sm font-bold text-[#b6c8dc]">{title}</p>
-      {rows.map((row, index) => (
-        <div key={`${title}-${index}`} className="grid gap-3 rounded-xl border border-[#244260] bg-[#0a1a2b] p-3 md:grid-cols-[1fr_auto] md:items-end">
-          <Field label={`العنصر ${index + 1}`} value={row} onChange={(next) => updateField(path, index, next)} />
+      <p className="text-right text-sm font-bold text-[var(--text-soft)]">{title}</p>
+      {uploadError ? (
+        <p className="rounded-xl border border-[rgba(255,107,125,0.5)] bg-[rgba(255,107,125,0.12)] px-3 py-2 text-right text-xs font-semibold text-[var(--danger)]">
+          {uploadError}
+        </p>
+      ) : null}
+
+      {imageOnly ? (
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          {rows.map((row, index) => {
+            const isUploading = Boolean(uploadingByIndex[index]);
+
+            return (
+              <div key={`${title}-${index}`} className="admin-card-soft space-y-3 p-3">
+                <div className="overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--card)]">
+                  {row ? (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img src={row} alt="preview" className="h-24 w-full object-cover sm:h-28" />
+                  ) : (
+                    <div className="flex h-24 items-center justify-center text-xs text-[var(--text-muted)]">
+                      لا توجد صورة بعد
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <label className="admin-focus inline-flex cursor-pointer items-center rounded-xl border border-[rgba(47,124,255,0.5)] bg-[rgba(47,124,255,0.16)] px-3 py-2 text-xs font-semibold text-white">
+                      استبدال
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(event) => {
+                          const file = event.target.files?.[0];
+                          if (!file) return;
+                          void uploadAtIndex(index, file);
+                          event.currentTarget.value = "";
+                        }}
+                      />
+                    </label>
+                    {isUploading ? <span className="text-xs text-[var(--text-muted)]">جاري الرفع...</span> : null}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeRow(path, index)}
+                    className="admin-focus rounded-xl border border-[rgba(255,107,125,0.5)] bg-[rgba(255,107,125,0.12)] px-3 py-2 text-xs font-semibold text-[var(--danger)]"
+                  >
+                    حذف
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        rows.map((row, index) => (
+          <div
+            key={`${title}-${index}`}
+            className="grid gap-3 rounded-xl border border-[var(--border)] bg-[var(--panel)] p-3 md:grid-cols-[1fr_auto] md:items-end"
+          >
+            <Field label={`العنصر ${index + 1}`} value={row} onChange={(next) => updateField(path, index, next)} />
+            <button
+              type="button"
+              onClick={() => removeRow(path, index)}
+              className="admin-focus rounded-xl border border-[rgba(255,107,125,0.5)] bg-[rgba(255,107,125,0.12)] px-3 py-2 text-sm font-semibold text-[var(--danger)]"
+            >
+              حذف
+            </button>
+          </div>
+        ))
+      )}
+
+      <div className="text-right">
+        {imageOnly ? (
+          <label className="admin-focus inline-flex cursor-pointer items-center rounded-xl border border-[rgba(47,124,255,0.5)] bg-[rgba(47,124,255,0.16)] px-4 py-2 text-sm font-semibold text-white">
+            + إضافة صورة
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(event) => {
+                const file = event.target.files?.[0];
+                if (!file) return;
+                void addImage(file);
+                event.currentTarget.value = "";
+              }}
+            />
+          </label>
+        ) : (
           <button
             type="button"
-            onClick={() => removeRow(path, index)}
-            className="rounded-xl border border-[#6e2230] bg-[#36121b] px-3 py-2 text-sm font-semibold text-[#ff9dad]"
+            onClick={() => addRow(path, "")}
+            className="admin-focus rounded-xl border border-[rgba(47,124,255,0.5)] bg-[rgba(47,124,255,0.16)] px-4 py-2 text-sm font-semibold text-white"
           >
-            حذف
+            + إضافة
           </button>
-        </div>
-      ))}
-      <div className="text-right">
-        <button
-          type="button"
-          onClick={() => addRow(path, "")}
-          className="rounded-xl border border-[#2d8f66] bg-[#133526] px-4 py-2 text-sm font-semibold text-[#b9f5d8]"
-        >
-          + إضافة
-        </button>
+        )}
       </div>
     </div>
   );
@@ -349,9 +562,24 @@ const tabs: Array<{ id: EditorTab; label: string }> = [
   { id: "market", label: "ماركت" },
   { id: "media", label: "ميديا" },
   { id: "tech", label: "تك" },
+  { id: "security", label: "الدخول" },
 ];
 
 export default function AdminPage() {
+  const [credentials, setCredentials] = useState<Credentials>(() => loadStoredCredentials());
+  const [isAuthenticated, setIsAuthenticated] = useState(() => loadSession());
+  const [loginUser, setLoginUser] = useState("");
+  const [loginPass, setLoginPass] = useState("");
+  const [loginError, setLoginError] = useState("");
+  const [loginNote, setLoginNote] = useState("");
+  const [changeUser, setChangeUser] = useState("");
+  const [changePass, setChangePass] = useState("");
+  const [newUser, setNewUser] = useState("");
+  const [newPass, setNewPass] = useState("");
+  const [newPassConfirm, setNewPassConfirm] = useState("");
+  const [changeError, setChangeError] = useState("");
+  const [changeSuccess, setChangeSuccess] = useState("");
+
   const [tab, setTab] = useState<EditorTab>("agency");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -359,7 +587,73 @@ export default function AdminPage() {
   const [error, setError] = useState("");
   const [content, setContent] = useState<unknown>(structuredClone(defaultSiteContent));
 
+  const handleLogin = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setLoginError("");
+    setLoginNote("");
+
+    if (!loginUser.trim() || !loginPass.trim()) {
+      setLoginError("يرجى إدخال اسم المستخدم وكلمة السر.");
+      return;
+    }
+
+    if (loginUser.trim() !== credentials.username || loginPass !== credentials.password) {
+      setLoginError("بيانات الدخول غير صحيحة.");
+      return;
+    }
+
+    setIsAuthenticated(true);
+    persistSession(true);
+    setLoginNote("تم تسجيل الدخول بنجاح.");
+    setLoginPass("");
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    persistSession(false);
+    setLoginUser("");
+    setLoginPass("");
+    setLoginError("");
+  };
+
+  const handleChangeCredentials = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setChangeError("");
+    setChangeSuccess("");
+
+    if (!changeUser.trim() || !changePass.trim()) {
+      setChangeError("يرجى إدخال بيانات الدخول الحالية.");
+      return;
+    }
+
+    if (changeUser.trim() !== credentials.username || changePass !== credentials.password) {
+      setChangeError("بيانات الدخول الحالية غير صحيحة.");
+      return;
+    }
+
+    if (!newUser.trim() || !newPass.trim()) {
+      setChangeError("يرجى إدخال اسم مستخدم وكلمة سر جديدين.");
+      return;
+    }
+
+    if (newPass !== newPassConfirm) {
+      setChangeError("تأكيد كلمة السر غير مطابق.");
+      return;
+    }
+
+    const updated = { username: newUser.trim(), password: newPass };
+    setCredentials(updated);
+    persistCredentials(updated);
+    setChangeSuccess("تم تحديث بيانات الدخول بنجاح.");
+    setChangeUser("");
+    setChangePass("");
+    setNewUser("");
+    setNewPass("");
+    setNewPassConfirm("");
+  };
+
   useEffect(() => {
+    if (!isAuthenticated) return;
     const run = async () => {
       setLoading(true);
       try {
@@ -373,7 +667,7 @@ export default function AdminPage() {
       }
     };
     run();
-  }, []);
+  }, [isAuthenticated]);
 
   const setField = (path: string[], value: unknown) =>
     setContent((prev: unknown) => writePath(prev, path, value));
@@ -429,6 +723,7 @@ export default function AdminPage() {
     market: "إدارة دراسات الحالة، الأرقام، والأسئلة الشائعة لقسم ماركت.",
     media: "إدارة خدمات ومشاريع ميديا ولماذا نحن والأسئلة الشائعة.",
     tech: "إدارة مشاريع قسم تك والفلاتر والمحتوى المرتبط بها.",
+    security: "تحديث بيانات الدخول الخاصة بلوحة الإدارة.",
   };
 
   const statGroups: Record<EditorTab, Array<{ label: string; count: number }>> = {
@@ -452,19 +747,80 @@ export default function AdminPage() {
       { label: "فلاتر تك", count: asObjectList(readPath(content, ["pages", "tech", "projectsSection", "filters"])).length },
       { label: "كتل المحتوى", count: asObject(readPath(content, ["pages", "tech"])).projectsSection ? 1 : 0 },
     ],
+    security: [
+      { label: "جلسة نشطة", count: isAuthenticated ? 1 : 0 },
+      { label: "تحديثات الدخول", count: 1 },
+      { label: "سياسات الأمان", count: 0 },
+    ],
   };
 
   const activeStats = statGroups[tab];
+  const maxStat = Math.max(1, ...activeStats.map((item) => item.count));
+
+  if (!isAuthenticated) {
+    return (
+      <main className="admin-theme admin-surface min-h-screen">
+        <div className="admin-auth-shell">
+          <section className="admin-auth-card">
+            <div className="text-right">
+              <p className="text-xs font-semibold text-[var(--text-muted)]">AYSEL SECURE</p>
+              <h1 className="mt-2 text-3xl font-extrabold text-white sm:text-4xl">بوابة الإدارة</h1>
+              <p className="mt-3 text-sm text-[var(--text-muted)]">
+                دخول سريع وآمن لإدارة المحتوى. بيانات الدخول الافتراضية: <span className="font-semibold text-white">admin / admin</span>
+              </p>
+            </div>
+
+            <form className="mt-6 space-y-4" onSubmit={handleLogin}>
+              <Field
+                label="اسم المستخدم"
+                value={loginUser}
+                onChange={setLoginUser}
+                dir="ltr"
+                placeholder="admin"
+              />
+              <Field
+                label="كلمة السر"
+                value={loginPass}
+                onChange={setLoginPass}
+                dir="ltr"
+                type="password"
+                placeholder="••••••••"
+              />
+
+              {loginError ? (
+                <div className="rounded-xl border border-[rgba(255,107,125,0.5)] bg-[rgba(255,107,125,0.12)] px-4 py-3 text-right text-xs text-[var(--danger)]">
+                  {loginError}
+                </div>
+              ) : null}
+
+              {loginNote ? (
+                <div className="rounded-xl border border-[rgba(46,197,118,0.5)] bg-[rgba(46,197,118,0.12)] px-4 py-3 text-right text-xs text-[var(--success)]">
+                  {loginNote}
+                </div>
+              ) : null}
+
+              <button
+                type="submit"
+                className="admin-focus w-full rounded-xl border border-[var(--primary)] bg-[var(--primary)] px-4 py-3 text-sm font-semibold text-white"
+              >
+                دخول الإدارة
+              </button>
+            </form>
+          </section>
+        </div>
+      </main>
+    );
+  }
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_82%_12%,rgba(38,216,143,0.16),transparent_34%),radial-gradient(circle_at_18%_84%,rgba(35,109,255,0.14),transparent_30%),linear-gradient(180deg,#050e17_0%,#071523_100%)] text-[#dbe8f5]">
+    <main className="admin-theme admin-surface min-h-screen text-[var(--text)]">
       <div className="mx-auto w-full max-w-[1680px] px-4 py-4 sm:px-6 lg:px-8">
-        <header className="rounded-3xl border border-[#1a324b] bg-[linear-gradient(180deg,#102033_0%,#0b1828_100%)] p-4 shadow-[0_24px_52px_rgba(2,10,20,0.45)] sm:p-5">
+        <header className="admin-panel admin-glow p-4 sm:p-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="text-right">
-              <p className="text-xs font-semibold text-[#8da4bc]">AYSEL ADMIN</p>
-              <h1 className="text-[1.3rem] font-extrabold text-[#f2f8ff] sm:text-[1.45rem]">لوحة التحكم الديناميكية</h1>
-              <p className="text-sm text-[#8da4bc]">نفس هوية موقعك الأصلية مع إدارة محتوى كاملة لجميع الأقسام</p>
+              <p className="text-xs font-semibold text-[var(--text-muted)]">AYSEL ADMIN</p>
+              <h1 className="text-[1.3rem] font-extrabold text-white sm:text-[1.45rem]">لوحة التحكم الديناميكية</h1>
+              <p className="text-sm text-[var(--text-muted)]">نفس هوية موقعك الأصلية مع إدارة محتوى كاملة لجميع الأقسام</p>
             </div>
 
             <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto">
@@ -472,18 +828,25 @@ export default function AdminPage() {
                 <input
                   type="search"
                   placeholder="ابحث داخل لوحة التحكم..."
-                  className="w-full rounded-xl border border-[#26435f] bg-[#0b1b2d] px-10 py-2.5 text-sm text-[#e6f0fb] placeholder:text-[#7f96b0] outline-none focus:border-[#28d58b]"
+                  className="admin-focus w-full rounded-xl border border-[var(--border)] bg-[var(--panel)] px-10 py-2.5 text-sm text-[var(--text)] placeholder:text-[var(--text-muted)] outline-none focus:border-[var(--primary)]"
                 />
-                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#7f96b0]">⌕</span>
+                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]">⌕</span>
               </div>
 
               <button
                 type="button"
                 onClick={save}
                 disabled={loading || saving}
-                className="rounded-xl border border-[#2a8f67] bg-[#163d2d] px-4 py-2.5 text-sm font-bold text-[#d5ffe9] shadow-[0_10px_20px_rgba(40,213,139,0.15)] disabled:opacity-60"
+                className="admin-focus rounded-xl border border-[var(--primary)] bg-[var(--primary)] px-4 py-2.5 text-sm font-bold text-white shadow-[0_10px_20px_rgba(47,124,255,0.2)] disabled:opacity-60"
               >
                 {saving ? "جاري الحفظ..." : "حفظ كل التعديلات"}
+              </button>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="admin-focus rounded-xl border border-[rgba(255,107,125,0.5)] bg-[rgba(255,107,125,0.12)] px-4 py-2.5 text-sm font-semibold text-[var(--danger)]"
+              >
+                تسجيل خروج
               </button>
             </div>
           </div>
@@ -491,8 +854,8 @@ export default function AdminPage() {
 
         <div className="mt-4 grid gap-4 xl:grid-cols-[280px_minmax(0,1fr)]">
           <aside className="space-y-4 xl:sticky xl:top-4 xl:self-start">
-            <section className="rounded-3xl border border-[#1a324b] bg-[linear-gradient(180deg,#102033_0%,#0b1828_100%)] p-4">
-              <p className="mb-3 text-right text-sm font-bold text-[#d5e6f7]">الأقسام</p>
+            <section className="admin-card p-4">
+              <p className="mb-3 text-right text-sm font-bold text-[var(--text-soft)]">الأقسام</p>
               <div className="space-y-2">
                 {tabs.map((item) => (
                   <TabBtn key={item.id} active={tab === item.id} label={item.label} onClick={() => setTab(item.id)} />
@@ -500,25 +863,25 @@ export default function AdminPage() {
               </div>
             </section>
 
-            <section className="rounded-3xl border border-[#1a324b] bg-[linear-gradient(180deg,#102033_0%,#0b1828_100%)] p-4">
-              <p className="text-right text-sm font-bold text-[#d5e6f7]">إحصائيات سريعة</p>
+            <section className="admin-card p-4">
+              <p className="text-right text-sm font-bold text-[var(--text-soft)]">إحصائيات سريعة</p>
               <div className="mt-3 space-y-2.5">
                 {activeStats.map((item) => (
-                  <article key={item.label} className="rounded-xl border border-[#23415d] bg-[#0a1a2b] px-3 py-2.5">
-                    <p className="text-right text-xs text-[#93abc2]">{item.label}</p>
-                    <p className="text-right font-[var(--font-manrope)] text-2xl font-extrabold text-[#f2f8ff]">{item.count}</p>
+                  <article key={item.label} className="admin-card-soft px-3 py-2.5">
+                    <p className="text-right text-xs text-[var(--text-muted)]">{item.label}</p>
+                    <p className="text-right text-2xl font-extrabold text-white">{item.count}</p>
                   </article>
                 ))}
               </div>
             </section>
 
-            <section className="rounded-3xl border border-[#1a324b] bg-[linear-gradient(180deg,#102033_0%,#0b1828_100%)] p-4">
-              <p className="mb-3 text-right text-sm font-bold text-[#d5e6f7]">إجراءات سريعة</p>
+            <section className="admin-card p-4">
+              <p className="mb-3 text-right text-sm font-bold text-[var(--text-soft)]">إجراءات سريعة</p>
               <div className="space-y-2">
                 <button
                   type="button"
                   onClick={() => setContent(structuredClone(defaultSiteContent))}
-                  className="w-full rounded-xl border border-[#6f5130] bg-[#352617] px-3 py-2.5 text-sm font-semibold text-[#ffddb3]"
+                  className="admin-focus w-full rounded-xl border border-[rgba(241,163,63,0.6)] bg-[rgba(241,163,63,0.16)] px-3 py-2.5 text-sm font-semibold text-[var(--warning)]"
                 >
                   إعادة المحتوى الافتراضي
                 </button>
@@ -526,41 +889,61 @@ export default function AdminPage() {
                   type="button"
                   onClick={save}
                   disabled={loading || saving}
-                  className="w-full rounded-xl border border-[#2a8f67] bg-[#163d2d] px-3 py-2.5 text-sm font-semibold text-[#d5ffe9] disabled:opacity-60"
+                  className="admin-focus w-full rounded-xl border border-[var(--primary)] bg-[var(--primary)] px-3 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
                 >
                   حفظ الآن
                 </button>
-                <Link href="/" className="block w-full rounded-xl border border-[#22405d] bg-[#0e1f31] px-3 py-2.5 text-center text-sm font-semibold text-[#c7d9ec]">
+                <Link href="/" className="admin-focus block w-full rounded-xl border border-[var(--border)] bg-[var(--panel)] px-3 py-2.5 text-center text-sm font-semibold text-[var(--text-soft)]">
                   العودة للموقع
                 </Link>
               </div>
             </section>
           </aside>
 
-          <section className="rounded-3xl border border-[#1a324b] bg-[linear-gradient(180deg,#0f2033_0%,#0a1726_100%)] p-4 shadow-[0_20px_40px_rgba(2,10,20,0.4)] sm:p-6">
-            <div className="mb-5 grid gap-3 rounded-2xl border border-[#223f5b] bg-[#0a1a2b] p-4 md:grid-cols-[1fr_auto] md:items-center">
+          <section className="admin-panel p-4 sm:p-6">
+            <div className="mb-5 grid gap-3 rounded-2xl border border-[var(--border)] bg-[var(--panel)] p-4 md:grid-cols-[1fr_auto] md:items-center">
               <div className="text-right">
-                <h2 className="text-xl font-extrabold text-[#f2f8ff]">إدارة قسم {tabs.find((item) => item.id === tab)?.label}</h2>
-                <p className="text-sm text-[#8da4bc]">{tabDescriptions[tab]}</p>
+                <h2 className="text-xl font-extrabold text-white">إدارة قسم {tabs.find((item) => item.id === tab)?.label}</h2>
+                <p className="text-sm text-[var(--text-muted)]">{tabDescriptions[tab]}</p>
               </div>
-              <span className="inline-flex items-center justify-center rounded-xl border border-[#2a8f67] bg-[#163d2d] px-3 py-2 text-sm font-semibold text-[#d5ffe9]">
+              <span className="admin-chip inline-flex items-center justify-center px-3 py-2 text-sm font-semibold text-[var(--text-soft)]">
                 وضع التحرير مفعل
               </span>
             </div>
 
+            <div className="mb-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+              {activeStats.map((item, index) => {
+                const width = Math.max(12, Math.round((item.count / maxStat) * 100));
+                return (
+                  <article key={item.label} className="admin-card-soft admin-kpi p-4 text-right">
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs text-[var(--text-muted)]">{item.label}</p>
+                      <span className={`admin-chip ${index === 0 ? "admin-chip-strong" : ""} px-2.5 py-1 text-[10px]`}>
+                        مؤثر مباشر
+                      </span>
+                    </div>
+                    <p className="mt-2 text-2xl font-extrabold text-white">{item.count}</p>
+                    <div className="mt-3 admin-stat-line">
+                      <span style={{ width: `${width}%` }} />
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+
             {message && (
-              <p className="mb-4 rounded-xl border border-[#2a8f67] bg-[#163d2d] px-4 py-3 text-sm font-semibold text-[#bff8dc]">
+              <p className="mb-4 rounded-xl border border-[rgba(46,197,118,0.5)] bg-[rgba(46,197,118,0.12)] px-4 py-3 text-sm font-semibold text-[var(--success)]">
                 {message}
               </p>
             )}
             {error && (
-              <p className="mb-4 rounded-xl border border-[#6e2230] bg-[#36121b] px-4 py-3 text-sm font-semibold text-[#ffb8c4]">
+              <p className="mb-4 rounded-xl border border-[rgba(255,107,125,0.5)] bg-[rgba(255,107,125,0.12)] px-4 py-3 text-sm font-semibold text-[var(--danger)]">
                 {error}
               </p>
             )}
 
             {loading ? (
-              <div className="rounded-2xl border border-[#244260] bg-[#0a1a2b] p-8 text-center text-[#8da4bc]">جاري تحميل البيانات...</div>
+              <div className="admin-card-soft admin-skeleton p-8 text-center text-[var(--text-muted)]">جاري تحميل البيانات...</div>
             ) : (
               <div className="space-y-5">
             {tab === "agency" && (
@@ -579,19 +962,71 @@ export default function AdminPage() {
                 </Card>
 
                 <Card title="الوكالة - آراء العملاء">
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <Field label="شارة القسم" value={asString(readPath(content, ["pages", "agency", "clientStories", "badge"]))} onChange={(v) => setField(["pages", "agency", "clientStories", "badge"], v)} />
-                    <Field label="عنوان القسم" value={asString(readPath(content, ["pages", "agency", "clientStories", "title"]))} onChange={(v) => setField(["pages", "agency", "clientStories", "title"], v)} />
-                    <Field label="نص الإنجاز" value={asString(readPath(content, ["pages", "agency", "clientStories", "achievement"]))} onChange={(v) => setField(["pages", "agency", "clientStories", "achievement"], v)} />
-                    <Field label="اسم العميل" value={asString(readPath(content, ["pages", "agency", "clientStories", "authorName"]))} onChange={(v) => setField(["pages", "agency", "clientStories", "authorName"], v)} />
-                    <Field label="الدور" value={asString(readPath(content, ["pages", "agency", "clientStories", "authorRole"]))} onChange={(v) => setField(["pages", "agency", "clientStories", "authorRole"], v)} />
-                    <Field label="صورة العميل" value={asString(readPath(content, ["pages", "agency", "clientStories", "authorImage"]))} onChange={(v) => setField(["pages", "agency", "clientStories", "authorImage"], v)} dir="ltr" />
-                  </div>
-                  <div className="mt-4"><Field label="الوصف" value={asString(readPath(content, ["pages", "agency", "clientStories", "subtitle"]))} onChange={(v) => setField(["pages", "agency", "clientStories", "subtitle"], v)} multiline /></div>
-                  <div className="mt-4"><Field label="الاقتباس" value={asString(readPath(content, ["pages", "agency", "clientStories", "quote"]))} onChange={(v) => setField(["pages", "agency", "clientStories", "quote"], v)} multiline /></div>
+                  <div className="grid gap-4 xl:grid-cols-2">
+                    <div className="space-y-4">
+                      <section className="admin-card-soft p-4">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <p className="text-sm font-semibold text-[var(--text-soft)]">محتوى القسم</p>
+                          <span className="admin-chip px-2.5 py-1 text-[10px]">واجهة العرض</span>
+                        </div>
+                        <div className="mt-3 grid gap-3 md:grid-cols-2">
+                          <Field label="شارة القسم" value={asString(readPath(content, ["pages", "agency", "clientStories", "badge"]))} onChange={(v) => setField(["pages", "agency", "clientStories", "badge"], v)} />
+                          <Field label="عنوان القسم" value={asString(readPath(content, ["pages", "agency", "clientStories", "title"]))} onChange={(v) => setField(["pages", "agency", "clientStories", "title"], v)} />
+                        </div>
+                        <div className="mt-3">
+                          <Field label="الوصف" value={asString(readPath(content, ["pages", "agency", "clientStories", "subtitle"]))} onChange={(v) => setField(["pages", "agency", "clientStories", "subtitle"], v)} multiline />
+                        </div>
+                      </section>
 
-                  <StrListEditor title="صور العملاء" path={["pages", "agency", "clientStories", "avatars"]} content={content} updateField={updateStrField} removeRow={removeRow} addRow={addRow} />
-                  <ObjListEditor title="إحصائيات القسم" path={["pages", "agency", "clientStories", "stats"]} fields={[{ key: "value", label: "القيمة" }, { key: "label", label: "العنوان" }]} newItem={{ value: "", label: "" }} content={content} updateField={updateObjField} removeRow={removeRow} addRow={addRow} />
+                      <details className="admin-card-soft p-4">
+                        <summary className="cursor-pointer text-sm font-semibold text-[var(--text-soft)]">
+                          بيانات احتياطية (تُستخدم عند عدم وجود عناصر بالقائمة)
+                        </summary>
+                        <div className="mt-3 grid gap-3 md:grid-cols-2">
+                          <Field label="نص الإنجاز" value={asString(readPath(content, ["pages", "agency", "clientStories", "achievement"]))} onChange={(v) => setField(["pages", "agency", "clientStories", "achievement"], v)} />
+                          <Field label="اسم العميل" value={asString(readPath(content, ["pages", "agency", "clientStories", "authorName"]))} onChange={(v) => setField(["pages", "agency", "clientStories", "authorName"], v)} />
+                          <Field label="الدور" value={asString(readPath(content, ["pages", "agency", "clientStories", "authorRole"]))} onChange={(v) => setField(["pages", "agency", "clientStories", "authorRole"], v)} />
+                        </div>
+                        <div className="mt-3">
+                          <Field label="الاقتباس" value={asString(readPath(content, ["pages", "agency", "clientStories", "quote"]))} onChange={(v) => setField(["pages", "agency", "clientStories", "quote"], v)} multiline />
+                        </div>
+                        <div className="mt-3">
+                          <SingleImageUploader
+                            label="صورة العميل"
+                            value={asString(readPath(content, ["pages", "agency", "clientStories", "authorImage"]))}
+                            onChange={(v) => setField(["pages", "agency", "clientStories", "authorImage"], v)}
+                          />
+                        </div>
+                      </details>
+
+                      <section className="admin-card-soft p-4">
+                        <ObjListEditor title="إحصائيات القسم" path={["pages", "agency", "clientStories", "stats"]} fields={[{ key: "value", label: "القيمة" }, { key: "label", label: "العنوان" }]} newItem={{ value: "", label: "" }} content={content} updateField={updateObjField} removeRow={removeRow} addRow={addRow} />
+                      </section>
+                    </div>
+
+                    <div className="space-y-4">
+                      <section className="admin-card-soft p-4">
+                        <ObjListEditor
+                          title="قائمة آراء العملاء"
+                          path={["pages", "agency", "clientStories", "items"]}
+                          fields={[
+                            { key: "id", label: "ID", dir: "ltr" },
+                            { key: "name", label: "اسم العميل" },
+                            { key: "role", label: "الدور" },
+                            { key: "achievement", label: "الإنجاز" },
+                            { key: "quote", label: "الاقتباس", multiline: true },
+                            { key: "image", label: "الصورة", dir: "ltr" },
+                          ]}
+                          newItem={{ id: "", name: "", role: "", achievement: "", quote: "", image: "" }}
+                          content={content}
+                          updateField={updateObjField}
+                          removeRow={removeRow}
+                          addRow={addRow}
+                        />
+                      </section>
+
+                    </div>
+                  </div>
                 </Card>
               </>
             )}
@@ -694,6 +1129,83 @@ export default function AdminPage() {
                   <ObjListEditor title="مشاريع تك" path={["pages", "tech", "projectsSection", "projects"]} fields={[{ key: "id", label: "ID", dir: "ltr" }, { key: "title", label: "العنوان" }, { key: "category", label: "category", dir: "ltr" }, { key: "categoryLabel", label: "اسم القسم" }, { key: "description", label: "الوصف", multiline: true }, { key: "year", label: "السنة" }, { key: "image", label: "الصورة", dir: "ltr" }]} newItem={{ id: "", title: "", category: "", categoryLabel: "", description: "", year: "", image: "" }} content={content} updateField={updateObjField} removeRow={removeRow} addRow={addRow} />
                 </Card>
               </>
+            )}
+
+            {tab === "security" && (
+              <Card title="إعدادات الدخول">
+                <div className="admin-card-soft p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="text-right">
+                      <p className="text-xs font-semibold text-[var(--text-muted)]">تحديث بيانات الدخول</p>
+                      <h3 className="text-base font-bold text-white">اسم المستخدم وكلمة السر</h3>
+                      <p className="mt-1 text-xs text-[var(--text-muted)]">
+                        المستخدم الحالي: <span className="font-semibold text-white">{credentials.username}</span>
+                      </p>
+                    </div>
+                  </div>
+
+                  <form className="mt-4 grid gap-3 md:grid-cols-2" onSubmit={handleChangeCredentials}>
+                    <Field
+                      label="اسم المستخدم الحالي"
+                      value={changeUser}
+                      onChange={setChangeUser}
+                      dir="ltr"
+                      placeholder="admin"
+                    />
+                    <Field
+                      label="كلمة السر الحالية"
+                      value={changePass}
+                      onChange={setChangePass}
+                      dir="ltr"
+                      type="password"
+                      placeholder="••••••••"
+                    />
+                    <Field
+                      label="اسم المستخدم الجديد"
+                      value={newUser}
+                      onChange={setNewUser}
+                      dir="ltr"
+                      placeholder="new-admin"
+                    />
+                    <Field
+                      label="كلمة السر الجديدة"
+                      value={newPass}
+                      onChange={setNewPass}
+                      dir="ltr"
+                      type="password"
+                      placeholder="••••••••"
+                    />
+                    <Field
+                      label="تأكيد كلمة السر"
+                      value={newPassConfirm}
+                      onChange={setNewPassConfirm}
+                      dir="ltr"
+                      type="password"
+                      placeholder="••••••••"
+                    />
+                    <div className="flex items-end">
+                      <button
+                        type="submit"
+                        className="admin-focus w-full rounded-xl border border-[var(--primary)] bg-[var(--primary)] px-4 py-2.5 text-sm font-semibold text-white"
+                      >
+                        تحديث بيانات الدخول
+                      </button>
+                    </div>
+                  </form>
+
+                  {changeError ? (
+                    <div className="mt-3 rounded-xl border border-[rgba(255,107,125,0.5)] bg-[rgba(255,107,125,0.12)] px-4 py-3 text-right text-xs text-[var(--danger)]">
+                      {changeError}
+                    </div>
+                  ) : null}
+
+                  {changeSuccess ? (
+                    <div className="mt-3 rounded-xl border border-[rgba(46,197,118,0.5)] bg-[rgba(46,197,118,0.12)] px-4 py-3 text-right text-xs text-[var(--success)]">
+                      {changeSuccess}
+                    </div>
+                  ) : null}
+                </div>
+              </Card>
             )}
           </div>
         )}

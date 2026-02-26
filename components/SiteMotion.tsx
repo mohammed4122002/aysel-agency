@@ -65,7 +65,8 @@ export default function SiteMotion({ children }: SiteMotionProps) {
   useLayoutEffect(() => {
     const root = scope.current as HTMLElement | null;
     if (!root) return;
-    const disablePageReveal = pathname.startsWith("/tech") || pathname.startsWith("/media");
+    const disablePageReveal =
+      pathname.startsWith("/tech") || pathname.startsWith("/media") || pathname.startsWith("/admin");
     const revealSelector = disablePageReveal ? CONTENT_REVEAL_SELECTOR : PAGE_REVEAL_SELECTOR;
 
     const allTargets = uniqueElements(

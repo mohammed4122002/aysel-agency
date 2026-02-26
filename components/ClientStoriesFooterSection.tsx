@@ -1,7 +1,8 @@
 ﻿"use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useSiteContent } from "@/lib/site-content-client";
 
 function QuoteIcon() {
@@ -77,14 +78,6 @@ function ChartIcon() {
   );
 }
 
-const avatars = [
-  "/media-assets/avatar-5.png",
-  "/media-assets/avatar-2.png",
-  "/media-assets/avatar-1.png",
-  "/media-assets/avatar-4.png",
-  "/media-assets/avatar-3.png",
-];
-
 const stats = [
   { value: "98%", label: "رضا العملاء", icon: <HeartIcon /> },
   { value: "4.9", label: "متوسط التقييم", icon: <StarIcon /> },
@@ -95,8 +88,55 @@ const stats = [
 export default function ClientStoriesFooterSection() {
   const siteContent = useSiteContent();
   const stories = siteContent.pages?.agency?.clientStories;
-  const dynamicAvatars =
-    (stories?.avatars as unknown as string[] | undefined) ?? avatars;
+  const prefersReducedMotion = useReducedMotion();
+
+  const testimonials = useMemo(() => {
+    const items = (stories?.items as Array<{
+      id?: string;
+      name?: string;
+      role?: string;
+      quote?: string;
+      achievement?: string;
+      image?: string;
+    }> | undefined) ?? [];
+
+    if (items.length > 0) {
+      return items.map((item, index) => ({
+        id: item.id ?? `cs-${index}`,
+        name: item.name ?? "عميل",
+        role: item.role ?? "عميل",
+        quote: item.quote ?? "",
+        achievement: item.achievement ?? "",
+        image: item.image ?? "",
+      }));
+    }
+
+    return [
+      {
+        id: "cs-default",
+        name: stories?.authorName ?? "محمد العلي",
+        role: stories?.authorRole ?? "المؤسس، فاشن فورورد",
+        quote:
+          stories?.quote ??
+          "إبداع الفريق وتفكيرهم الاستراتيجي ساعدنا على إعادة بناء علامتنا التجارية وتوسيع أعمالنا بالكامل. هم لا ينفذون فقط - بل يفكرون كشركاء حقيقيين.",
+        achievement: stories?.achievement ?? "توسع في 6 أسواق جديدة",
+        image: stories?.authorImage ?? "/media-assets/avatar-4.png",
+      },
+    ];
+  }, [stories]);
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    if (prefersReducedMotion || testimonials.length < 2) return;
+    const timer = window.setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % testimonials.length);
+    }, 5200);
+    return () => window.clearInterval(timer);
+  }, [prefersReducedMotion, testimonials.length]);
+
+  const safeIndex = Math.min(activeIndex, Math.max(testimonials.length - 1, 0));
+  const activeStory = testimonials[safeIndex];
   const dynamicStats =
     (stories?.stats as unknown as Array<{ value: string; label: string; icon?: React.ReactNode }> | undefined) ??
     stats;
@@ -125,59 +165,69 @@ export default function ClientStoriesFooterSection() {
             <QuoteIcon />
           </span>
 
-          <p className="mx-auto max-w-[780px] text-center text-[1.3rem] leading-relaxed text-[#1a2537] sm:text-[1.44rem]">
-            &ldquo;{stories?.quote ??
-              "إبداع الفريق وتفكيرهم الاستراتيجي ساعدنا على إعادة بناء علامتنا التجارية وتوسيع أعمالنا بالكامل. هم لا ينفذون فقط - بل يفكرون كشركاء حقيقيين."}&rdquo;
-          </p>
-
-          <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <button
-              type="button"
-              className="inline-flex items-center gap-2 rounded-lg border border-[#b9c2d1] bg-[#f4f7fb] px-4 py-2 text-sm font-semibold text-[#2b3649]"
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeStory.id}
+              initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: prefersReducedMotion ? 0 : -10 }}
+              transition={{ duration: 0.4 }}
             >
-              <ArrowUpIcon />
-              <span>{stories?.achievement ?? "توسع في 6 أسواق جديدة"}</span>
-            </button>
+              <p className="mx-auto max-w-[780px] text-center text-[1.3rem] leading-relaxed text-[#1a2537] sm:text-[1.44rem]">
+                &ldquo;{activeStory.quote}&rdquo;
+              </p>
 
-            <div className="flex items-center gap-3">
-              <div className="text-right">
-                <p className="text-base font-bold text-[#121a2b]">{stories?.authorName ?? "محمد العلي"}</p>
-                <p className="text-sm text-[#7b8596]">{stories?.authorRole ?? "المؤسس، فاشن فورورد"}</p>
-              </div>
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-2 rounded-lg border border-[#b9c2d1] bg-[#f4f7fb] px-4 py-2 text-sm font-semibold text-[#2b3649]"
+                >
+                  <ArrowUpIcon />
+                  <span>{activeStory.achievement || "نتائج ملموسة خلال أسابيع"}</span>
+                </button>
 
-              <div className="relative h-12 w-12 overflow-hidden rounded-full border border-white/80">
-                <Image
-                  src={stories?.authorImage ?? "/media-assets/avatar-4.png"}
-                  alt={stories?.authorName ?? "محمد العلي"}
-                  fill
-                  className="object-cover"
-                  sizes="48px"
-                />
+                <div className="flex items-center gap-3">
+                  <div className="text-right">
+                    <p className="text-base font-bold text-[#121a2b]">{activeStory.name}</p>
+                    <p className="text-sm text-[#7b8596]">{activeStory.role}</p>
+                  </div>
+
+                  <div className="relative h-12 w-12 overflow-hidden rounded-full border border-white/80">
+                    <Image
+                      src={activeStory.image || "/media-assets/avatar-4.png"}
+                      alt={activeStory.name}
+                      fill
+                      className="object-cover"
+                      sizes="48px"
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </AnimatePresence>
         </article>
 
-        <div className="mt-8 text-center">
-          <div className="flex items-center justify-center gap-2">
-            {dynamicAvatars.map((avatar, idx) => (
-              <div
-                key={avatar}
-                className={`relative h-9 w-9 overflow-hidden rounded-full border-2 border-[#eceef2] ${
-                  idx === 3 ? "scale-[1.15] ring-2 ring-[#8f9cb1]/60" : "opacity-75"
+        {testimonials.length > 1 ? (
+          <div className="mt-8 flex items-center justify-center gap-2">
+            {testimonials.map((item, idx) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setActiveIndex(idx)}
+                className={`h-[3px] w-6 rounded-full ${
+                  idx === activeIndex ? "bg-[#121a2b]" : "bg-[#d5dbe6]"
                 }`}
-              >
-                <Image src={avatar} alt="عميل" fill className="object-cover" sizes="36px" />
-              </div>
+                aria-label={`الانتقال إلى رأي ${idx + 1}`}
+              />
             ))}
           </div>
-
-          <div className="mt-2 flex items-center justify-center gap-2">
+        ) : (
+          <div className="mt-8 flex items-center justify-center gap-2">
             <span className="h-[2px] w-6 rounded-full bg-[#c3cad6]" />
             <span className="h-[2px] w-6 rounded-full bg-[#121a2b]" />
             <span className="h-[2px] w-6 rounded-full bg-[#d5dbe6]" />
           </div>
-        </div>
+        )}
 
         <div className="mx-auto mt-10 grid max-w-[900px] grid-cols-2 gap-6 sm:grid-cols-4">
           {dynamicStats.map((stat, index) => (

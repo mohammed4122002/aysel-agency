@@ -216,13 +216,48 @@
         "achievement": "توسع في 6 أسواق جديدة",
         "authorName": "محمد العلي",
         "authorRole": "المؤسس، فاشن فورورد",
-        "authorImage": "/media-assets/avatar-4.png",
+        "authorImage": "/uploads/admin/chatgpt-image-12-2026-04_32_04-1772096526284-rkhzny.png",
+        "items": [
+          {
+            "id": "cs-01",
+            "name": "محمد العلي",
+            "role": "المؤسس، فاشن فورورد",
+            "quote": "إبداع الفريق وتفكيرهم الاستراتيجي ساعدنا على إعادة بناء علامتنا التجارية وتوسيع أعمالنا بالكامل.",
+            "achievement": "توسع في 6 أسواق جديدة",
+            "image": "/media-assets/avatar-4.png"
+          },
+          {
+            "id": "cs-02",
+            "name": "سارة الشمري",
+            "role": "مديرة النمو، نوفا",
+            "quote": "تجربة احترافية وسرعة تنفيذ عالية. النتائج ظهرت منذ الشهر الأول.",
+            "achievement": "زيادة التحويل 48%",
+            "image": "/media-assets/avatar-2.png"
+          },
+          {
+            "id": "cs-03",
+            "name": "عبدالله الحربي",
+            "role": "الرئيس التنفيذي، أوبتيما",
+            "quote": "فريق يفهم الأهداف التجارية قبل التصميم. هذا فرق معنا كثيرًا.",
+            "achievement": "رفع الاحتفاظ 34%",
+            "image": "/media-assets/avatar-5.png"
+          },
+          {
+            "id": "",
+            "name": "محمد",
+            "role": "محمد",
+            "achievement": "خمتكا",
+            "quote": "لتنهعنت",
+            "image": "/uploads/admin/chatgpt-image-28-2026-03_28_23-1772097643343-gkmeem.png"
+          }
+        ],
         "avatars": [
-          "/media-assets/avatar-5.png",
+          "/uploads/admin/88e6996b11500de2a780582af13b0a1d-1772096492151-nxk20v.jpg",
           "/media-assets/avatar-2.png",
           "/media-assets/avatar-1.png",
           "/media-assets/avatar-4.png",
-          "/media-assets/avatar-3.png"
+          "/media-assets/avatar-3.png",
+          "/uploads/admin/chatgpt-image-23-2026-02_24_45-1772096500436-xibm7h.png"
         ],
         "stats": [
           {

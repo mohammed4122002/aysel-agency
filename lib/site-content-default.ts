@@ -172,6 +172,33 @@
         authorName: "محمد العلي",
         authorRole: "المؤسس، فاشن فورورد",
         authorImage: "/media-assets/avatar-4.png",
+        items: [
+          {
+            id: "cs-01",
+            name: "محمد العلي",
+            role: "المؤسس، فاشن فورورد",
+            quote:
+              "إبداع الفريق وتفكيرهم الاستراتيجي ساعدنا على إعادة بناء علامتنا التجارية وتوسيع أعمالنا بالكامل.",
+            achievement: "توسع في 6 أسواق جديدة",
+            image: "/media-assets/avatar-4.png",
+          },
+          {
+            id: "cs-02",
+            name: "سارة الشمري",
+            role: "مديرة النمو، نوفا",
+            quote: "تجربة احترافية وسرعة تنفيذ عالية. النتائج ظهرت منذ الشهر الأول.",
+            achievement: "زيادة التحويل 48%",
+            image: "/media-assets/avatar-2.png",
+          },
+          {
+            id: "cs-03",
+            name: "عبدالله الحربي",
+            role: "الرئيس التنفيذي، أوبتيما",
+            quote: "فريق يفهم الأهداف التجارية قبل التصميم. هذا فرق معنا كثيرًا.",
+            achievement: "رفع الاحتفاظ 34%",
+            image: "/media-assets/avatar-5.png",
+          },
+        ],
         avatars: [
           "/media-assets/avatar-5.png",
           "/media-assets/avatar-2.png",

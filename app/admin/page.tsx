@@ -708,11 +708,15 @@ export default function AdminPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content }),
       });
-      if (!response.ok) throw new Error();
+      const payload = (await response.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+      if (!response.ok || !payload.ok) {
+        throw new Error(payload.error ?? "تعذر حفظ المحتوى.");
+      }
       clearContentCache();
       setMessage("تم حفظ التعديلات بنجاح.");
-    } catch {
-      setError("تعذر حفظ المحتوى.");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "تعذر حفظ المحتوى.";
+      setError(message);
     } finally {
       setSaving(false);
     }

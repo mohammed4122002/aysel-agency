@@ -10,6 +10,7 @@ const redisKey = "site-content";
 const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
 const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
 const redis = redisUrl && redisToken ? new Redis({ url: redisUrl, token: redisToken }) : null;
+const isProd = process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
 
 async function ensureContentFile() {
   await fs.mkdir(contentDir, { recursive: true });
@@ -31,6 +32,10 @@ export async function readSiteContent(): Promise<SiteContent> {
     }
   }
 
+  if (isProd) {
+    return defaultSiteContent;
+  }
+
   await ensureContentFile();
 
   try {
@@ -47,6 +52,10 @@ export async function writeSiteContent(payload: unknown): Promise<SiteContent> {
   if (redis) {
     await redis.set(redisKey, merged);
     return merged;
+  }
+
+  if (isProd) {
+    throw new Error("Storage is not configured. Set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN.");
   }
 
   await ensureContentFile();

@@ -120,7 +120,7 @@ async function uploadImageFile(file: File) {
 function Card({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="admin-card p-5 sm:p-6">
-      <h3 className="mb-4 text-right text-[1.05rem] font-bold text-[var(--text)]">{title}</h3>
+      <h3 className="mb-4 text-right text-[0.98rem] font-bold text-[var(--text)]">{title}</h3>
       {children}
     </section>
   );
@@ -764,7 +764,7 @@ export default function AdminPage() {
           <section className="admin-auth-card">
             <div className="text-right">
               <p className="text-xs font-semibold text-[var(--text-muted)]">AYSEL SECURE</p>
-              <h1 className="mt-2 text-3xl font-extrabold text-white sm:text-4xl">بوابة الإدارة</h1>
+              <h1 className="mt-2 text-2xl font-extrabold text-white sm:text-3xl">بوابة الإدارة</h1>
               <p className="mt-3 text-sm text-[var(--text-muted)]">
                 دخول سريع وآمن لإدارة المحتوى. بيانات الدخول الافتراضية: <span className="font-semibold text-white">admin / admin</span>
               </p>
@@ -819,7 +819,7 @@ export default function AdminPage() {
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="text-right">
               <p className="text-xs font-semibold text-[var(--text-muted)]">AYSEL ADMIN</p>
-              <h1 className="text-[1.3rem] font-extrabold text-white sm:text-[1.45rem]">لوحة التحكم الديناميكية</h1>
+              <h1 className="text-[1.15rem] font-extrabold text-white sm:text-[1.3rem]">لوحة التحكم الديناميكية</h1>
               <p className="text-sm text-[var(--text-muted)]">نفس هوية موقعك الأصلية مع إدارة محتوى كاملة لجميع الأقسام</p>
             </div>
 
@@ -869,7 +869,7 @@ export default function AdminPage() {
                 {activeStats.map((item) => (
                   <article key={item.label} className="admin-card-soft px-3 py-2.5">
                     <p className="text-right text-xs text-[var(--text-muted)]">{item.label}</p>
-                    <p className="text-right text-2xl font-extrabold text-white">{item.count}</p>
+                    <p className="text-right text-xl font-extrabold text-white">{item.count}</p>
                   </article>
                 ))}
               </div>
@@ -903,7 +903,7 @@ export default function AdminPage() {
           <section className="admin-panel p-4 sm:p-6">
             <div className="mb-5 grid gap-3 rounded-2xl border border-[var(--border)] bg-[var(--panel)] p-4 md:grid-cols-[1fr_auto] md:items-center">
               <div className="text-right">
-                <h2 className="text-xl font-extrabold text-white">إدارة قسم {tabs.find((item) => item.id === tab)?.label}</h2>
+                <h2 className="text-lg font-extrabold text-white">إدارة قسم {tabs.find((item) => item.id === tab)?.label}</h2>
                 <p className="text-sm text-[var(--text-muted)]">{tabDescriptions[tab]}</p>
               </div>
               <span className="admin-chip inline-flex items-center justify-center px-3 py-2 text-sm font-semibold text-[var(--text-soft)]">
@@ -922,7 +922,7 @@ export default function AdminPage() {
                         مؤثر مباشر
                       </span>
                     </div>
-                    <p className="mt-2 text-2xl font-extrabold text-white">{item.count}</p>
+                    <p className="mt-2 text-xl font-extrabold text-white">{item.count}</p>
                     <div className="mt-3 admin-stat-line">
                       <span style={{ width: `${width}%` }} />
                     </div>

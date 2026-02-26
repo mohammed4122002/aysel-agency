@@ -91,7 +91,7 @@ export default function ClientStoriesFooterSection() {
   const prefersReducedMotion = useReducedMotion();
 
   const testimonials = useMemo(() => {
-    const items = (stories?.items as Array<{
+    const items = (stories?.items as ReadonlyArray<{
       id?: string;
       name?: string;
       role?: string;

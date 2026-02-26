@@ -1,5 +1,6 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { put } from "@vercel/blob";
 import { NextResponse } from "next/server";
 
 const allowedRoots = ["app", "components", "lib", "data"];
@@ -32,6 +33,8 @@ const imageMimeToExtension: Record<string, string> = {
 };
 
 const maxUploadBytes = 8 * 1024 * 1024;
+const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
+const isProd = process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
 
 function safeBaseName(value: string) {
   return value
@@ -136,6 +139,33 @@ export async function POST(request: Request) {
     if (file.size <= 0 || file.size > maxUploadBytes) {
       return NextResponse.json(
         { ok: false, error: "Invalid file size. Maximum is 8MB." },
+        { status: 400 },
+      );
+    }
+
+    if (blobToken) {
+      const originalName = file.name || "image";
+      const parsed = path.parse(originalName);
+      const preferredExt = imageMimeToExtension[file.type] ?? ".png";
+      const ext = preferredExt || parsed.ext || ".png";
+      const base = safeBaseName(parsed.name || "image") || "image";
+      const fileName = `${base}${ext}`;
+      const blob = await put(`admin/${fileName}`, file, { access: "public", addRandomSuffix: true });
+      return NextResponse.json({
+        ok: true,
+        path: blob.url,
+        name: blob.pathname,
+        size: file.size,
+        mimeType: file.type,
+      });
+    }
+
+    if (isProd) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "Storage is not configured. Set BLOB_READ_WRITE_TOKEN on Vercel.",
+        },
         { status: 400 },
       );
     }

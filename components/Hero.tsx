@@ -10,7 +10,7 @@ export default function Hero() {
   const heroContent = siteContent.pages?.home?.hero ?? {
     badge: "وكالة رقمية متكاملة",
     titleLine1: "نصنع لك",
-    titleHighlight: "حضوراً رقمـــــــياً",
+    titleHighlight:"حضورا رقمياً",
     titleLine3: "لا ينسى",
     description:
       "ثلاث شركات متخصصة تحت سقف واحد - استراتيجية، إبداع، وتقنية. نحوّل رؤيتك إلى واقع رقمي يتفوق على المنافسة.",
@@ -25,13 +25,27 @@ export default function Hero() {
         <span>{heroContent.badge}</span>
       </div>
 
-      <h1 className="mt-6 leading-[1.05] text-white">
-        <span className="block text-[clamp(2.55rem,5.6vw,4.5rem)] font-extrabold">{heroContent.titleLine1}</span>
-        <span className="mt-1 block text-[clamp(2.75rem,6vw,4.5rem)] font-extrabold text-[#d4af37]">
-          {heroContent.titleHighlight}
-        </span>
-        <span className="mt-1 block text-[clamp(2.55rem,5.6vw,4.5rem)] font-extrabold">{heroContent.titleLine3}</span>
-      </h1>
+      <div className="mt-6">
+        <div className="relative inline-block">
+         
+
+          <h2 className="relative leading-[0.88] text-white">
+            <span className="block text-[clamp(3rem,6.2vw,5.8rem)] font-extrabold">{heroContent.titleLine1}</span>
+            <span className="relative mt-2 inline-block text-[clamp(3.2rem,6.6vw,6.2rem)] font-extrabold text-[#d4af37]">
+              {heroContent.titleHighlight}
+              <svg
+                aria-hidden
+                viewBox="0 0 100 10"
+                preserveAspectRatio="none"
+                className="absolute -bottom-3 right-0 h-[16px] w-[102%]"
+              >
+                <path d="M0,7 C28,2 72,2 100,7" fill="none" stroke="#d4af37" strokeWidth="2.3" strokeLinecap="round" />
+              </svg>
+            </span>
+            <span className="mt-3 block text-[clamp(3rem,6.2vw,5.8rem)] font-extrabold">{heroContent.titleLine3}</span>
+          </h2>
+        </div>
+      </div>
 
       <p className="mt-6 max-w-[734px] text-[18px] leading-[1.65] text-white/75">
         {heroContent.description}

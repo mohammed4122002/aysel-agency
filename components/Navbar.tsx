@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import { useSiteContent } from "@/lib/site-content-client";
+import Image from "next/image";
 
 const defaultMainNav = [
   { label: "الوكالة", href: "/" },
@@ -101,26 +102,15 @@ export default function Navbar() {
     <header className="absolute inset-x-0 top-0 z-50 pt-6">
       <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2.5 text-white" aria-label="Aysel Agency">
-            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden>
-              <path
-                d="M7.2 29.5 20.1 5.2h8.2L15.5 29.5H7.2Zm10.8 0L31 5.2h4.3L22.5 29.5H18Z"
-                fill="url(#logoGrad)"
-              />
-              <defs>
-                <linearGradient id="logoGrad" x1="7.2" y1="5.2" x2="35.3" y2="29.5" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#f2f5fa" />
-                  <stop offset="1" stopColor="#b7beca" />
-                </linearGradient>
-              </defs>
-            </svg>
-
-            <span className="leading-none">
-              <span className="block text-[1.46rem] font-bold tracking-[0.02em]">AYSEL</span>
-              <span className="mt-[-1px] block text-[0.7rem] tracking-[0.44em] text-white/75">
-                {theme.subtitle}
-              </span>
-            </span>
+          <Link href="/" className="flex items-center text-white" aria-label="Aysel Agency">
+            <Image
+              src="/logos/logo1.png"
+              alt="Aysel Agency Logo"
+              width={176}
+              height={60}
+              priority
+              className="h-10 w-auto"
+            />
           </Link>
 
           <nav className="hidden rounded-full border border-[#2f425e] bg-[linear-gradient(120deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02))] p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] lg:flex">
@@ -213,4 +203,3 @@ export default function Navbar() {
     </header>
   );
 }
-

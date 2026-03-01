@@ -1,4 +1,4 @@
-import AgencyAdvantageSection from "@/components/AgencyAdvantageSection";
+﻿import AgencyAdvantageSection from "@/components/AgencyAdvantageSection";
 import BusinessNeedsSection from "@/components/BusinessNeedsSection";
 import ClientStoriesFooterSection from "@/components/ClientStoriesFooterSection";
 import Hero from "@/components/Hero";
@@ -12,29 +12,32 @@ import SiteFooter from "@/components/SiteFooter";
 export default function Home() {
   return (
     <main className="bg-[#eceef2]">
-      <section className="agency-shell relative min-h-screen overflow-hidden">
+      <section className="relative min-h-screen overflow-hidden bg-[#050a16]">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_74%_32%,rgba(44,108,214,0.22),transparent_45%),radial-gradient(circle_at_26%_74%,rgba(14,50,96,0.22),transparent_48%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_900px_560px_at_65%_40%,rgba(40,80,166,0.2),transparent_65%)] blur-2xl" />
-          <div className="absolute inset-0 bg-[linear-gradient(130deg,transparent_12%,rgba(255,255,255,0.08)_13%,transparent_14%,transparent_56%,rgba(255,255,255,0.05)_57%,transparent_58%)] opacity-25" />
+          <div className="absolute inset-0 bg-[url('/figma-assets/section5/bg.png')] bg-cover bg-center" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.84)_0%,rgba(0,0,0,0.68)_46%,rgba(0,0,0,0.9)_100%)]" />
+          <div className="absolute inset-0 bg-[url('/figma-assets/section5/texture.png')] bg-cover bg-center opacity-35 mix-blend-screen" />
+          <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_76%_30%,rgba(212,175,55,0.22),transparent_60%)]" />
         </div>
 
         <Navbar />
 
-        <section className="relative z-10 mx-auto flex w-full max-w-[1220px] flex-col gap-12 px-4 pb-14 pt-[7.6rem] sm:px-8 sm:pt-[8.4rem] lg:flex-row lg:items-center lg:gap-10 lg:px-10 lg:pt-[10.4rem]">
-          <div className="w-full lg:w-[56%]">
-            <Hero />
-          </div>
+        <section className="relative z-10 mx-auto w-full px-4 pb-24 pt-[8.4rem] sm:px-8 sm:pt-[9rem] lg:px-10 lg:pt-[201px]">
+          <div className="mx-auto flex max-w-[1304px] flex-col gap-8 lg:[direction:ltr] lg:grid lg:grid-cols-[506px_734px] lg:items-start lg:justify-between lg:gap-16">
+            <div className="w-full lg:pt-[104px]">
+              <ServiceCards />
+            </div>
 
-          <div className="w-full lg:w-[44%]">
-            <ServiceCards />
+            <div className="w-full [direction:rtl]">
+              <Hero />
+            </div>
           </div>
         </section>
 
-        <div className="pointer-events-none absolute bottom-5 left-1/2 z-10 -translate-x-1/2 text-center text-xs text-white/35">
+        <div className="pointer-events-none absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-center text-xs text-white/40">
           <p className="mb-2">اكتشف المزيد</p>
-          <div className="mx-auto flex h-10 w-6 items-start justify-center rounded-full border border-white/25 p-1">
-            <span className="mt-1 h-2.5 w-1.5 animate-[pulse_1.8s_ease-in-out_infinite] rounded-full bg-[#d4a843]" />
+          <div className="mx-auto flex h-9 w-5 items-start justify-center rounded-full border border-white/30 p-[6px]">
+            <span className="mt-0.5 h-2.5 w-1 animate-[pulse_1.8s_ease-in-out_infinite] rounded-full bg-[#d4a843]" />
           </div>
         </div>
       </section>
@@ -49,4 +52,3 @@ export default function Home() {
     </main>
   );
 }
-

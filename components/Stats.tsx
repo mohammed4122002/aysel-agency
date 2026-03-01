@@ -8,10 +8,10 @@ interface StatItem {
 }
 
 const stats: StatItem[] = [
-  { value: "+500", label: "مشروع" },
-  { value: "+200", label: "عميل" },
-  { value: "15", label: "سنة خبرة" },
   { value: "98%", label: "رضا العملاء" },
+  { value: "15", label: "سنة خبرة" },
+  { value: "+200", label: "عميل" },
+  { value: "+500", label: "مشروع" },
 ];
 
 function AnimatedNumber({ target, suffix = "" }: { target: string; suffix?: string }) {
@@ -54,19 +54,18 @@ function AnimatedNumber({ target, suffix = "" }: { target: string; suffix?: stri
 
 export default function Stats() {
   return (
-    <div className="mt-9 flex items-center gap-8 lg:gap-10" aria-label="إحصائيات">
-      {stats.map((stat, idx) => {
+    <div className="mt-10 flex flex-wrap items-center gap-x-10 gap-y-5 lg:gap-x-10" aria-label="إحصائيات">
+      {stats.map((stat) => {
         const suffix = stat.value.endsWith("%") ? "%" : "";
         return (
-          <div key={idx} className="text-center">
-            <div className="text-[1.76rem] font-semibold leading-none text-white sm:text-[1.89rem]">
+          <div key={stat.label} className="text-center">
+            <div className="text-[30px] font-normal leading-[1.2] text-white">
               <AnimatedNumber target={stat.value} suffix={suffix} />
             </div>
-            <p className="mt-1.5 text-xs text-white/45 sm:text-sm">{stat.label}</p>
+            <p className="mt-1 text-[12px] text-white/50">{stat.label}</p>
           </div>
         );
       })}
     </div>
   );
 }
-

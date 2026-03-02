@@ -69,9 +69,9 @@ function CheckIcon() {
 function MarketIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-      <path d="M3 15V5.8a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1V15" stroke="currentColor" strokeWidth="1.7" />
+      <rect x="4.2" y="4.2" width="11.6" height="11.6" rx="1.6" stroke="currentColor" strokeWidth="1.6" />
       <path
-        d="M6.2 13.4 9 10.6l2.2 2.2 3.4-4"
+        d="m6.9 12 2.2-2.3 1.9 1.9 2.2-2.4"
         stroke="currentColor"
         strokeWidth="1.8"
         strokeLinecap="round"
@@ -84,14 +84,14 @@ function MarketIcon() {
 function MediaIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-      <path d="M5.2 8.1 13 4.9v9.9l-7.8-3.2V8.1Z" stroke="currentColor" strokeWidth="1.7" />
+      <path d="M5.3 8.2 12.7 5v10l-7.4-3.3V8.2Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
       <path
-        d="M13 7.6c1.5.3 2.6 1.5 2.6 3s-1.1 2.8-2.6 3.1"
+        d="M12.7 7.7c1.5.3 2.5 1.5 2.5 2.9s-1 2.6-2.5 2.9"
         stroke="currentColor"
         strokeWidth="1.7"
         strokeLinecap="round"
       />
-      <path d="M4.7 12.1v2c0 .7.5 1.2 1.2 1.2h1.4" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M4.8 11.9V14c0 .6.5 1.1 1.1 1.1h1.3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
     </svg>
   );
 }
@@ -100,13 +100,26 @@ function TechIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
       <path
-        d="m7.2 6-3 4 3 4M12.8 6l3 4-3 4"
+        d="m7.2 6.1-3 3.9 3 3.9M12.8 6.1l3 3.9-3 3.9"
         stroke="currentColor"
         strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path d="m11.4 4.6-2.8 10.8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="m11 4.7-2.2 10.6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function BellIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
+      <path
+        d="M8 2.8A2.5 2.5 0 0 0 5.5 5.3v.9c0 .7-.2 1.4-.6 2L4.2 9.3h7.6l-.7-1.1a3.4 3.4 0 0 1-.6-2v-.9A2.5 2.5 0 0 0 8 2.8Z"
+        stroke="currentColor"
+        strokeWidth="1.3"
+      />
+      <path d="M6.9 10.8a1.2 1.2 0 0 0 2.2 0" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
     </svg>
   );
 }
@@ -173,15 +186,7 @@ export default function PillarsSection() {
         <div className="mt-10 rounded-[20px] border border-[#b7bfcc] bg-[#f4f5f8] px-6 py-8 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] sm:px-8">
           <div className="mb-4 inline-flex items-center flex-row-reverse gap-3 text-[#334155]">
             <TinyIcon>
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
-                <path
-                  d="M5.6 6.4 8 4l2.4 2.4M8 11V4.2"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <BellIcon />
             </TinyIcon>
 
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
@@ -218,4 +223,3 @@ export default function PillarsSection() {
     </section>
   );
 }
-

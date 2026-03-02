@@ -40,9 +40,9 @@ const cards: NeedCard[] = [
 function IconMarket() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-      <path d="M4 14.6V5.4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v9.2" stroke="currentColor" strokeWidth="1.7" />
+      <path d="M4.5 4.5v11h11" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
       <path
-        d="m7.2 12.2 2.2-2.3 1.9 1.9 2.6-3"
+        d="m7.1 12 2.3-2.3 1.9 1.9 2.4-2.5"
         stroke="currentColor"
         strokeWidth="1.8"
         strokeLinecap="round"
@@ -55,14 +55,14 @@ function IconMarket() {
 function IconMedia() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-      <path d="M5.5 8.3 12.8 5v10L5.5 11.7V8.3Z" stroke="currentColor" strokeWidth="1.7" />
+      <path d="M5.5 8.3 12.8 5v10L5.5 11.7V8.3Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
       <path
-        d="M12.8 7.7c1.5.3 2.5 1.5 2.5 2.9 0 1.5-1 2.7-2.5 3"
+        d="M12.8 7.7c1.5.3 2.5 1.5 2.5 2.9s-1 2.6-2.5 2.9"
         stroke="currentColor"
         strokeWidth="1.7"
         strokeLinecap="round"
       />
-      <path d="M5 12v2.1c0 .6.5 1.1 1.1 1.1h1.3" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M5 11.8V14c0 .6.5 1.1 1.1 1.1h1.3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
     </svg>
   );
 }
@@ -159,4 +159,3 @@ export default function BusinessNeedsSection() {
     </section>
   );
 }
-

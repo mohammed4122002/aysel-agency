@@ -120,8 +120,8 @@ export default function BusinessNeedsSection() {
         <div className="mt-14 flex flex-col gap-5 lg:flex-row">
           {cards.map((card) => (
             <article key={card.key} className="needs-card flex-1 rounded-[18px] px-6 pb-6 pt-5 text-right">
-              <div className="mb-6 flex justify-end">
-                <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#d4b038] text-[#101828] shadow-[0_10px_24px_rgba(212,168,67,0.25)]">
+              <div className="mb-6 flex ">
+                <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#d4b038] text-[#101828] shadow-[0_10px_24px_rgba(212,168,67,0.25)]">
                   {iconByKey[card.key]}
                 </span>
               </div>

@@ -10,7 +10,7 @@ export default function Hero() {
   const heroContent = siteContent.pages?.home?.hero ?? {
     badge: "وكالة رقمية متكاملة",
     titleLine1: "نصنع لك",
-    titleHighlight:"حضورا رقمياً",
+    titleHighlight: "حضوراً رقمياً",
     titleLine3: "لا ينسى",
     description:
       "ثلاث شركات متخصصة تحت سقف واحد - استراتيجية، إبداع، وتقنية. نحوّل رؤيتك إلى واقع رقمي يتفوق على المنافسة.",
@@ -20,29 +20,28 @@ export default function Hero() {
 
   return (
     <header className="w-full max-w-[734px] text-right">
-      <div className="inline-flex items-center gap-2 rounded-full border border-[#d4af37]/50 bg-white/10 px-5 py-2 text-[14px] text-[#d4af37] backdrop-blur-sm">
-        <span className="h-2 w-2 rounded-full bg-[#d4af37]" />
+      <div className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-[#1b2332]/70 px-6 py-2 text-[14px] text-[#d4af37] shadow-[0_8px_22px_rgba(0,0,0,0.28)] backdrop-blur-md">
         <span>{heroContent.badge}</span>
+        <span className="h-2.5 w-2.5 rounded-full bg-[#d4af37]" />
       </div>
 
       <div className="mt-6">
         <div className="relative inline-block">
-         
-
-          <h2 className="relative leading-[0.88] text-white">
-            <span className="block text-[clamp(3rem,6.2vw,5.8rem)] font-extrabold">{heroContent.titleLine1}</span>
-            <span className="relative mt-2 inline-block text-[clamp(3.2rem,6.6vw,6.2rem)] font-extrabold text-[#d4af37]">
+       
+          <h2 className="relative leading-[0.9] text-white ">
+            <span className="block text-[clamp(3.25rem,6.5vw,6rem)] font-bold">{heroContent.titleLine1}</span>
+            <span className="relative mt-2 inline-block text-[clamp(3.6rem,7vw,6.6rem)] font-bold text-[#d4af37] [word-spacing:0.16em]">
               {heroContent.titleHighlight}
               <svg
                 aria-hidden
-                viewBox="0 0 100 10"
+                viewBox="0 0 100 14"
                 preserveAspectRatio="none"
-                className="absolute -bottom-3 right-0 h-[16px] w-[102%]"
+                className="pointer-events-none absolute -bottom-[0.24em] right-[-2%] h-[0.36em] w-[90%]"
               >
-                <path d="M0,7 C28,2 72,2 100,7" fill="none" stroke="#d4af37" strokeWidth="2.3" strokeLinecap="round" />
+                <path d="M2,12 C30,3 70,3 98,12" fill="none" stroke="#d4af37" strokeWidth="1.9" strokeLinecap="round" />
               </svg>
             </span>
-            <span className="mt-3 block text-[clamp(3rem,6.2vw,5.8rem)] font-extrabold">{heroContent.titleLine3}</span>
+            <span className="mt-3 block text-[clamp(3.25rem,6.5vw,6rem)] font-bold">{heroContent.titleLine3}</span>
           </h2>
         </div>
       </div>

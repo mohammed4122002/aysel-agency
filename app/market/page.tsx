@@ -230,7 +230,18 @@ export default function MarketPage() {
               <div className="inline-flex items-center gap-2 rounded-full border border-[#0fa878]/35 bg-[#06261f]/72 px-5 py-2 text-[0.9rem] font-semibold text-[#10b786]"><span>قسم ماركت</span><Dot /></div>
               <h1 className="mt-7 text-[clamp(2.45rem,5.2vw,5rem)] font-extrabold leading-[1.06] text-white">
                 <span className="block">نمو استراتيجي</span>
-                <span className="market-highlight block text-[#10b786]">يحقق النتائج</span>
+                <span className="market-highlight block text-[#10b786]"> 
+                  { "يحقق نتائج" }
+                
+                  <svg
+                aria-hidden
+                viewBox="0 0 100 14"
+                preserveAspectRatio="none"
+                className="pointer-events-none absolute -bottom-[0.24em] right-[-2%] h-[0.36em] w-[90%]"
+              >
+                <path d="M2,12 C30,3 70,3 98,12" fill="none" stroke="#10b786" strokeWidth="1.9" strokeLinecap="round" />
+              </svg>
+                </span>
               </h1>
               <p className="mt-5 max-w-[630px] text-[1.06rem] leading-relaxed text-white/66">توقف عن التخمين. ابدأ بالنمو. نجمع بين رؤى السوق العميقة والاستراتيجيات المثبتة لمساعدتك على السيطرة على سوقك.</p>
               <div className="mt-7 flex flex-wrap justify-start gap-2.5">

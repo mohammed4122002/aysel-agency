@@ -112,7 +112,7 @@ function TechIcon() {
 }
 
 const iconMap = {
-  market: <MarketIcon />,
+  market: <MarketIcon  />,
   media: <MediaIcon />,
   tech: <TechIcon />,
 };
@@ -146,8 +146,8 @@ export default function PillarsSection() {
 
         <div className="mt-16 grid gap-5 lg:grid-cols-3">
           {pillars.map((pillar) => (
-            <article key={pillar.key} className="pillar-card px-6 pb-6 pt-7 text-center">
-              <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0c1633] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
+            <article key={pillar.key} className="pillar-card px-6 pb-6 pt-7">
+              <div className=" mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#0c1633] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
                 {iconMap[pillar.key]}
               </div>
 
@@ -156,7 +156,7 @@ export default function PillarsSection() {
 
               <ul className="mt-4 space-y-2.5 text-[0.93rem] text-[#374151]">
                 {pillar.points.map((point) => (
-                  <li key={point} className="flex items-center justify-center gap-2">
+                  <li key={point} className="flex items-start justify-start gap-2">
                     <CheckIcon />
                     <span>{point}</span>
                   </li>
@@ -171,7 +171,7 @@ export default function PillarsSection() {
         </div>
 
         <div className="mt-10 rounded-[20px] border border-[#b7bfcc] bg-[#f4f5f8] px-6 py-8 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] sm:px-8">
-          <div className="mb-4 inline-flex items-center gap-3 text-[#334155]">
+          <div className="mb-4 inline-flex items-center flex-row-reverse gap-3 text-[#334155]">
             <TinyIcon>
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
                 <path

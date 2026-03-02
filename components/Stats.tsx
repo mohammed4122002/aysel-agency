@@ -8,10 +8,12 @@ interface StatItem {
 }
 
 const stats: StatItem[] = [
+   { value: "+500", label: "مشروع" },
+     { value: "+200", label: "عميل" },
+      { value: "15", label: "سنة خبرة" },
   { value: "98%", label: "رضا العملاء" },
-  { value: "15", label: "سنة خبرة" },
-  { value: "+200", label: "عميل" },
-  { value: "+500", label: "مشروع" },
+ 
+
 ];
 
 function AnimatedNumber({ target, suffix = "" }: { target: string; suffix?: string }) {
@@ -54,7 +56,7 @@ function AnimatedNumber({ target, suffix = "" }: { target: string; suffix?: stri
 
 export default function Stats() {
   return (
-    <div className="mt-10 flex flex-wrap items-center gap-x-10 gap-y-5 lg:gap-x-10" aria-label="إحصائيات">
+    <div className="mt-10 flex  flex-wrap items-center gap-x-10 gap-y-5 lg:gap-x-10" aria-label="إحصائيات">
       {stats.map((stat) => {
         const suffix = stat.value.endsWith("%") ? "%" : "";
         return (

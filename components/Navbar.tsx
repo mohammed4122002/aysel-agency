@@ -120,7 +120,7 @@ export default function Navbar() {
   const topLinks = siteContent.navigation?.topLinks ?? defaultTopLinks;
 
   return (
-    <header className="absolute inset-x-0 top-0 z-50 pt-6">
+    <header className="absolute inset-x-0 top-0 z-[120] pt-6 pointer-events-auto">
       <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
         <div className="flex items-center justify-between">
           <Link
@@ -247,3 +247,4 @@ export default function Navbar() {
     </header>
   );
 }
+

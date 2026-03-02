@@ -267,10 +267,61 @@ body {
 }
 
 .business-needs-section {
+  position: relative;
+  overflow: hidden;
   background:
-    radial-gradient(760px 420px at 50% 96%, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0) 72%),
-    radial-gradient(1100px 620px at 50% 64%, rgba(20, 66, 136, 0.22), rgba(20, 66, 136, 0) 72%),
-    linear-gradient(110deg, #050a16 0%, #0a1731 30%, #182235 50%, #0b1730 70%, #050a16 100%);
+    radial-gradient(circle at 45% 46%, rgba(212, 175, 55, 0.11) 0%, rgba(212, 175, 55, 0.03) 40%, rgba(212, 175, 55, 0) 70%),
+    linear-gradient(112deg, #040913 0%, #061127 34%, #081733 50%, #061127 68%, #030812 100%);
+}
+
+.business-needs-section::before,
+.business-needs-section::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.business-needs-section::before {
+  width: 600px;
+  height: 600px;
+  top: -200px;
+  left: -150px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.22) 0%, rgba(212, 175, 55, 0.06) 40%, transparent 70%);
+  animation: needs-orb-drift-1 10s ease-in-out infinite alternate;
+}
+
+.business-needs-section::after {
+  width: 500px;
+  height: 500px;
+  right: -120px;
+  bottom: -150px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.05) 40%, transparent 70%);
+  animation: needs-orb-drift-2 12s ease-in-out infinite alternate;
+}
+
+.business-needs-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes needs-orb-drift-1 {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(40px, 50px);
+  }
+}
+
+@keyframes needs-orb-drift-2 {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(-40px, -50px);
+  }
 }
 
 .needs-card {

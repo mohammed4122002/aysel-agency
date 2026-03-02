@@ -41,7 +41,8 @@ const brandThemes: Record<BrandKey, BrandTheme> = {
       "rounded-full border border-[#d4a843] bg-gradient-to-l from-[#c79d32] to-[#dbbc55] px-7 py-2.5 text-base font-semibold text-[#1b160a] shadow-[0_10px_24px_rgba(212,168,67,0.2)]",
     mobileActiveNavClass:
       "bg-gradient-to-l from-[#c89f34] to-[#d9b64d] text-[#1a1305]",
-    mobileCtaClass: "rounded-full border border-[#d4a843] px-4 py-1.5 text-[#e5c873]",
+    mobileCtaClass:
+      "rounded-full border border-[#d4a843] px-4 py-1.5 text-[#e5c873]",
   },
   market: {
     subtitle: "MARKETING",
@@ -51,7 +52,8 @@ const brandThemes: Record<BrandKey, BrandTheme> = {
       "rounded-full border border-[#14ad80] bg-gradient-to-l from-[#16b786] to-[#10a776] px-7 py-2.5 text-base font-semibold text-white shadow-[0_10px_24px_rgba(16,167,118,0.28)]",
     mobileActiveNavClass:
       "bg-gradient-to-l from-[#15b386] to-[#0ea374] text-white",
-    mobileCtaClass: "rounded-full border border-[#14ad80] px-4 py-1.5 text-[#12b787]",
+    mobileCtaClass:
+      "rounded-full border border-[#14ad80] px-4 py-1.5 text-[#12b787]",
   },
   media: {
     subtitle: "MEDIA",
@@ -61,7 +63,8 @@ const brandThemes: Record<BrandKey, BrandTheme> = {
       "rounded-full border border-[#8647f3] bg-gradient-to-l from-[#8f4dff] to-[#6f35e6] px-7 py-2.5 text-base font-semibold text-white shadow-[0_10px_24px_rgba(126,69,245,0.3)]",
     mobileActiveNavClass:
       "bg-gradient-to-l from-[#8f4dff] to-[#6f35e6] text-white",
-    mobileCtaClass: "rounded-full border border-[#8647f3] px-4 py-1.5 text-[#bca2ff]",
+    mobileCtaClass:
+      "rounded-full border border-[#8647f3] px-4 py-1.5 text-[#bca2ff]",
   },
   tech: {
     subtitle: "TECH",
@@ -71,7 +74,8 @@ const brandThemes: Record<BrandKey, BrandTheme> = {
       "rounded-full border border-[#2f7cff] bg-gradient-to-l from-[#2f7cff] to-[#1f67de] px-7 py-2.5 text-base font-semibold text-white shadow-[0_10px_24px_rgba(47,124,255,0.3)]",
     mobileActiveNavClass:
       "bg-gradient-to-l from-[#2f7cff] to-[#1f67de] text-white",
-    mobileCtaClass: "rounded-full border border-[#2f7cff] px-4 py-1.5 text-[#8dc6ff]",
+    mobileCtaClass:
+      "rounded-full border border-[#2f7cff] px-4 py-1.5 text-[#8dc6ff]",
   },
 };
 
@@ -87,29 +91,51 @@ function isActiveRoute(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+/** ✅ Logos map (public/logos/...) */
+const brandLogos: Record<
+  BrandKey,
+  { src: string; alt: string; width: number; height: number }
+> = {
+  agency: { src: "/logos/logo1.png", alt: "Aysel Agency Logo", width: 176, height: 60 },
+  market: { src: "/logos/market.png", alt: "Aysel Market Logo", width: 176, height: 60 },
+  media: { src: "/logos/media.png", alt: "Aysel Media Logo", width: 176, height: 60 },
+  tech: { src: "/logos/tech.png", alt: "Aysel Tech Logo", width: 176, height: 60 },
+};
+
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
   const siteContent = useSiteContent();
+
   const brandKey = getBrandKey(pathname);
   const theme = brandThemes[brandKey];
-  const dynamicMainNav = Array.isArray(siteContent.navigation?.main) && siteContent.navigation.main.length > 0
-    ? siteContent.navigation.main
-    : defaultMainNav;
+  const logo = brandLogos[brandKey]; // ✅ dynamic logo
+
+  const dynamicMainNav =
+    Array.isArray(siteContent.navigation?.main) &&
+    siteContent.navigation.main.length > 0
+      ? siteContent.navigation.main
+      : defaultMainNav;
+
   const topLinks = siteContent.navigation?.topLinks ?? defaultTopLinks;
 
   return (
     <header className="absolute inset-x-0 top-0 z-50 pt-6">
       <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center text-white" aria-label="Aysel Agency">
+          <Link
+            href="/"
+            className="flex items-center text-white"
+            aria-label="Aysel Agency"
+          >
             <Image
-              src="/logos/logo1.png"
-              alt="Aysel Agency Logo"
-              width={176}
-              height={60}
+              key={logo.src} // ✅ force re-render when route changes
+              src={logo.src}
+              alt={logo.alt}
+              width={logo.width}
+              height={logo.height}
               priority
-              className="h-10 w-auto"
+              className="h-10 w-auto transition-opacity duration-200 lg:h-11"
             />
           </Link>
 
@@ -129,10 +155,16 @@ export default function Navbar() {
           </nav>
 
           <div className="hidden items-center gap-6 lg:flex">
-            <Link href={topLinks.aboutHref} className="text-base text-white/82 hover:text-white">
+            <Link
+              href={topLinks.aboutHref}
+              className="text-base text-white/82 hover:text-white"
+            >
               {topLinks.aboutLabel}
             </Link>
-            <Link href={topLinks.worksHref} className="text-base text-white/82 hover:text-white">
+            <Link
+              href={topLinks.worksHref}
+              className="text-base text-white/82 hover:text-white"
+            >
               {topLinks.worksLabel}
             </Link>
             <Link href={topLinks.consultationHref} className={theme.ctaClass}>
@@ -150,11 +182,21 @@ export default function Navbar() {
             <span className="sr-only">القائمة</span>
             {mobileOpen ? (
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <path d="M4 4 14 14M14 4 4 14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                <path
+                  d="M4 4 14 14M14 4 4 14"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
               </svg>
             ) : (
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <path d="M3.5 5.2h11M3.5 9h11M3.5 12.8h11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                <path
+                  d="M3.5 5.2h11M3.5 9h11M3.5 12.8h11"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
               </svg>
             )}
           </button>
@@ -166,7 +208,9 @@ export default function Navbar() {
               {dynamicMainNav.map((item) => {
                 const isActive = isActiveRoute(pathname, item.href);
                 const mobileClass = `rounded-xl px-4 py-2.5 text-center text-sm ${
-                  isActive ? theme.mobileActiveNavClass : "bg-white/[0.03] text-white/80"
+                  isActive
+                    ? theme.mobileActiveNavClass
+                    : "bg-white/[0.03] text-white/80"
                 }`;
 
                 return (

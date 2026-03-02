@@ -1,11 +1,32 @@
 ﻿"use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useSiteContent } from "@/lib/site-content-client";
 
 interface SiteFooterProps {
   brandSubtitle?: string;
 }
+
+type BrandKey = "agency" | "market" | "media" | "tech";
+
+function getBrandKey(pathname: string): BrandKey {
+  if (pathname.startsWith("/market")) return "market";
+  if (pathname.startsWith("/media")) return "media";
+  if (pathname.startsWith("/tech")) return "tech";
+  return "agency";
+}
+
+const brandLogos: Record<
+  BrandKey,
+  { src: string; alt: string; width: number; height: number; subtitle: string }
+> = {
+  agency: { src: "/logos/logo1.png", alt: "Aysel Agency Logo", width: 176, height: 60, subtitle: "AGENCY" },
+  market: { src: "/logos/market.png", alt: "Aysel Market Logo", width: 176, height: 60, subtitle: "MARKETING" },
+  media: { src: "/logos/media.png", alt: "Aysel Media Logo", width: 176, height: 60, subtitle: "MEDIA" },
+  tech: { src: "/logos/tech.png", alt: "Aysel Tech Logo", width: 176, height: 60, subtitle: "TECH" },
+};
 
 const defaultQuickLinks = [
   { label: "من نحن", href: "/about" },
@@ -82,7 +103,11 @@ function LinkedinIcon() {
   );
 }
 
-export default function SiteFooter({ brandSubtitle = "AGENCY" }: SiteFooterProps) {
+export default function SiteFooter({ brandSubtitle }: SiteFooterProps) {
+  const pathname = usePathname();
+  const brandKey = getBrandKey(pathname);
+  const logo = brandLogos[brandKey];
+  const resolvedSubtitle = brandSubtitle ?? logo.subtitle;
   const siteContent = useSiteContent();
   const quickLinks = Array.isArray(siteContent.footer?.quickLinks) && siteContent.footer.quickLinks.length > 0
     ? siteContent.footer.quickLinks
@@ -108,25 +133,14 @@ export default function SiteFooter({ brandSubtitle = "AGENCY" }: SiteFooterProps
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div className="text-right">
             <div className="mb-6 flex items-center justify-end gap-2.5 text-white">
-              <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden>
-                <path
-                  d="M7.2 29.5 20.1 5.2h8.2L15.5 29.5H7.2Zm10.8 0L31 5.2h4.3L22.5 29.5H18Z"
-                  fill="url(#siteFooterLogoGrad)"
-                />
-                <defs>
-                  <linearGradient id="siteFooterLogoGrad" x1="7.2" y1="5.2" x2="35.3" y2="29.5" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#fbfdff" />
-                    <stop offset="1" stopColor="#d4ddeb" />
-                  </linearGradient>
-                </defs>
-              </svg>
-
-              <span className="leading-none">
-                <span className="block text-[1.72rem] font-bold tracking-[0.02em]">AYSEL</span>
-                <span className="mt-[-1px] block text-[0.7rem] font-semibold tracking-[0.34em] text-white/78">
-                  {brandSubtitle}
-                </span>
-              </span>
+              <Image
+                key={logo.src}
+                src={logo.src}
+                alt={`Aysel ${resolvedSubtitle} Logo`}
+                width={logo.width}
+                height={logo.height}
+                className="h-11 w-auto"
+              />
             </div>
 
             <p className="max-w-[300px] text-[0.97rem] leading-[1.8] text-[#b7c3d7]">{footerDescription}</p>

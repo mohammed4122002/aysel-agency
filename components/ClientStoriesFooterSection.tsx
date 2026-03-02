@@ -150,7 +150,7 @@ export default function ClientStoriesFooterSection() {
             <span>{stories?.badge ?? "آراء العملاء"}</span>
           </div>
 
-          <h2 className="mt-5 text-[clamp(2.05rem,4.2vw,3.43rem)] font-extrabold leading-[1.08] text-[#121a2b]">
+          <h2 className="mt-5 text-[clamp(2.05rem,4.2vw,3.43rem)]  leading-[1.08] text-[#121a2b]">
             {stories?.title ?? "حقيقة قصص نجاح"}
           </h2>
 

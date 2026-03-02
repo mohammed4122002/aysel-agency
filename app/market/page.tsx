@@ -237,7 +237,7 @@ export default function MarketPage() {
                 aria-hidden
                 viewBox="0 0 100 14"
                 preserveAspectRatio="none"
-                className="pointer-events-none absolute -bottom-[0.24em] right-[-2%] h-[0.36em] w-[90%]"
+                className="pointer-events-none absolute -bottom-[0.24em] right-[-2%] h-[0.36em] w-[70%]"
               >
                 <path d="M2,12 C30,3 70,3 98,12" fill="none" stroke="#10b786" strokeWidth="1.9" strokeLinecap="round" />
               </svg>

@@ -197,7 +197,7 @@ export default function PortfolioShowcaseSection() {
             <span>{portfolioContent?.badge ?? "معرض الأعمال"}</span>
           </div>
 
-          <h2 className="mt-5 text-[clamp(2.13rem,4.5vw,3.59rem)] font-extrabold leading-[1.06] text-[#121a2b]">
+          <h2 className="mt-5 text-[clamp(2.13rem,4.5vw,3.59rem)]  leading-[1.06] text-[#121a2b]">
             {portfolioContent?.title ?? "أعمال نفتخر بإنجازها"}
           </h2>
 
@@ -247,7 +247,7 @@ export default function PortfolioShowcaseSection() {
                   <span>{project.client}</span>
                 </p>
 
-                <h3 className="mt-2 text-[1.72rem] font-extrabold leading-tight text-[#121a2b]">
+                <h3 className="mt-2 text-[1.72rem]  leading-tight text-[#121a2b]">
                   {project.title}
                 </h3>
 

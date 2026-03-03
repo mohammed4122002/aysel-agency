@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 
@@ -90,9 +90,9 @@ const iconByKey = {
 
 function ChevronItem({ text }: { text: string }) {
   return (
-    <li className="flex items-center justify-start gap-2 text-[0.91rem] text-white/72">
-      <span className="text-[#d4a843]">&#8249;</span>
-      <span>{text}</span>
+    <li className="flex items-center justify-between gap-3 text-[14px] text-white/75">
+      <span className="text-white/85">{text}</span>
+      <span className="text-[#d4a843] text-[13px]">&#8249;</span>
     </li>
   );
 }
@@ -100,34 +100,34 @@ function ChevronItem({ text }: { text: string }) {
 export default function BusinessNeedsSection() {
   return (
     <section className="business-needs-section relative py-20 sm:py-24">
-      <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
-        <div className="mx-auto max-w-[760px] text-center">
-          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-[#d4a843]/30 bg-[#d4a843]/10 px-4 py-1.5 text-xs font-semibold text-[#d4a843]">
-            <span className="text-[0.7rem]">&#9679;</span>
+      <div className="mx-auto w-full max-w-[1120px] px-4 sm:px-8 lg:px-10">
+        <div className="mx-auto max-w-[680px] text-center">
+          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-[#d4a843]/30 bg-[#d4a843]/10 px-4 py-1.5 text-[11px] font-semibold text-[#d4a843]">
+            <span className="text-[8px]">&#9679;</span>
             <span>اختر مسارك</span>
           </div>
 
-          <h2 className="mt-6 text-[clamp(1.8rem,4vw,3.12rem)] font-extrabold leading-[1.08] text-white">
+          <h2 className="mt-6 text-[28px] font-extrabold leading-[1.2] text-white sm:text-[32px] lg:text-[36px]">
             ماذا يحتاج عملك؟
           </h2>
 
-          <p className="mx-auto mt-4 max-w-[760px] text-[1rem] leading-relaxed text-white/65">
+          <p className="mx-auto mt-4 max-w-[640px] text-[14px] leading-relaxed text-white/70">
             اختر المجال الذي يناسب أهدافك الحالية. كل قسم مصمم لحل تحديات محددة
             وتحقيق نتائج قابلة للقياس.
           </p>
         </div>
 
-        <div className="mt-14 flex flex-col gap-5 lg:flex-row">
+        <div className="mt-14 grid gap-5 sm:gap-6 lg:grid-cols-3">
           {cards.map((card) => (
-            <article key={card.key} className="needs-card flex-1 rounded-[18px] px-6 pb-6 pt-5 text-right">
-              <div className="mb-6 flex ">
-                <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#d4b038] text-[#101828] shadow-[0_10px_24px_rgba(212,168,67,0.25)]">
+            <article key={card.key} className="needs-card flex-1 rounded-[18px] px-7 pb-7 pt-6 text-right">
+              <div className="mb-6 flex justify-end">
+                <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#d4b038] text-[#101828] shadow-[0_10px_24px_rgba(212,168,67,0.25)]">
                   {iconByKey[card.key]}
                 </span>
               </div>
 
-              <h3 className="text-[1.72rem] font-extrabold leading-none text-white">{card.title}</h3>
-              <p className="mt-4 text-[0.93rem] leading-relaxed text-white/63">{card.description}</p>
+              <h3 className="text-[22px] font-extrabold leading-none text-white">{card.title}</h3>
+              <p className="mt-4 text-[14px] leading-relaxed text-white/70">{card.description}</p>
 
               <ul className="mt-5 space-y-2.5">
                 {card.bullets.map((item) => (
@@ -137,7 +137,7 @@ export default function BusinessNeedsSection() {
 
               <button
                 type="button"
-                className="mt-6 inline-flex items-center gap-2 text-base font-semibold text-[#d4a843] hover:text-[#e4c369]"
+                className="mt-7 inline-flex items-center gap-2 text-[14px] font-semibold text-[#d4a843] hover:text-[#e4c369]"
               >
                 <span>{card.cta}</span>
                 <span>&#8592;</span>
@@ -147,10 +147,10 @@ export default function BusinessNeedsSection() {
         </div>
 
         <div className="mt-12 text-center">
-          <p className="text-sm text-white/58">لست متأكداً أي قسم تحتاج؟</p>
+          <p className="text-[14px] text-white/60">لست متأكداً أي قسم تحتاج؟</p>
           <button
             type="button"
-            className="mt-4 rounded-xl bg-white px-8 py-3 text-[0.93rem] font-bold text-[#111827] shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
+            className="mt-4 rounded-full bg-white px-8 py-3 text-[14px] font-bold text-[#111827] shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
           >
             احصل على استشارة مجانية
           </button>

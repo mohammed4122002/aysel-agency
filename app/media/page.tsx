@@ -159,19 +159,19 @@ export default function MediaPage() {
   const progressWidth = `${((activeProject + 1) / projectCards.length) * 100}%`;
 
   return (
-    <main className="bg-[#04050a]">
+    <main className="bg-[var(--brand-bg)]">
       <section className="media-shell relative min-h-screen overflow-hidden">
         <Navbar />
 
         <section className="relative z-10 mx-auto flex w-full max-w-[1220px] flex-col gap-12 px-4 pb-14 pt-[7.8rem] sm:px-8 sm:pt-[8.8rem] lg:flex-row lg:items-center lg:gap-10 lg:px-10 lg:pt-[10.2rem]">
           <div className="order-2 w-full lg:order-2 lg:w-[52%]">
             <div className="relative mx-auto h-[560px] max-w-[640px] sm:h-[620px] [direction:ltr]">
-              <span className="absolute left-[6%] top-[30%] h-20 w-20 rounded-full border border-[#7137de]/45 sm:h-24 sm:w-24" />
-              <span className="absolute left-0 top-[58%] h-24 w-24 rounded-full border border-[#4a2ca7]/35 sm:h-28 sm:w-28" />
+              <span className="absolute left-[6%] top-[30%] h-20 w-20 rounded-full border border-[rgba(212,168,67,0.45)] sm:h-24 sm:w-24" />
+              <span className="absolute left-0 top-[58%] h-24 w-24 rounded-full border border-[rgba(184,140,53,0.35)] sm:h-28 sm:w-28" />
 
               <div className="absolute left-[10%] top-[14%] inline-flex items-center gap-2 rounded-2xl border border-white/16 bg-[#1a1c23]/82 px-4 py-2.5 text-white shadow-[0_12px_24px_rgba(0,0,0,0.36)]">
                 <span className="text-sm font-semibold">+50 جائزة</span>
-                <span className="h-2 w-2 rounded-full bg-[#8f4dff]" />
+                <span className="h-2 w-2 rounded-full bg-[var(--brand-primary)]" />
               </div>
 
               <article className="media-card absolute right-[3%] top-[10%] h-[58%] w-[64%]">
@@ -181,7 +181,7 @@ export default function MediaPage() {
                   <PlayIcon />
                 </span>
                 <div className="absolute bottom-4 right-4 text-right">
-                  <span className="inline-flex rounded-full bg-[#8f4dff]/88 px-3 py-1 text-xs font-semibold text-white">فيديو</span>
+                  <span className="inline-flex rounded-full bg-[rgba(212,168,67,0.88)] px-3 py-1 text-xs font-semibold text-white">فيديو</span>
                   <p className="mt-2 text-[1.59rem] font-extrabold leading-none text-white">إنتاج سينمائي</p>
                 </div>
               </article>
@@ -190,7 +190,7 @@ export default function MediaPage() {
                 <Image src="/media-assets/hero-social.png" alt="محتوى رقمي" fill className="object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                 <div className="absolute bottom-4 right-4 text-right">
-                  <span className="inline-flex rounded-full bg-[#8f4dff]/88 px-3 py-1 text-xs font-semibold text-white">سوشيال</span>
+                  <span className="inline-flex rounded-full bg-[rgba(212,168,67,0.88)] px-3 py-1 text-xs font-semibold text-white">سوشيال</span>
                   <p className="mt-2 text-[1.38rem] font-extrabold leading-none text-white">محتوى رقمي</p>
                 </div>
               </article>
@@ -199,7 +199,7 @@ export default function MediaPage() {
                 <Image src="/media-assets/hero-brand.png" alt="هوية بصرية" fill className="object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/12 to-transparent" />
                 <div className="absolute bottom-4 right-4 text-right">
-                  <span className="inline-flex rounded-full bg-[#8f4dff]/88 px-3 py-1 text-xs font-semibold text-white">تصميم</span>
+                  <span className="inline-flex rounded-full bg-[rgba(212,168,67,0.88)] px-3 py-1 text-xs font-semibold text-white">تصميم</span>
                   <p className="mt-2 text-[1.4rem] font-extrabold leading-none text-white">هوية بصرية</p>
                 </div>
               </article>
@@ -208,7 +208,7 @@ export default function MediaPage() {
 
           <div className="order-1 w-full text-right lg:order-1 lg:w-[48%]">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/16 bg-[#181a21]/70 px-5 py-2 text-sm font-semibold text-white/76">
-              <span className="h-2 w-2 rounded-full bg-[#8f4dff]" />
+              <span className="h-2 w-2 rounded-full bg-[var(--brand-primary)]" />
               <span>إنتاج آيسل ميديا</span>
             </div>
 
@@ -224,14 +224,14 @@ export default function MediaPage() {
             <div className="mt-8 flex flex-wrap justify-start gap-3">
               {chips.map((chip) => (
                 <span key={chip} className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/[0.035] px-4 py-2 text-[0.87rem] font-semibold text-white/82">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#8f4dff]" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-[var(--brand-primary)]" />
                   <span>{chip}</span>
                 </span>
               ))}
             </div>
 
             <div className="mt-10 flex flex-wrap items-center gap-4">
-              <button type="button" className="inline-flex items-center gap-2 rounded-2xl border border-[#8546f1] bg-gradient-to-l from-[#8f4dff] to-[#6f35e6] px-8 py-3 text-[0.95rem] font-bold text-white shadow-[0_14px_30px_rgba(126,69,245,0.32)]">
+              <button type="button" className="inline-flex items-center gap-2 rounded-2xl border border-[var(--brand-primary-strong)] bg-gradient-to-l from-[var(--brand-primary)] to-[var(--brand-primary-strong)] px-8 py-3 text-[0.95rem] font-bold text-white shadow-[0_14px_30px_rgba(212,168,67,0.32)]">
                 <ArrowIcon />
                 <span>ابدأ مشروعك</span>
               </button>
@@ -255,7 +255,7 @@ export default function MediaPage() {
         <div className="pointer-events-none absolute bottom-5 left-1/2 z-10 -translate-x-1/2 text-center text-xs text-white/35">
           <p className="mb-2">اكتشف المزيد</p>
           <div className="mx-auto flex h-10 w-6 items-start justify-center rounded-full border border-white/25 p-1">
-            <span className="mt-1 h-2.5 w-1.5 animate-[pulse_1.8s_ease-in-out_infinite] rounded-full bg-[#8f4dff]" />
+            <span className="mt-1 h-2.5 w-1.5 animate-[pulse_1.8s_ease-in-out_infinite] rounded-full bg-[var(--brand-primary)]" />
           </div>
         </div>
       </section>
@@ -279,7 +279,7 @@ export default function MediaPage() {
           </div>
 
           <article className="mx-auto mt-9 max-w-[1100px] rounded-[26px] bg-[#e4e6eb] px-8 py-14 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.75)] sm:px-10 sm:py-16">
-            <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-[26px] bg-gradient-to-b from-[#8f4dff] to-[#6f35e6] text-white shadow-[0_16px_26px_rgba(126,69,245,0.28)]">
+            <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-[26px] bg-gradient-to-b from-[var(--brand-primary)] to-[var(--brand-primary-strong)] text-white shadow-[0_16px_26px_rgba(212,168,67,0.28)]">
               <span className="text-3xl">◎</span>
             </div>
             <h3 className="mt-8 text-[2.38rem] font-extrabold leading-none text-[#121a2b]">{goalData.title}</h3>
@@ -297,7 +297,7 @@ export default function MediaPage() {
       <section className="media-services-section py-20 sm:py-24">
         <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
           <div className="grid gap-8 [direction:ltr] lg:grid-cols-2 lg:items-start">
-            <div className="text-right lg:col-start-2"><span className="inline-flex rounded-full bg-[#dfd9ef] px-4 py-1.5 text-sm font-semibold text-[#8f4dff]">خدماتنا</span><h2 className="mt-4 text-[clamp(1.8rem,4.6vw,3.28rem)] font-extrabold leading-[1.08] text-[#121a2b]">ماذا نقدم؟</h2></div>
+            <div className="text-right lg:col-start-2"><span className="inline-flex rounded-full bg-[#f2ead8] px-4 py-1.5 text-sm font-semibold text-[var(--brand-primary-strong)]">خدماتنا</span><h2 className="mt-4 text-[clamp(1.8rem,4.6vw,3.28rem)] font-extrabold leading-[1.08] text-[#121a2b]">ماذا نقدم؟</h2></div>
             <p className="max-w-[560px] text-right text-[1.01rem] leading-relaxed text-[#717b8a] lg:col-start-1 lg:pt-6">مجموعة متكاملة من الخدمات الإبداعية لتحقيق جميع أهدافك التسويقية</p>
           </div>
           <div className="mt-10 grid gap-5 [direction:ltr] lg:grid-cols-12">
@@ -316,13 +316,13 @@ export default function MediaPage() {
             <article className="media-service-tile relative min-h-[520px] overflow-hidden [direction:rtl] lg:col-span-5 lg:row-span-2">
               <Image src="/media-assets/service-video.png" alt="إنتاج الفيديو" fill className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/20" />
-              <div className="relative z-10 flex h-full flex-col justify-between"><div className="flex items-start justify-between"><span className="text-white">◼</span><p className="text-[1.04rem] font-semibold text-[#b07cff]">قصص سينمائية</p></div><div className="text-right"><h3 className="text-[2.21rem] font-extrabold leading-none text-white">إنتاج الفيديو</h3><p className="mt-3 text-[0.97rem] leading-relaxed text-white/90">نصنع فيديوهات احترافية تحكي قصتك بطريقة تأسر المشاهد</p><div className="mt-6 inline-flex items-center gap-2.5 rounded-2xl bg-black/45 px-4 py-2 text-white"><span className="text-[1.38rem] font-extrabold">+500</span><span className="text-[0.95rem] text-white/75">فيديو</span></div></div></div>
+              <div className="relative z-10 flex h-full flex-col justify-between"><div className="flex items-start justify-between"><span className="text-white">◼</span><p className="text-[1.04rem] font-semibold text-[var(--brand-primary-soft)]">قصص سينمائية</p></div><div className="text-right"><h3 className="text-[2.21rem] font-extrabold leading-none text-white">إنتاج الفيديو</h3><p className="mt-3 text-[0.97rem] leading-relaxed text-white/90">نصنع فيديوهات احترافية تحكي قصتك بطريقة تأسر المشاهد</p><div className="mt-6 inline-flex items-center gap-2.5 rounded-2xl bg-black/45 px-4 py-2 text-white"><span className="text-[1.38rem] font-extrabold">+500</span><span className="text-[0.95rem] text-white/75">فيديو</span></div></div></div>
             </article>
 
             <article className="media-service-tile relative min-h-[255px] overflow-hidden [direction:rtl] lg:col-span-7">
               <Image src="/media-assets/service-dashboard.png" alt="الحملات الإعلانية" fill className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-black/10" />
-              <div className="relative z-10 flex h-full flex-col justify-between"><div className="flex items-start justify-between"><span className="text-white">◍</span><p className="text-[0.97rem] font-semibold text-[#b07cff]">نتائج مضمونة</p></div><div className="text-right"><h3 className="text-[1.94rem] font-extrabold leading-none text-white">الحملات الإعلانية</h3><p className="mt-3 text-[0.95rem] leading-relaxed text-white/84">حملات مستهدفة تحقق أعلى عائد على الاستثمار</p><div className="mt-5 inline-flex items-center gap-2.5 rounded-2xl bg-black/45 px-4 py-2 text-white"><span className="text-[1.35rem] font-extrabold">+320%</span><span className="text-[0.95rem] text-white/72">عائد</span></div></div></div>
+              <div className="relative z-10 flex h-full flex-col justify-between"><div className="flex items-start justify-between"><span className="text-white">◍</span><p className="text-[0.97rem] font-semibold text-[var(--brand-primary-soft)]">نتائج مضمونة</p></div><div className="text-right"><h3 className="text-[1.94rem] font-extrabold leading-none text-white">الحملات الإعلانية</h3><p className="mt-3 text-[0.95rem] leading-relaxed text-white/84">حملات مستهدفة تحقق أعلى عائد على الاستثمار</p><div className="mt-5 inline-flex items-center gap-2.5 rounded-2xl bg-black/45 px-4 py-2 text-white"><span className="text-[1.35rem] font-extrabold">+320%</span><span className="text-[0.95rem] text-white/72">عائد</span></div></div></div>
             </article>
           </div>
 
@@ -343,7 +343,7 @@ export default function MediaPage() {
               <button type="button" className="media-projects-prev flex h-12 w-12 items-center justify-center rounded-full bg-[#0b1530] text-white" aria-label="السابق"><ArrowLeftIcon /></button>
               <button type="button" className="media-projects-next flex h-12 w-12 items-center justify-center rounded-full bg-[#e4e7ed] text-[#111827]" aria-label="التالي"><ArrowRightIcon /></button>
             </div>
-            <div className="text-right"><span className="inline-flex rounded-full bg-[#dfd9ef] px-4 py-1.5 text-sm font-semibold text-[#8f4dff]">أعمالنا</span><h2 className="mt-4 text-[clamp(1.8rem,4.4vw,3.28rem)] font-extrabold leading-[1.08] text-[#121a2b]">مشاريع مميزة</h2></div>
+            <div className="text-right"><span className="inline-flex rounded-full bg-[#f2ead8] px-4 py-1.5 text-sm font-semibold text-[var(--brand-primary-strong)]">أعمالنا</span><h2 className="mt-4 text-[clamp(1.8rem,4.4vw,3.28rem)] font-extrabold leading-[1.08] text-[#121a2b]">مشاريع مميزة</h2></div>
           </div>
 
           <Swiper
@@ -375,7 +375,7 @@ export default function MediaPage() {
                   <div className="relative z-10 flex h-full flex-col justify-between">
                     <div className="flex items-start justify-between"><span className={`text-sm ${project.tone === "light" ? "text-black/55" : "text-white/72"}`}>{project.year}</span><span className={`rounded-full px-4 py-1.5 text-xs font-semibold ${project.tone === "light" ? "bg-black/14 text-black/72" : "bg-white/16 text-white/92"}`}>{project.tag}</span></div>
                     <div className="flex items-end justify-between gap-3">
-                      {project.highlighted ? (<span className="inline-flex flex-col items-center rounded-2xl bg-[#8f4dff] px-4 py-2.5 text-white"><span className="text-[1.63rem] font-extrabold leading-none">{project.statValue}</span><span className="text-xs text-white/86">{project.statLabel}</span></span>) : (<div className="text-right"><p className={`text-[1.72rem] font-extrabold leading-none ${project.tone === "light" ? "text-[#111827]" : "text-white"}`}>{project.statValue}</p><p className={`mt-1 text-sm ${project.tone === "light" ? "text-black/58" : "text-white/70"}`}>{project.statLabel}</p></div>)}
+                      {project.highlighted ? (<span className="inline-flex flex-col items-center rounded-2xl bg-[var(--brand-primary)] px-4 py-2.5 text-white"><span className="text-[1.63rem] font-extrabold leading-none">{project.statValue}</span><span className="text-xs text-white/86">{project.statLabel}</span></span>) : (<div className="text-right"><p className={`text-[1.72rem] font-extrabold leading-none ${project.tone === "light" ? "text-[#111827]" : "text-white"}`}>{project.statValue}</p><p className={`mt-1 text-sm ${project.tone === "light" ? "text-black/58" : "text-white/70"}`}>{project.statLabel}</p></div>)}
                       <div className="text-right"><p className={`text-sm ${project.tone === "light" ? "text-black/58" : "text-white/75"}`}>{project.client}</p><h3 className={`mt-2 text-[1.72rem] font-extrabold leading-none ${project.tone === "light" ? "text-[#111827]" : "text-white"}`}>{project.title}</h3></div>
                     </div>
                   </div>
@@ -384,15 +384,15 @@ export default function MediaPage() {
             ))}
           </Swiper>
 
-          <div className="mt-12 flex items-center justify-between gap-8 [direction:ltr]"><p className="min-w-[4rem] text-lg font-bold text-[#7b8594]">{activeProject + 1} / {projectCards.length}</p><div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[#e5e7ec]"><span className="block h-full rounded-full bg-[#8f4dff] transition-all duration-500 ease-out" style={{ width: progressWidth }} /></div></div>
+          <div className="mt-12 flex items-center justify-between gap-8 [direction:ltr]"><p className="min-w-[4rem] text-lg font-bold text-[#7b8594]">{activeProject + 1} / {projectCards.length}</p><div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[#e5e7ec]"><span className="block h-full rounded-full bg-[var(--brand-primary)] transition-all duration-500 ease-out" style={{ width: progressWidth }} /></div></div>
         </div>
       </section>
-      <section className="bg-[radial-gradient(920px_380px_at_78%_24%,rgba(130,89,255,0.18),transparent_72%),linear-gradient(180deg,#070b18_0%,#050a16_60%,#040814_100%)] py-20 sm:py-24">
+      <section className="bg-[radial-gradient(920px_380px_at_78%_24%,rgba(212,168,67,0.18),transparent_72%),linear-gradient(180deg,#070b18_0%,#050a16_60%,#040814_100%)] py-20 sm:py-24">
         <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {whyStats.map((stat) => (
               <article key={stat.label} className="rounded-2xl border border-white/10 bg-[linear-gradient(130deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02))] px-6 py-6 text-right">
-                <span className="mb-5 ml-auto flex h-11 w-11 items-center justify-center rounded-xl bg-[#8f4dff]/90 text-white">•</span>
+                <span className="mb-5 ml-auto flex h-11 w-11 items-center justify-center rounded-xl bg-[rgba(212,168,67,0.9)] text-white">•</span>
                 <p className="text-[2.17rem] font-extrabold leading-none text-white">{stat.value}</p>
                 <p className="mt-1 text-[0.97rem] text-white/65">{stat.label}</p>
               </article>
@@ -403,17 +403,17 @@ export default function MediaPage() {
             <article className="relative min-h-[430px] overflow-hidden rounded-[22px] border border-white/10">
               <Image src="/media-assets/team-why.png" alt="فريق العمل" fill className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#070f20] via-transparent to-transparent" />
-              <div className="absolute left-4 top-1/2 flex -translate-y-1/2 items-center gap-2 rounded-xl bg-[#8f4dff] px-4 py-3 text-white"><span className="text-lg font-extrabold">+50</span><span className="text-sm">مشروع</span></div>
-              <div className="absolute right-1/2 top-6 translate-x-1/2 rounded-2xl bg-white px-4 py-3 text-[#0f172a]"><div className="flex items-center gap-2"><span className="text-[1.72rem] font-extrabold leading-none">4.9</span><span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#8f4dff] text-white"><span>★</span></span></div><p className="text-sm text-[#6b7280]">تقييم العملاء</p><p className="mt-1 text-[#f59e0b]">★★★★★</p></div>
+              <div className="absolute left-4 top-1/2 flex -translate-y-1/2 items-center gap-2 rounded-xl bg-[var(--brand-primary)] px-4 py-3 text-white"><span className="text-lg font-extrabold">+50</span><span className="text-sm">مشروع</span></div>
+              <div className="absolute right-1/2 top-6 translate-x-1/2 rounded-2xl bg-white px-4 py-3 text-[#0f172a]"><div className="flex items-center gap-2"><span className="text-[1.72rem] font-extrabold leading-none">4.9</span><span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--brand-primary)] text-white"><span>★</span></span></div><p className="text-sm text-[#6b7280]">تقييم العملاء</p><p className="mt-1 text-[#f59e0b]">★★★★★</p></div>
             </article>
 
             <div className="text-right">
-              <span className="inline-flex rounded-full border border-[#8f4dff]/30 bg-[#8f4dff]/10 px-4 py-1.5 text-sm font-semibold text-[#a883ff]">لماذا نحن</span>
-              <h2 className="mt-5 text-[clamp(1.72rem,4.2vw,3.12rem)] font-extrabold leading-[1.08] text-white"><span className="text-[#8f4dff]">خدماتنا الإعلامية؟</span><br /><span>لماذا تُختار</span></h2>
+              <span className="inline-flex rounded-full border border-[rgba(212,168,67,0.3)] bg-[rgba(212,168,67,0.12)] px-4 py-1.5 text-sm font-semibold text-[var(--brand-primary-soft)]">لماذا نحن</span>
+              <h2 className="mt-5 text-[clamp(1.72rem,4.2vw,3.12rem)] font-extrabold leading-[1.08] text-white"><span className="text-[var(--brand-primary)]">خدماتنا الإعلامية؟</span><br /><span>لماذا تُختار</span></h2>
               <p className="mt-5 max-w-[560px] text-[0.98rem] leading-relaxed text-white/66">نجمع بين الإبداع والاستراتيجية لنقدّم لك حلولاً إعلامية متكاملة تحقق نتائج ملموسة.</p>
               <div className="mt-7 grid gap-4 sm:grid-cols-2">
                 {whyFeatures.map((item) => (
-                  <article key={item.title} className="rounded-2xl border border-white/10 bg-[#111b31]/78 px-4 py-4 text-right"><div className="mb-2 flex items-center justify-between"><span className="text-[1rem] font-bold text-white">{item.title}</span><span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#8f4dff]/90 text-white">•</span></div><p className="text-sm leading-relaxed text-white/60">{item.desc}</p></article>
+                  <article key={item.title} className="rounded-2xl border border-white/10 bg-[#111b31]/78 px-4 py-4 text-right"><div className="mb-2 flex items-center justify-between"><span className="text-[1rem] font-bold text-white">{item.title}</span><span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[rgba(212,168,67,0.9)] text-white">•</span></div><p className="text-sm leading-relaxed text-white/60">{item.desc}</p></article>
                 ))}
               </div>
             </div>
@@ -440,35 +440,35 @@ export default function MediaPage() {
           </div>
 
           <article className="mx-auto mt-8 max-w-[1080px] rounded-[24px] border border-[#dfe3e9] bg-white px-6 py-10 text-center">
-            <span className="inline-flex items-center gap-2 rounded-full bg-[#eee7ff] px-4 py-1.5 text-sm font-semibold text-[#8f4dff]"><span className="h-2 w-2 rounded-full bg-[#8f4dff]" /><span>المدة: {activeJourney.duration}</span></span>
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#f6edd9] px-4 py-1.5 text-sm font-semibold text-[var(--brand-primary-strong)]"><span className="h-2 w-2 rounded-full bg-[var(--brand-primary)]" /><span>المدة: {activeJourney.duration}</span></span>
             <h3 className="mt-5 text-[2.05rem] font-extrabold leading-none text-[#111827]">{activeJourney.title}</h3>
             <p className="mx-auto mt-4 max-w-[700px] text-[1.06rem] leading-relaxed text-[#6b7280]">{activeJourney.description}</p>
           </article>
 
-          <div className="mt-8 flex items-center justify-center gap-2">{journeySteps.map((step, index) => <span key={step.id} className={`h-[6px] rounded-full ${index === activeJourneyIndex ? "w-10 bg-[#8f4dff]" : "w-4 bg-[#d2d7df]"}`} />)}</div>
+          <div className="mt-8 flex items-center justify-center gap-2">{journeySteps.map((step, index) => <span key={step.id} className={`h-[6px] rounded-full ${index === activeJourneyIndex ? "w-10 bg-[var(--brand-primary)]" : "w-4 bg-[#d2d7df]"}`} />)}</div>
         </div>
       </section>
 
       <section className="bg-[#eff1f4] py-20 sm:py-24">
         <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
-          <div className="mx-auto max-w-[820px] text-center"><div className="mx-auto inline-flex items-center gap-2 rounded-full bg-[#e8defc] px-5 py-2 text-sm font-semibold text-[#8f4dff]"><span className="h-2 w-2 rounded-full border border-current" /><span>الأسئلة الشائعة</span></div><h2 className="mt-6 text-[clamp(1.89rem,4.4vw,3.28rem)] font-extrabold leading-[1.08] text-[#111827]">أسئلة قد تهمك</h2><p className="mx-auto mt-4 max-w-[760px] text-[1.01rem] leading-relaxed text-[#798394]">إجابات على الأسئلة الأكثر شيوعاً حول خدماتنا</p></div>
+          <div className="mx-auto max-w-[820px] text-center"><div className="mx-auto inline-flex items-center gap-2 rounded-full bg-[#f3ead6] px-5 py-2 text-sm font-semibold text-[var(--brand-primary-strong)]"><span className="h-2 w-2 rounded-full border border-current" /><span>الأسئلة الشائعة</span></div><h2 className="mt-6 text-[clamp(1.89rem,4.4vw,3.28rem)] font-extrabold leading-[1.08] text-[#111827]">أسئلة قد تهمك</h2><p className="mx-auto mt-4 max-w-[760px] text-[1.01rem] leading-relaxed text-[#798394]">إجابات على الأسئلة الأكثر شيوعاً حول خدماتنا</p></div>
 
           <div className="mx-auto mt-12 max-w-[980px] space-y-3">
             {faqItems.map((item) => {
               const isOpen = item.id === activeFaqId;
               return (
-                <article key={item.id} className={`rounded-[16px] border px-5 py-4 sm:px-6 ${isOpen ? "border-[#c8aaff] bg-white" : "border-[#e0e4eb] bg-[#f6f8fb]"}`}>
+                <article key={item.id} className={`rounded-[16px] border px-5 py-4 sm:px-6 ${isOpen ? "border-[#e2c892] bg-white" : "border-[#e0e4eb] bg-[#f6f8fb]"}`}>
                   <button type="button" onClick={() => setActiveFaqId(item.id)} className="flex w-full items-center justify-between gap-4 [direction:ltr]" aria-expanded={isOpen}>
-                    <span className={`flex h-9 w-9 items-center justify-center rounded-lg ${isOpen ? "bg-[#8f4dff] text-white" : "bg-[#e9edf2] text-[#8f99aa]"}`}>{isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}</span>
-                    <div className="flex items-center gap-4 [direction:rtl]"><span className={`inline-flex h-10 min-w-10 items-center justify-center rounded-xl px-2 text-sm font-bold ${isOpen ? "bg-[#8f4dff] text-white" : "bg-[#e9edf2] text-[#8f99aa]"}`}>{item.id}</span><h3 className={`text-[1.22rem] font-extrabold leading-none ${isOpen ? "text-[#8f4dff]" : "text-[#1f2937]"}`}>{item.question}</h3></div>
+                    <span className={`flex h-9 w-9 items-center justify-center rounded-lg ${isOpen ? "bg-[var(--brand-primary)] text-white" : "bg-[#e9edf2] text-[#8f99aa]"}`}>{isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}</span>
+                    <div className="flex items-center gap-4 [direction:rtl]"><span className={`inline-flex h-10 min-w-10 items-center justify-center rounded-xl px-2 text-sm font-bold ${isOpen ? "bg-[var(--brand-primary)] text-white" : "bg-[#e9edf2] text-[#8f99aa]"}`}>{item.id}</span><h3 className={`text-[1.22rem] font-extrabold leading-none ${isOpen ? "text-[var(--brand-primary-strong)]" : "text-[#1f2937]"}`}>{item.question}</h3></div>
                   </button>
-                  {isOpen && <p className="mx-auto mt-4 max-w-[92%] border-t border-[#eadcff] pt-4 text-center text-[0.95rem] leading-relaxed text-[#6f798a]">{item.answer}</p>}
+                  {isOpen && <p className="mx-auto mt-4 max-w-[92%] border-t border-[#ecdcb7] pt-4 text-center text-[0.95rem] leading-relaxed text-[#6f798a]">{item.answer}</p>}
                 </article>
               );
             })}
           </div>
 
-          <div className="mx-auto mt-12 max-w-[980px] rounded-[18px] border border-[#b892ff] bg-[#eee5ff] px-6 py-9 text-center"><p className="text-[1.03rem] font-semibold text-[#5e6878]">لديك سؤال آخر؟ تواصل معنا مباشرة</p><button type="button" className="mt-5 rounded-2xl bg-gradient-to-l from-[#8f4dff] to-[#6f35e6] px-12 py-3 text-[1rem] font-bold text-white">احجز استشارة مجانية</button></div>
+          <div className="mx-auto mt-12 max-w-[980px] rounded-[18px] border border-[#d9c08a] bg-[#f6ecd9] px-6 py-9 text-center"><p className="text-[1.03rem] font-semibold text-[#5e6878]">لديك سؤال آخر؟ تواصل معنا مباشرة</p><button type="button" className="mt-5 rounded-2xl bg-gradient-to-l from-[var(--brand-primary)] to-[var(--brand-primary-strong)] px-12 py-3 text-[1rem] font-bold text-white">احجز استشارة مجانية</button></div>
         </div>
       </section>
 

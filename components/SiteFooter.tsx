@@ -128,7 +128,7 @@ export default function SiteFooter({ brandSubtitle }: SiteFooterProps) {
   const poweredByText = siteContent.footer?.poweredByText ?? "Powered by Readdy";
 
   return (
-    <footer className="bg-[radial-gradient(980px_440px_at_90%_8%,rgba(52,84,149,0.34),transparent_70%),radial-gradient(760px_420px_at_48%_34%,rgba(42,67,114,0.24),transparent_72%),linear-gradient(180deg,#070f22_0%,#0a1630_52%,#0b1a33_100%)] text-[#b9c4d7]">
+    <footer className="bg-[radial-gradient(980px_440px_at_90%_8%,rgba(212,168,67,0.08),transparent_70%),radial-gradient(760px_420px_at_48%_34%,rgba(11,52,112,0.2),transparent_72%),linear-gradient(180deg,#03060f_0%,#050815_52%,#04070f_100%)] text-[#a99574]">
       <div className="mx-auto w-full max-w-[1280px] px-4 py-14 sm:px-8 lg:px-10 lg:py-16">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div className="text-right">
@@ -143,26 +143,26 @@ export default function SiteFooter({ brandSubtitle }: SiteFooterProps) {
               />
             </div>
 
-            <p className="max-w-[300px] text-[0.97rem] leading-[1.8] text-[#b7c3d7]">{footerDescription}</p>
+            <p className="max-w-[300px] text-[0.97rem] leading-[1.8] text-[#9e8a67]">{footerDescription}</p>
 
             <div className="mt-6 flex items-center justify-end gap-3">
               <button
                 type="button"
-                className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/8 text-white/92 transition-colors hover:bg-white/14"
+                className="flex h-11 w-11 items-center justify-center rounded-xl border border-[rgba(212,168,67,0.2)] bg-[rgba(212,168,67,0.06)] text-[#d4a843] transition-colors hover:bg-[rgba(212,168,67,0.14)]"
                 aria-label="LinkedIn"
               >
                 <LinkedinIcon />
               </button>
               <button
                 type="button"
-                className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/8 text-white/92 transition-colors hover:bg-white/14"
+                className="flex h-11 w-11 items-center justify-center rounded-xl border border-[rgba(212,168,67,0.2)] bg-[rgba(212,168,67,0.06)] text-[#d4a843] transition-colors hover:bg-[rgba(212,168,67,0.14)]"
                 aria-label="X"
               >
                 <XIcon />
               </button>
               <button
                 type="button"
-                className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/8 text-white/92 transition-colors hover:bg-white/14"
+                className="flex h-11 w-11 items-center justify-center rounded-xl border border-[rgba(212,168,67,0.2)] bg-[rgba(212,168,67,0.06)] text-[#d4a843] transition-colors hover:bg-[rgba(212,168,67,0.14)]"
                 aria-label="Instagram"
               >
                 <InstagramIcon />
@@ -171,11 +171,11 @@ export default function SiteFooter({ brandSubtitle }: SiteFooterProps) {
           </div>
 
           <div className="text-right">
-            <h3 className="mb-5 text-[1.72rem] font-bold leading-none text-white">روابط سريعة</h3>
-            <ul className="space-y-3.5 text-[0.99rem] text-[#b8c4d8]">
+            <h3 className="mb-5 text-[1.72rem] font-bold leading-none text-[#f2ead6]">روابط سريعة</h3>
+            <ul className="space-y-3.5 text-[0.99rem] text-[#9e8a67]">
               {quickLinks.map((item) => (
                 <li key={item.label}>
-                  <Link href={item.href} className="transition-colors hover:text-white">
+                  <Link href={item.href} className="transition-colors hover:text-[#d4a843]">
                     {item.label}
                   </Link>
                 </li>
@@ -184,8 +184,8 @@ export default function SiteFooter({ brandSubtitle }: SiteFooterProps) {
           </div>
 
           <div className="text-right">
-            <h3 className="mb-5 text-[1.72rem] font-bold leading-none text-white">خدماتنا</h3>
-            <ul className="space-y-3.5 text-[0.99rem] text-[#b8c4d8]">
+            <h3 className="mb-5 text-[1.72rem] font-bold leading-none text-[#f2ead6]">خدماتنا</h3>
+            <ul className="space-y-3.5 text-[0.99rem] text-[#9e8a67]">
               {services.map((item) => (
                 <li key={item}>{item}</li>
               ))}
@@ -193,25 +193,25 @@ export default function SiteFooter({ brandSubtitle }: SiteFooterProps) {
           </div>
 
           <div className="text-right">
-            <h3 className="mb-5 text-[1.72rem] font-bold leading-none text-white">تواصل معنا</h3>
-            <ul className="space-y-4 text-[0.99rem] text-[#b8c4d8]">
+            <h3 className="mb-5 text-[1.72rem] font-bold leading-none text-[#f2ead6]">تواصل معنا</h3>
+            <ul className="space-y-4 text-[0.99rem] text-[#9e8a67]">
               <li className="flex items-center justify-end gap-3.5">
                 <span>{footerContact.email}</span>
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/8 text-white/92">
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-[rgba(212,168,67,0.2)] bg-[rgba(212,168,67,0.06)] text-[#d4a843]">
                   <MailIcon />
                 </span>
               </li>
 
               <li className="flex items-center justify-end gap-3.5">
                 <span dir="ltr">{footerContact.phone}</span>
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/8 text-white/92">
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-[rgba(212,168,67,0.2)] bg-[rgba(212,168,67,0.06)] text-[#d4a843]">
                   <PhoneIcon />
                 </span>
               </li>
 
               <li className="flex items-center justify-end gap-3.5">
                 <span>{footerContact.address}</span>
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/8 text-white/92">
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-[rgba(212,168,67,0.2)] bg-[rgba(212,168,67,0.06)] text-[#d4a843]">
                   <PinIcon />
                 </span>
               </li>
@@ -219,13 +219,13 @@ export default function SiteFooter({ brandSubtitle }: SiteFooterProps) {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-white/10 pt-8 text-[0.95rem] text-[#9eaac0]">
+        <div className="mt-12 border-t border-[rgba(212,168,67,0.12)] pt-8 text-[0.95rem] text-[#7d6a50]">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <p>{copyrights}</p>
             <div className="flex items-center gap-8">
-              <span>{privacyText}</span>
-              <span>{termsText}</span>
-              <span>{poweredByText}</span>
+              <span className="transition-colors hover:text-[#d4a843]">{privacyText}</span>
+              <span className="transition-colors hover:text-[#d4a843]">{termsText}</span>
+              <span className="text-[#c8973a]">{poweredByText}</span>
             </div>
           </div>
         </div>
@@ -233,4 +233,3 @@ export default function SiteFooter({ brandSubtitle }: SiteFooterProps) {
     </footer>
   );
 }
-

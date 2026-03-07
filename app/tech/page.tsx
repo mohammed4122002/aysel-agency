@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
@@ -274,7 +274,7 @@ const projects: ProjectItem[] = [
 ];
 
 function DotIcon() {
-  return <span className="inline-block h-2 w-2 rounded-full bg-[#2f7cff]" aria-hidden />;
+  return <span className="inline-block h-2 w-2 rounded-full bg-[var(--brand-primary)]" aria-hidden />;
 }
 
 function ArrowIcon() {
@@ -495,9 +495,9 @@ function renderCodeLine(line: string) {
     let className = "text-white/82";
 
     if (token === "const" || token === "return" || token === "true") {
-      className = "text-[#2f7cff]";
+      className = "text-[var(--brand-primary)]";
     } else if (/^"[^"]*"$/.test(token)) {
-      className = "text-[#78beff]";
+      className = "text-[var(--brand-primary-soft)]";
     } else if (/^[{}()[\].,;=]$/.test(token)) {
       className = "text-white/40";
     }
@@ -555,12 +555,12 @@ export default function TechPage() {
 
   return (
     <main className="bg-[#040812]">
-      <section className="relative min-h-screen overflow-hidden bg-[radial-gradient(1080px_620px_at_76%_32%,rgba(44,116,255,0.22),transparent_67%),radial-gradient(780px_480px_at_20%_74%,rgba(23,76,173,0.28),transparent_70%),linear-gradient(180deg,#020915_0%,#020918_56%,#020713_100%)]">
+      <section className="relative min-h-screen overflow-hidden bg-[radial-gradient(1080px_620px_at_76%_32%,rgba(16,24,48,0.7),transparent_67%),radial-gradient(780px_480px_at_20%_74%,rgba(8,16,32,0.9),transparent_70%),linear-gradient(180deg,#020915_0%,#020918_56%,#020713_100%)]">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-0 bg-[repeating-linear-gradient(116deg,rgba(47,124,255,0.06)_0,rgba(47,124,255,0.06)_1px,transparent_1px,transparent_92px)] opacity-30" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_720px_280px_at_52%_52%,rgba(47,124,255,0.2),transparent_72%)]" />
-          <div className="absolute left-1/2 top-[13%] h-[92%] w-px -translate-x-[138px] rotate-[7deg] bg-gradient-to-b from-transparent via-[#2f7cff]/40 to-transparent" />
-          <div className="absolute left-1/2 top-[13%] h-[92%] w-px translate-x-[138px] -rotate-[7deg] bg-gradient-to-b from-transparent via-[#2f7cff]/34 to-transparent" />
+          <div className="absolute inset-0 bg-[repeating-linear-gradient(116deg,rgba(212,168,67,0.08)_0,rgba(212,168,67,0.08)_1px,transparent_1px,transparent_92px)] opacity-30" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_720px_280px_at_52%_52%,rgba(212,168,67,0.26),transparent_72%)]" />
+          <div className="absolute left-1/2 top-[13%] h-[92%] w-px -translate-x-[138px] rotate-[7deg] bg-gradient-to-b from-transparent via-[var(--brand-primary)]/40 to-transparent" />
+          <div className="absolute left-1/2 top-[13%] h-[92%] w-px translate-x-[138px] -rotate-[7deg] bg-gradient-to-b from-transparent via-[var(--brand-primary)]/34 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#020713] to-transparent" />
         </div>
 
@@ -577,7 +577,7 @@ export default function TechPage() {
                   </div>
                   <p className="text-xs font-semibold tracking-[0.12em] text-[#5f739d]">aysel-tech.ts</p>
                   <div className="flex items-center gap-2">
-                    <span className="h-3 w-3 rounded-full bg-[#2ec576]" />
+                    <span className="h-3 w-3 rounded-full bg-[var(--brand-primary)]" />
                     <span className="h-3 w-3 rounded-full bg-[#c8a329]" />
                     <span className="h-3 w-3 rounded-full bg-[#c2454f]" />
                   </div>
@@ -592,7 +592,7 @@ export default function TechPage() {
                     <p key={`${index}-${heroCodeLines[index]}`} className="min-h-[1.32em]">
                       {renderCodeLine(line)}
                       {showCursor && (
-                        <span className="ml-0.5 inline-block h-[1em] w-[2px] translate-y-[2px] animate-pulse bg-[#78beff]" />
+                        <span className="ml-0.5 inline-block h-[1em] w-[2px] translate-y-[2px] animate-pulse bg-[var(--brand-primary-soft)]" />
                       )}
                     </p>
                     );
@@ -601,7 +601,7 @@ export default function TechPage() {
 
                 <div className="flex items-center justify-end border-t border-[#1d2b4d] px-5 py-3 text-xs text-[#60729b]">
                   <span className="">Building...  Done ✓ </span>
-                  <span className="text-[#24d47f] font-bold text-xl"> ●</span>
+                  <span className="text-[var(--brand-primary)] font-bold text-xl"> ●</span>
                 </div>
               </div>
 
@@ -611,7 +611,7 @@ export default function TechPage() {
                   <p className="text-xs text-white/62">فريق متخصص</p>
                 </div>
                 <div className="flex -space-x-2">
-                  {["from-[#7ba8ff] to-[#365cac]", "from-[#efba8f] to-[#8d5734]", "from-[#8fafe5] to-[#3b5f9f]", "from-[#b09af5] to-[#5c4ea3]"].map((tone, idx) => (
+                  {["from-[#e8cf7b] to-[#b88c35]", "from-[#f1d28a] to-[#8d5a2b]", "from-[#d4a843] to-[#7a4c22]", "from-[#caa14a] to-[#5f3f1e]"].map((tone, idx) => (
                     <span key={idx} className={`h-7 w-7 rounded-full border border-white/50 bg-gradient-to-br ${tone}`} />
                   ))}
                 </div>
@@ -621,9 +621,9 @@ export default function TechPage() {
                 <div className="flex items-center gap-3">
                   <div>
                     <p className="text-[1.3rem] font-bold leading-none">أداء فائق</p>
-                    <p className="mt-1 text-xs text-[#2f7cff]">99.9% Uptime</p>
+                    <p className="mt-1 text-xs text-[var(--brand-primary)]">99.9% Uptime</p>
                   </div>
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0e2450] text-[#4ea7ff]">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0b1530] text-[var(--brand-primary)]">
                     <BellIcon />
                   </span>
                 </div>
@@ -632,7 +632,7 @@ export default function TechPage() {
               <div className="absolute bottom-[18%] left-[10%] right-[10%] grid grid-cols-3 gap-2.5 lg:bottom-[20%]">
                 {heroStats.map((item) => (
                   <article key={item.id} className="rounded-[20px] border border-[#1f2f4f] bg-[#0a1325]/90 px-3.5 py-3.5 text-center text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
-                    <span className="mx-auto mb-2.5 flex h-8 w-8 items-center justify-center rounded-[11px] border border-[#28497f] bg-[#0c1b38] text-[#2f7cff]">
+                    <span className="mx-auto mb-2.5 flex h-8 w-8 items-center justify-center rounded-[11px] border border-[var(--brand-primary-border-soft)] bg-[#0c1b38] text-[var(--brand-primary)]">
                       <HeroStatIcon kind={item.kind} />
                     </span>
                     <p className="text-[1.55rem] font-extrabold leading-none">{item.value}</p>
@@ -643,14 +643,14 @@ export default function TechPage() {
             </div>
 
             <div className="[direction:rtl] text-right order-1 lg:order-2">
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#254881] bg-[#0b162d]/82 px-6 py-2.5 text-[0.97rem] font-bold text-[#2f7cff]">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[var(--brand-primary-border-soft)] bg-[#050912]/90 px-6 py-2.5 text-[0.97rem] font-bold text-[var(--brand-primary-soft)]">
                 <span>آيسل تك</span>
                 <DotIcon />
               </div>
 
               <h1 className="mt-8 leading-[1.04]">
                 <span className="block text-[clamp(1.64rem,4vw,3.32rem)] font-extrabold text-white">نبني لك</span>
-                <span className="relative mt-1.5 inline-block whitespace-nowrap text-[clamp(1.76rem,4.25vw,3.55rem)] font-extrabold text-[#2f7cff] after:absolute after:bottom-1 after:right-0 after:h-[3px] after:w-full after:rounded-full after:bg-gradient-to-l after:from-[#2f7cff] after:to-[#2f7cff]/15">
+                <span className="relative mt-1.5 inline-block whitespace-nowrap text-[clamp(1.76rem,4.25vw,3.55rem)] font-extrabold text-[var(--brand-primary)] after:absolute after:bottom-1 after:right-0 after:h-[3px] after:w-full after:rounded-full after:bg-gradient-to-l after:from-[var(--brand-primary)] after:to-[var(--brand-primary)]/15">
                   مستقبلك الرقمي
                 </span>
               </h1>
@@ -668,13 +668,14 @@ export default function TechPage() {
                   return (
                     <span
                       key={chip.id}
-                      className={`inline-flex items-center gap-1 rounded-2xl border px-5 py-2.5 text-base font-semibold transition-colors ${isActive
-                        ? "border-[#2f7cff]/65 bg-[#13284e]/85 text-[#73bcff] shadow-[0_10px_24px_rgba(47,124,255,0.2)]"
-                        : "border-white/10 bg-white/[0.035] text-white/50"
-                        }`}
+                      className={`inline-flex items-center gap-1 rounded-2xl border px-5 py-2.5 text-base font-semibold transition-colors ${
+                        isActive
+                          ? "border-[var(--brand-primary-border-soft)] bg-[#151013]/90 text-[var(--brand-primary-soft)] shadow-[0_10px_24px_rgba(0,0,0,0.45)]"
+                          : "border-white/10 bg-white/[0.035] text-white/50"
+                      }`}
                     >
                       <span>{chip.label}</span>
-                      <span className={isActive ? "text-[#2f7cff]" : "text-white/35"}>
+                      <span className={isActive ? "text-[var(--brand-primary)]" : "text-white/35"}>
                         <HeroChipIcon kind={chip.kind} />
                       </span>
                     </span>
@@ -683,7 +684,10 @@ export default function TechPage() {
               </div>
 
               <div className="mt-8 flex flex-wrap items-center justify-start gap-3">
-                <button type="button" className="inline-flex items-center gap-2 rounded-2xl border border-[#2f7cff] bg-gradient-to-l from-[#2f7cff] to-[#1f67de] px-8 py-3 text-[1.3rem] font-bold text-white shadow-[0_16px_32px_rgba(47,124,255,0.28)]">
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-2 rounded-2xl border border-[var(--brand-primary-border-soft)] bg-gradient-to-l from-[var(--brand-primary)] to-[var(--brand-primary-strong)] px-8 py-3 text-[1.3rem] font-bold text-white shadow-[0_16px_32px_rgba(0,0,0,0.45)]"
+                >
                   <ArrowIcon />
                   <span>ابدأ مشروعك الآن</span>
                 </button>
@@ -699,7 +703,7 @@ export default function TechPage() {
         <div className="pointer-events-none absolute bottom-5 left-1/2 z-10 -translate-x-1/2 text-center text-xs text-white/35">
           <p className="mb-2">اكتشف المزيد</p>
           <div className="mx-auto flex h-10 w-6 items-start justify-center rounded-full border border-white/25 p-1">
-            <span className="mt-1 h-2.5 w-1.5 animate-[pulse_1.8s_ease-in-out_infinite] rounded-full bg-[#f1a33f]" />
+            <span className="mt-1 h-2.5 w-1.5 animate-[pulse_1.8s_ease-in-out_infinite] rounded-full bg-[var(--brand-primary)]" />
           </div>
         </div>
       </section>
@@ -708,7 +712,7 @@ export default function TechPage() {
         <div className="mx-auto w-full max-w-[1240px] px-4 sm:px-8 lg:px-10">
           <div className="mx-auto max-w-[760px] text-center">
             <h2 className="text-[clamp(1.8rem,4.4vw,3.12rem)]  leading-[1.08] text-[#111827]">
-              حلولنا <span className="text-[#2f7cff]">التقنية</span>
+              حلولنا <span className="text-[var(--brand-primary)]">التقنية</span>
             </h2>
             <p className="mt-4 text-[1.01rem] text-[#6d7788]">حلول متكاملة بأعلى المعايير لكل احتياجاتك الرقمية</p>
           </div>
@@ -719,7 +723,7 @@ export default function TechPage() {
                 <span className="mx-auto mb-5 inline-flex h-11 w-11 items-center justify-center rounded-[13px] border border-[#d8dee9] bg-[#f7f9fc] text-[#7f899a]">
                   <SolutionIcon kind={item.icon} />
                 </span>
-                <p className="text-[2.46rem]  leading-none text-[#2f7cff]">{item.value}</p>
+                <p className="text-[2.46rem]  leading-none text-[var(--brand-primary-strong)]">{item.value}</p>
                 <p className="mt-1 text-xs font-semibold tracking-[0.04em] text-[#a0a8b7]">{item.unit}</p>
                 <h3 className="mt-5 text-[1.72rem]  leading-none text-[#111827]">{item.title}</h3>
                 <p className="mt-3 text-[0.93rem] leading-relaxed text-[#6e7889]">{item.description}</p>
@@ -747,7 +751,7 @@ export default function TechPage() {
         <div className="mx-auto w-full max-w-[1320px] px-4 sm:px-8 lg:px-10">
           <div className="mx-auto max-w-[860px] text-center">
             <h2 className="text-[clamp(1.8rem,4.2vw,3.2rem)]  leading-[1.08] text-[#111827]">
-              ما هي <span className="text-[#2f7cff]">احتياجاتك؟</span>
+              ما هي <span className="text-[var(--brand-primary)]">احتياجاتك؟</span>
             </h2>
             <p className="mt-4 text-[1.1rem] text-[#6f7888]">اختر المسار المناسب لوضعك الحالي واكتشف رحلتك معنا</p>
           </div>
@@ -783,7 +787,7 @@ export default function TechPage() {
                     {item.bullets.map((bullet) => (
                       <li key={bullet} className="flex items-center justify-end gap-2">
                         <span>{bullet}</span>
-                        <span className="text-[#2f7cff]">✓</span>
+                        <span className="text-[var(--brand-primary)]">✓</span>
                       </li>
                     ))}
                   </ul>
@@ -794,7 +798,7 @@ export default function TechPage() {
 
           <div className="mt-16 text-center">
             <h3 className="text-[clamp(1.89rem,4.6vw,3.9rem)]  leading-[1.08] text-[#111827]">
-              نستخدم <span className="text-[#2f7cff]">أحدث</span> التقنيات
+              نستخدم <span className="text-[var(--brand-primary)]">أحدث</span> التقنيات
             </h3>
             <p className="mt-3 text-[0.97rem] text-[#7f8899]">أدوات عالمية لضمان جودة وأداء استثنائي</p>
 
@@ -816,7 +820,7 @@ export default function TechPage() {
         <div className="mx-auto w-full max-w-[1240px] px-4 sm:px-8 lg:px-10">
           <div className="mx-auto max-w-[780px] text-center">
             <h2 className="text-[clamp(1.8rem,4.2vw,3.12rem)]  text-[#111827]">
-              من الفكرة إلى <span className="text-[#2f7cff]">الإطلاق</span>
+              من الفكرة إلى <span className="text-[var(--brand-primary)]">الإطلاق</span>
             </h2>
             <p className="mt-3 text-[0.97rem] text-[#6e7888]">عملية واضحة ومنظمة تضمن نجاح مشروعك</p>
           </div>
@@ -836,18 +840,20 @@ export default function TechPage() {
                       : "border-[#d3d9e3] bg-[#f5f7fb] text-[#111827]"
                   }`}
                 >
-                  <p className={`text-center text-[2.21rem]  leading-none ${isActive ? "text-[#2f7cff]" : "text-[#d4d9e3]"}`}>{step.id}</p>
+                  <p className={`text-center text-[2.21rem]  leading-none ${isActive ? "text-[var(--brand-primary)]" : "text-[#d4d9e3]"}`}>{step.id}</p>
 
                   <span
                     className={`mx-auto mt-4 flex h-12 w-12 items-center justify-center rounded-[14px] border ${
-                      isActive ? "border-[#17346a] bg-[#0d2250] text-[#2f7cff]" : "border-[#e2e5ed] bg-[#eef1f6] text-[#a8afbd]"
+                      isActive
+                        ? "border-[var(--brand-primary-border-soft)] bg-[#151013] text-[var(--brand-primary)]"
+                        : "border-[#e2e5ed] bg-[#eef1f6] text-[#a8afbd]"
                     }`}
                   >
                     <JourneyStepIcon id={step.id} />
                   </span>
 
                   <h3 className={`mt-5 text-center text-[1.68rem]  leading-none ${isActive ? "text-white" : "text-[#1d2433]"}`}>{step.title}</h3>
-                  <p className={`mt-2 text-center text-[0.95rem] ${isActive ? "text-[#2f7cff]" : "text-[#9da5b4]"}`}>{step.duration}</p>
+                  <p className={`mt-2 text-center text-[0.95rem] ${isActive ? "text-[var(--brand-primary-soft)]" : "text-[#9da5b4]"}`}>{step.duration}</p>
                   {isActive && <p className="mt-4 text-center text-[0.95rem] leading-relaxed text-white/72">{step.summary}</p>}
 
                   {isActive && (
@@ -860,7 +866,7 @@ export default function TechPage() {
 
           <div className="relative mt-8 h-[4px] rounded-full bg-[#d7dce5]">
             <span
-              className="absolute inset-y-0 rounded-full bg-[#2f7cff]"
+              className="absolute inset-y-0 rounded-full bg-[var(--brand-primary)]"
               style={{ width: `${journeySegmentWidth}%`, right: `${activeJourneyIndex * journeySegmentWidth}%` }}
             />
           </div>
@@ -871,7 +877,7 @@ export default function TechPage() {
         <div className="mx-auto w-full max-w-[1240px] px-4 sm:px-8 lg:px-10">
           <div className="mx-auto max-w-[780px] text-center">
             <h2 className="text-[clamp(1.84rem,4.2vw,3.2rem)]  text-[#111827]">
-              مشاريع <span className="text-[#2f7cff]">غيرت</span> قواعد اللعبة
+              مشاريع <span className="text-[var(--brand-primary)]">غيرت</span> قواعد اللعبة
             </h2>
             <p className="mt-3 text-[0.97rem] text-[#6d7788]">نماذج واقعية من منتجات رقمية طورناها لقطاعات متعددة.</p>
           </div>
@@ -886,7 +892,9 @@ export default function TechPage() {
                   type="button"
                   onClick={() => setActiveFilter(filter.id)}
                   className={`rounded-xl px-5 py-2.5 text-sm  transition-colors ${
-                    isActive ? "bg-[#2f7cff] text-white shadow-[0_10px_20px_rgba(47,124,255,0.24)]" : "bg-[#e7ebf2] text-[#5e687a]"
+                    isActive
+                      ? "bg-[var(--brand-primary)] text-white shadow-[0_10px_20px_rgba(0,0,0,0.24)]"
+                      : "bg-[#e7ebf2] text-[#5e687a]"
                   }`}
                 >
                   {filter.label}
@@ -906,7 +914,9 @@ export default function TechPage() {
 
                 <div className="px-5 pb-5 pt-4 text-right">
                   <div className="mb-2 flex items-center justify-between">
-                    <span className="rounded-full bg-[#edf4ff] px-3 py-1 text-xs font-semibold text-[#2f7cff]">{project.categoryLabel}</span>
+                    <span className="rounded-full bg-[var(--brand-primary-soft-bg)] px-3 py-1 text-xs font-semibold text-[var(--brand-primary-strong)]">
+                      {project.categoryLabel}
+                    </span>
                     <span className="text-xs text-[#8c95a6]">{project.id}</span>
                   </div>
 
@@ -916,7 +926,7 @@ export default function TechPage() {
                   <div className="mt-5 grid grid-cols-3 gap-3 border-t border-[#e8ecf3] pt-4 text-center [direction:ltr]">
                     {project.metrics.map((metric) => (
                       <div key={metric.label} className="[direction:rtl]">
-                        <p className="text-[1.88rem]  leading-none text-[#2f7cff]">{metric.value}</p>
+                        <p className="text-[1.88rem]  leading-none text-[var(--brand-primary-strong)]">{metric.value}</p>
                         <p className="mt-1 text-xs text-[#778294]">{metric.label}</p>
                       </div>
                     ))}
@@ -932,4 +942,5 @@ export default function TechPage() {
     </main>
   );
 }
+
 

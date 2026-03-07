@@ -102,8 +102,8 @@ export default function BusinessNeedsSection() {
     <section className="business-needs-section relative py-20 sm:py-24">
       <div className="mx-auto w-full max-w-[1120px] px-4 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-[680px] text-center">
-          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-[#d4a843]/30 bg-[#d4a843]/10 px-4 py-1.5 text-[11px] font-semibold text-[#d4a843]">
-            <span className="text-[8px]">&#9679;</span>
+          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-[var(--brand-primary-border-soft)] bg-[#19130a]/70 px-4 py-1.5 text-[11px] font-semibold text-[var(--brand-primary-soft)]">
+            <span className="text-[8px] text-[var(--brand-primary)]">&#9679;</span>
             <span>اختر مسارك</span>
           </div>
 
@@ -121,7 +121,7 @@ export default function BusinessNeedsSection() {
           {cards.map((card) => (
             <article key={card.key} className="needs-card flex-1 rounded-[18px] px-7 pb-7 pt-6 text-right">
               <div className="mb-6 flex justify-end">
-                <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#d4b038] text-[#101828] shadow-[0_10px_24px_rgba(212,168,67,0.25)]">
+                <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--brand-primary)] text-[#1b160a] shadow-[0_10px_24px_rgba(212,168,67,0.25)]">
                   {iconByKey[card.key]}
                 </span>
               </div>
@@ -137,7 +137,7 @@ export default function BusinessNeedsSection() {
 
               <button
                 type="button"
-                className="mt-7 inline-flex items-center gap-2 text-[14px] font-semibold text-[#d4a843] hover:text-[#e4c369]"
+                className="mt-7 inline-flex items-center gap-2 text-[14px] font-semibold text-[var(--brand-primary)] hover:text-[var(--brand-primary-soft)]"
               >
                 <span>{card.cta}</span>
                 <span>&#8592;</span>
@@ -150,7 +150,7 @@ export default function BusinessNeedsSection() {
           <p className="text-[14px] text-white/60">لست متأكداً أي قسم تحتاج؟</p>
           <button
             type="button"
-            className="mt-4 rounded-full bg-white px-8 py-3 text-[14px] font-bold text-[#111827] shadow-[0_10px_24px_rgba(0,0,0,0.25)]"
+            className="mt-4 rounded-full border border-[var(--brand-primary)] bg-gradient-to-l from-[var(--brand-primary)] to-[var(--brand-primary-strong)] px-8 py-3 text-[14px] font-bold text-white shadow-[0_12px_26px_rgba(0,0,0,0.28)]"
           >
             احصل على استشارة مجانية
           </button>

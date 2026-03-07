@@ -81,7 +81,7 @@ const aboutDefaults = {
 };
 
 function Dot() {
-  return <span className="h-2 w-2 rounded-full bg-[#2f7cff]" aria-hidden />;
+  return <span className="h-2 w-2 rounded-full bg-[var(--brand-primary)]" aria-hidden />;
 }
 
 function Arrow() {
@@ -98,14 +98,14 @@ export default function AboutPage() {
 
   return (
     <main className="bg-[#eef1f6]">
-      <section className="relative min-h-[74vh] overflow-hidden bg-[radial-gradient(860px_500px_at_84%_22%,rgba(47,124,255,0.24),transparent_70%),radial-gradient(760px_420px_at_20%_74%,rgba(15,157,218,0.2),transparent_72%),linear-gradient(180deg,#06102a_0%,#08142f_56%,#0a1834_100%)]">
+      <section className="relative min-h-[74vh] overflow-hidden bg-[radial-gradient(860px_500px_at_84%_22%,rgba(212,168,67,0.22),transparent_70%),radial-gradient(760px_420px_at_20%_74%,rgba(11,52,112,0.24),transparent_72%),linear-gradient(180deg,#050a16_0%,#040814_56%,#03060f_100%)]">
         <div className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(116deg,rgba(255,255,255,0.08)_0,rgba(255,255,255,0.08)_1px,transparent_1px,transparent_96px)] opacity-20" />
         <Navbar />
 
         <section className="relative z-10 mx-auto w-full max-w-[1240px] px-4 pb-20 pt-[8.2rem] sm:px-8 lg:px-10 lg:pt-[10.3rem]">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
             <div className="[direction:rtl] text-right text-white">
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#5d8de8]/45 bg-[#0f224f]/76 px-5 py-2 text-sm font-semibold text-[#8dc6ff]">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[var(--brand-primary-border-soft)] bg-[#19130a]/80 px-5 py-2 text-sm font-semibold text-[var(--brand-primary-soft)]">
                 <span>{aboutContent.hero.badge}</span>
                 <Dot />
               </div>
@@ -113,7 +113,7 @@ export default function AboutPage() {
               <h1 className="mt-7 text-[clamp(2rem,5vw,4.1rem)] font-extrabold leading-[1.06]">
                 {aboutContent.hero.titleLine1}
                 <br />
-                <span className="text-[#8dc6ff]">{aboutContent.hero.titleHighlight}</span>
+                <span className="text-[var(--brand-primary)]">{aboutContent.hero.titleHighlight}</span>
               </h1>
 
               <p className="mt-6 max-w-[640px] text-[1.08rem] leading-relaxed text-white/74">
@@ -123,7 +123,7 @@ export default function AboutPage() {
               <div className="mt-8 flex flex-wrap items-center justify-end gap-3">
                 <Link
                   href="/consultation"
-                  className="inline-flex items-center gap-2 rounded-2xl border border-[#2f7cff] bg-gradient-to-l from-[#2f7cff] to-[#1f67de] px-7 py-3 text-base font-bold text-white shadow-[0_14px_30px_rgba(47,124,255,0.28)]"
+                  className="inline-flex items-center gap-2 rounded-2xl border border-[var(--brand-primary)] bg-gradient-to-l from-[var(--brand-primary)] to-[var(--brand-primary-strong)] px-7 py-3 text-base font-bold text-white shadow-[0_14px_30px_rgba(212,168,67,0.28)]"
                 >
                   <Arrow />
                   {aboutContent.hero.primaryCta}
@@ -139,24 +139,24 @@ export default function AboutPage() {
 
             <div className="rounded-[26px] border border-white/14 bg-[linear-gradient(145deg,rgba(255,255,255,0.12),rgba(255,255,255,0.04))] p-6 shadow-[0_24px_50px_rgba(0,0,0,0.32)]">
               <div className="grid gap-4 sm:grid-cols-2">
-                <article className="rounded-2xl border border-white/12 bg-[#0d1e45]/78 p-5 text-right text-white">
+                <article className="rounded-2xl border border-white/12 bg-[#0b1530]/78 p-5 text-right text-white">
                   <p className="text-[2rem] font-extrabold leading-none">+500</p>
                   <p className="mt-1 text-sm text-white/68">مشروع ناجح</p>
                 </article>
-                <article className="rounded-2xl border border-white/12 bg-[#0d1e45]/78 p-5 text-right text-white">
+                <article className="rounded-2xl border border-white/12 bg-[#0b1530]/78 p-5 text-right text-white">
                   <p className="text-[2rem] font-extrabold leading-none">15+</p>
                   <p className="mt-1 text-sm text-white/68">سنة خبرة</p>
                 </article>
-                <article className="rounded-2xl border border-white/12 bg-[#0d1e45]/78 p-5 text-right text-white">
+                <article className="rounded-2xl border border-white/12 bg-[#0b1530]/78 p-5 text-right text-white">
                   <p className="text-[2rem] font-extrabold leading-none">98%</p>
                   <p className="mt-1 text-sm text-white/68">رضا العملاء</p>
                 </article>
-                <article className="rounded-2xl border border-white/12 bg-[#0d1e45]/78 p-5 text-right text-white">
+                <article className="rounded-2xl border border-white/12 bg-[#0b1530]/78 p-5 text-right text-white">
                   <p className="text-[2rem] font-extrabold leading-none">3 فرق</p>
                   <p className="mt-1 text-sm text-white/68">استراتيجية، ميديا، تك</p>
                 </article>
               </div>
-              <div className="mt-5 rounded-2xl border border-white/12 bg-[#0a1838]/82 p-4">
+              <div className="mt-5 rounded-2xl border border-white/12 bg-[#0b1326]/82 p-4">
                 <div className="flex items-center justify-end gap-3">
                   <div className="text-right text-white">
                     <p className="font-bold">نعمل معك كفريق واحد</p>
@@ -179,7 +179,7 @@ export default function AboutPage() {
       <section className="py-20 sm:py-24">
         <div className="mx-auto w-full max-w-[1240px] px-4 sm:px-8 lg:px-10">
           <div className="mx-auto max-w-[860px] text-center">
-            <div className="inline-flex items-center gap-2 rounded-full bg-[#dce7fb] px-5 py-2 text-sm font-semibold text-[#2f7cff]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[#f3ead6] px-5 py-2 text-sm font-semibold text-[var(--brand-primary-strong)]">
               <span>قِيَمنا</span>
               <Dot />
             </div>
@@ -218,7 +218,7 @@ export default function AboutPage() {
                 key={item.year}
                 className="rounded-[18px] border border-[#d7deea] bg-white px-5 py-5 text-right shadow-[0_10px_22px_rgba(15,23,42,0.06)]"
               >
-                <p className="text-sm font-bold text-[#2f7cff]">{item.year}</p>
+                <p className="text-sm font-bold text-[var(--brand-primary-strong)]">{item.year}</p>
                 <h3 className="mt-2 text-[1.3rem] font-extrabold text-[#141d2e]">{item.title}</h3>
                 <p className="mt-2 text-[0.97rem] leading-relaxed text-[#667186]">{item.description}</p>
               </article>
@@ -253,7 +253,7 @@ export default function AboutPage() {
 
       <section className="pb-20 sm:pb-24">
         <div className="mx-auto w-full max-w-[1180px] px-4 sm:px-8 lg:px-10">
-          <div className="rounded-[26px] bg-[radial-gradient(680px_240px_at_80%_20%,rgba(47,124,255,0.28),transparent_68%),linear-gradient(180deg,#081532_0%,#0a1a3b_100%)] px-6 py-10 text-center text-white sm:px-10">
+          <div className="rounded-[26px] bg-[radial-gradient(680px_240px_at_80%_20%,rgba(212,168,67,0.26),transparent_68%),linear-gradient(180deg,#050a16_0%,#040814_100%)] px-6 py-10 text-center text-white sm:px-10">
             <h2 className="text-[clamp(1.7rem,4vw,2.8rem)] font-extrabold">{aboutContent.finalCtaTitle}</h2>
             <p className="mx-auto mt-3 max-w-[700px] text-[1rem] leading-relaxed text-white/72">
               {aboutContent.finalCtaText}
@@ -261,7 +261,7 @@ export default function AboutPage() {
             <div className="mt-7">
               <Link
                 href="/consultation"
-                className="inline-flex items-center gap-2 rounded-2xl border border-[#2f7cff] bg-gradient-to-l from-[#2f7cff] to-[#1f67de] px-8 py-3 text-base font-bold text-white"
+                className="inline-flex items-center gap-2 rounded-2xl border border-[var(--brand-primary)] bg-gradient-to-l from-[var(--brand-primary)] to-[var(--brand-primary-strong)] px-8 py-3 text-base font-bold text-white"
               >
                 <Arrow />
                 {aboutContent.finalCtaButton}
@@ -275,4 +275,8 @@ export default function AboutPage() {
     </main>
   );
 }
+
+
+
+
 

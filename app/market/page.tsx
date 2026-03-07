@@ -90,7 +90,7 @@ const faq = [
 ];
 
 function Dot() {
-  return <span className="h-2 w-2 rounded-full bg-[#10b786]" />;
+  return <span className="h-2 w-2 rounded-full bg-[var(--brand-primary)]" />;
 }
 
 function Arrow() {
@@ -139,7 +139,7 @@ function TrendIcon() {
 }
 
 function HeroPanelIcon({ index, active }: { index: number; active: boolean }) {
-  const color = active ? "#10b786" : "currentColor";
+  const color = active ? "var(--brand-primary)" : "currentColor";
 
   if (index === 0) {
     return (
@@ -193,14 +193,14 @@ export default function MarketPage() {
           <div className="market-hero-glow-left" />
           <div className="market-hero-vignette" />
           <div className="market-hero-fade-top" />
-          <div className="market-hero-fade-bottom" />
+      
         </div>
         <Navbar />
         <section className="relative z-10 mx-auto w-full max-w-[1220px] px-4 pb-16 pt-[7.8rem] sm:px-8 sm:pt-[8.8rem] lg:px-10 lg:pt-[9.8rem]">
           <div className="grid gap-12 [direction:ltr] lg:grid-cols-2 lg:items-center">
             <div className="relative mx-auto h-[520px] w-full max-w-[620px]">
               <div className="absolute left-[4%] top-[15%] w-[90%] rounded-[28px] border border-white/12 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02))] p-8 shadow-[0_22px_48px_rgba(2,8,20,0.56)]">
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#0fa878] text-white text-2xl">$</div>
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--brand-primary)] text-white text-2xl">$</div>
                 <p className="mt-5 text-center text-[4rem] font-extrabold leading-none text-white">300%</p>
                 <p className="mt-2 text-center text-[1.36rem] font-semibold text-white/72">نمو الإيرادات</p>
                 <div className="mt-7 grid grid-cols-4 gap-2.5">
@@ -208,15 +208,15 @@ export default function MarketPage() {
                     const isActive = i === 3;
 
                     return (
-                      <span key={i} className={`flex h-12 items-center justify-center rounded-xl border ${isActive ? "border-[#0fa878]/62 bg-[#0fa878]/14 text-[#0fc092]" : "border-white/10 bg-white/[0.035] text-white/35"}`}>
+                      <span key={i} className={`flex h-12 items-center justify-center rounded-xl border ${isActive ? "border-[var(--brand-primary-border-soft)] bg-[var(--brand-primary-soft-bg)] text-[var(--brand-primary-soft)]" : "border-white/10 bg-white/[0.035] text-white/35"}`}>
                         <HeroPanelIcon index={i} active={isActive} />
                       </span>
                     );
                   })}
                 </div>
-                <div className="mt-5 h-1.5 rounded-full bg-white/12"><span className="block h-full w-[78%] rounded-full bg-[#10b786]" /></div>
+                <div className="mt-5 h-1.5 rounded-full bg-white/12"><span className="block h-full w-[78%] rounded-full bg-[var(--brand-primary)]" /></div>
               </div>
-              <div className="absolute right-[2%] top-[10%] rounded-[20px] bg-[#11a878] px-4 py-3 text-center text-white shadow-[0_14px_30px_rgba(17,168,120,0.34)] after:absolute after:right-1/2 after:top-full after:h-8 after:w-px after:bg-[#1a7f62]/55 after:content-['']">
+              <div className="absolute right-[2%] top-[10%] rounded-[20px] bg-[var(--brand-primary)] px-4 py-3 text-center text-white shadow-[0_14px_30px_rgba(212,168,67,0.34)] after:absolute after:right-1/2 after:top-full after:h-8 after:w-px after:bg-[rgba(184,140,53,0.55)] after:content-['']">
                 <p className="text-[2rem] font-extrabold leading-none">+500</p>
                 <p className="mt-1 text-[0.95rem] font-semibold">مشروع ناجح</p>
               </div>
@@ -235,10 +235,10 @@ export default function MarketPage() {
             </div>
 
             <div className="[direction:rtl] text-right">
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#0fa878]/35 bg-[#06261f]/72 px-5 py-2 text-[0.9rem] font-semibold text-[#10b786]"><span>قسم ماركت</span><Dot /></div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-[var(--brand-primary-border-soft)] bg-[#19130a]/72 px-5 py-2 text-[0.9rem] font-semibold text-[var(--brand-primary-soft)]"><span>قسم ماركت</span><Dot /></div>
               <h1 className="mt-7 text-[clamp(2.45rem,5.2vw,5rem)] font-extrabold leading-[1.06] text-white">
                 <span className="block">نمو استراتيجي</span>
-                <span className="market-highlight block text-[#10b786]"> 
+                <span className="market-highlight block text-[var(--brand-primary)]"> 
                   { "يحقق نتائج" }
                 
                   <svg
@@ -247,7 +247,7 @@ export default function MarketPage() {
                 preserveAspectRatio="none"
                 className="pointer-events-none absolute -bottom-[0.24em] right-[-2%] h-[0.36em] w-[70%]"
               >
-                <path d="M2,12 C30,3 70,3 98,12" fill="none" stroke="#10b786" strokeWidth="1.9" strokeLinecap="round" />
+                <path d="M2,12 C30,3 70,3 98,12" fill="none" stroke="var(--brand-primary)" strokeWidth="1.9" strokeLinecap="round" />
               </svg>
                 </span>
               </h1>
@@ -256,7 +256,7 @@ export default function MarketPage() {
                 {chips.map((chip) => <span key={chip} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-[0.96rem] font-semibold text-white/74"><Dot />{chip}</span>)}
               </div>
               <div className="mt-8 flex flex-wrap items-center justify-start gap-3 lg:flex-nowrap">
-                <button type="button" className="whitespace-nowrap rounded-2xl border border-[#0fa878] bg-gradient-to-l from-[#11a878] to-[#0f9f72] px-7 py-2.5 text-[1.03rem] font-bold text-white">احصل على جلسة استراتيجية مجانية</button>
+                <button type="button" className="whitespace-nowrap rounded-2xl border border-[var(--brand-primary)] bg-gradient-to-l from-[var(--brand-primary)] to-[var(--brand-primary-strong)] px-7 py-2.5 text-[1.03rem] font-bold text-white">احصل على جلسة استراتيجية مجانية</button>
                 <button type="button" className="whitespace-nowrap rounded-2xl border border-white/16 bg-[#0b1326]/75 px-7 py-2.5 text-[1.03rem] font-semibold text-white/90">عرض دراسات الحالة</button>
               </div>
             </div>
@@ -267,14 +267,14 @@ export default function MarketPage() {
       <section className="market-who-section py-20 sm:py-24">
         <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
           <div className="mx-auto max-w-[840px] text-center">
-            <div className="mx-auto inline-flex items-center gap-2 rounded-full bg-[#d6e7e2] px-5 py-2 text-sm font-semibold text-[#119e78]"><span>لمن هذه الخدمة</span><Dot /></div>
+            <div className="mx-auto inline-flex items-center gap-2 rounded-full bg-[#f3ead6] px-5 py-2 text-sm font-semibold text-[var(--brand-primary-strong)]"><span>لمن هذه الخدمة</span><Dot /></div>
             <h2 className="mt-6 text-[clamp(2.4rem,4.4vw,4.4rem)]  leading-[1.08] text-[#121a2b]">من يستفيد من خدماتنا؟</h2>
             <p className="mx-auto mt-4 max-w-[760px] text-[1.15rem] leading-relaxed text-[#7a8595]">نساعد الشركات في جميع المراحل على تحقيق أهداف النمو والتوسع</p>
           </div>
           <div className="mt-14 grid gap-5 lg:grid-cols-4">
             {audience.map((card) => (
               <article key={card.title} className="market-who-card px-6 pb-6 pt-7 text-center">
-                <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#11a878] text-white">
+                <span className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--brand-primary)] text-white">
                   <IconGlyph />
                 </span>
                 <h3 className="text-[2rem] font-extrabold leading-none text-[#1b2435]">{card.title}</h3>
@@ -285,7 +285,7 @@ export default function MarketPage() {
           </div>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <span className="rounded-2xl bg-[#edf0f3] px-8 py-3 text-[1.18rem] text-[#6f7989]">إذا كان حجم شركتك، لدينا الحلول المناسبة</span>
-            <button type="button" className="rounded-2xl bg-gradient-to-l from-[#11a878] to-[#0f9f72] px-8 py-3 text-[1.12rem] font-bold text-white">احجز استشارة مجانية</button>
+            <button type="button" className="rounded-2xl bg-gradient-to-l from-[var(--brand-primary)] to-[var(--brand-primary-strong)] px-8 py-3 text-[1.12rem] font-bold text-white">احجز استشارة مجانية</button>
           </div>
         </div>
       </section>
@@ -294,7 +294,7 @@ export default function MarketPage() {
         <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
           <div className="grid gap-8 lg:grid-cols-2 lg:items-end">
             <div className="text-right">
-              <div className="inline-flex items-center gap-2 rounded-full bg-[#d6e7e2] px-5 py-2 text-sm font-semibold text-[#119e78]"><span>خدماتنا</span><Dot /></div>
+              <div className="inline-flex items-center gap-2 rounded-full bg-[#f3ead6] px-5 py-2 text-sm font-semibold text-[var(--brand-primary-strong)]"><span>خدماتنا</span><Dot /></div>
               <h2 className="mt-5 text-[clamp(2.5rem,4.5vw,4.2rem)] font-extrabold leading-[1.05] text-[#121a2b]">خدمات ماركت</h2>
             </div>
             <p className="text-right text-[1.15rem] leading-relaxed text-[#7a8595]">أربع خدمات أساسية مصممة بعناية لتغطّي كل ما تحتاجه لتسريع نموك والسيطرة على سوقك.</p>
@@ -302,10 +302,10 @@ export default function MarketPage() {
           <div className="mt-12 grid gap-5 md:grid-cols-2">
             {services.map((card) => (
               <article key={card.id} className="market-service-card relative px-6 pb-6 pt-5 text-right">
-                <div className="mb-6 flex items-start justify-between [direction:ltr]"><span className="text-[3.4rem] font-extrabold leading-none text-[#cfd6df]">{card.id}</span><span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#d8ece5] text-[#10a777]"><IconGlyph /></span></div>
+                <div className="mb-6 flex items-start justify-between [direction:ltr]"><span className="text-[3.4rem] font-extrabold leading-none text-[#cfd6df]">{card.id}</span><span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#f6ecd9] text-[var(--brand-primary-strong)]"><IconGlyph /></span></div>
                 <h3 className="text-[2rem] font-extrabold leading-none text-[#1c2536]">{card.title}</h3>
                 <p className="mt-4 text-[1.02rem] leading-relaxed text-[#738092]">{card.description}</p>
-                <div className="mt-7 flex items-center justify-between [direction:ltr]"><span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#e7ebf1] text-[#8e98a8]"><Arrow /></span><div className="text-right [direction:rtl]"><p className="text-[2rem] font-extrabold leading-none text-[#119f73]">{card.metric}</p><p className="mt-1 text-sm text-[#8f99aa]">{card.label}</p></div></div>
+                <div className="mt-7 flex items-center justify-between [direction:ltr]"><span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#e7ebf1] text-[#8e98a8]"><Arrow /></span><div className="text-right [direction:rtl]"><p className="text-[2rem] font-extrabold leading-none text-[var(--brand-primary-strong)]">{card.metric}</p><p className="mt-1 text-sm text-[#8f99aa]">{card.label}</p></div></div>
               </article>
             ))}
           </div>
@@ -315,7 +315,7 @@ export default function MarketPage() {
       <section className="market-how-section py-20 sm:py-24">
         <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
           <div className="mx-auto max-w-[840px] text-center">
-            <div className="mx-auto inline-flex items-center gap-2 rounded-full bg-[#d6e7e2] px-5 py-2 text-sm font-semibold text-[#119e78]"><span>طريقة العمل</span><Dot /></div>
+            <div className="mx-auto inline-flex items-center gap-2 rounded-full bg-[#f3ead6] px-5 py-2 text-sm font-semibold text-[var(--brand-primary-strong)]"><span>طريقة العمل</span><Dot /></div>
             <h2 className="mt-6 text-[clamp(2.5rem,4.5vw,4.2rem)] font-extrabold leading-[1.05] text-[#121a2b]">كيف نعمل معك</h2>
             <p className="mx-auto mt-4 max-w-[760px] text-[1.15rem] leading-relaxed text-[#7a8595]">خمس خطوات بسيطة ومنهجية توصلك من الفكرة إلى النتائج</p>
           </div>
@@ -329,11 +329,11 @@ export default function MarketPage() {
                       <span className={`flex h-8 w-8 items-center justify-center rounded-full ${isActive ? "bg-[#0b1930] text-white/75" : "bg-[#e9edf2] text-[#a1aab8]"}`}>
                         <ChevronIcon open={isActive} />
                       </span>
-                      <span className={`rounded-full px-4 py-1.5 text-sm font-semibold ${isActive ? "bg-[#062824] text-[#0fc092]" : "bg-[#e9edf2] text-[#a1aab8]"}`}>{step.duration}</span>
+                      <span className={`rounded-full px-4 py-1.5 text-sm font-semibold ${isActive ? "bg-[#21180b] text-[var(--brand-primary-soft)]" : "bg-[#e9edf2] text-[#a1aab8]"}`}>{step.duration}</span>
                     </div>
                     <div className="flex items-center gap-4 [direction:rtl]">
                       <h3 className={`text-[2rem] font-extrabold leading-none ${isActive ? "text-white" : "text-[#1f2937]"}`}>{step.title}</h3>
-                      <span className={`inline-flex h-12 min-w-12 items-center justify-center rounded-xl px-2 text-[1.05rem] font-bold ${isActive ? "bg-[#10b786] text-white" : "bg-[#e9edf2] text-[#9aa4b4]"}`}>{step.id}</span>
+                      <span className={`inline-flex h-12 min-w-12 items-center justify-center rounded-xl px-2 text-[1.05rem] font-bold ${isActive ? "bg-[var(--brand-primary)] text-white" : "bg-[#e9edf2] text-[#9aa4b4]"}`}>{step.id}</span>
                     </div>
                   </button>
                   {isActive && (
@@ -348,8 +348,8 @@ export default function MarketPage() {
               );
             })}
           </div>
-          <div className="mt-8 flex items-center justify-center gap-3">{[0, 1, 2, 3, 4].map((dot) => <span key={dot} className={`h-[6px] rounded-full ${dot === stepIndex ? "w-10 bg-[#10a878]" : "w-6 bg-[#d5dbe3]"}`} />)}</div>
-          <div className="mt-12 text-center"><button type="button" className="inline-flex min-w-[320px] items-center justify-center gap-2 rounded-2xl bg-gradient-to-l from-[#11a878] to-[#0f9f72] px-9 py-3.5 text-[1.2rem] font-bold text-white"><Arrow />جاهز للبدء؟ احجز جلستك المجانية</button></div>
+          <div className="mt-8 flex items-center justify-center gap-3">{[0, 1, 2, 3, 4].map((dot) => <span key={dot} className={`h-[6px] rounded-full ${dot === stepIndex ? "w-10 bg-[var(--brand-primary)]" : "w-6 bg-[#d5dbe3]"}`} />)}</div>
+          <div className="mt-12 text-center"><button type="button" className="inline-flex min-w-[320px] items-center justify-center gap-2 rounded-2xl bg-gradient-to-l from-[var(--brand-primary)] to-[var(--brand-primary-strong)] px-9 py-3.5 text-[1.2rem] font-bold text-white"><Arrow />جاهز للبدء؟ احجز جلستك المجانية</button></div>
         </div>
       </section>
 
@@ -358,19 +358,19 @@ export default function MarketPage() {
       <section className="market-stats-section py-20 sm:py-24">
         <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
           <div className="mx-auto max-w-[840px] text-center">
-            <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-[#0ca37c]/35 bg-[#052430]/45 px-5 py-2 text-sm font-semibold text-[#0fc092]"><span>نتائج حقيقية</span><Dot /></div>
+            <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-[var(--brand-primary-border-soft)] bg-[#1a1308]/45 px-5 py-2 text-sm font-semibold text-[var(--brand-primary-soft)]"><span>نتائج حقيقية</span><Dot /></div>
             <h2 className="mt-6 text-[clamp(2.4rem,4.4vw,4.4rem)] leading-[1.08] text-white">أرقام تتحدث عن نفسها</h2>
             <p className="mx-auto mt-4 max-w-[760px] text-[1.15rem] leading-relaxed text-white/62">نتائج ملموسة حققناها لعملائنا</p>
           </div>
-          <div className="mt-14 grid gap-5 [direction:ltr] md:grid-cols-2 xl:grid-cols-4">{resultCards.map((card) => <article key={card.title} className="market-stat-card rounded-[22px] px-6 pb-6 pt-6 text-right [direction:rtl]"><p className="text-[1.55rem] font-semibold text-[#aab4c7]/72">{card.title}</p><div className="mt-4 flex items-center justify-end gap-3"><span className="text-[2.7rem] font-extrabold leading-none text-white">{card.value}</span><span className="text-[#0fc092]"><Arrow /></span><span className="text-[1.9rem] font-bold leading-none text-[#647490]/62 line-through decoration-[2px]">{card.baseline}</span></div><div className="mt-5"><span className="inline-flex items-center gap-1.5 rounded-full border border-[#0ca07a]/32 bg-[#08302c] px-4 py-1.5 text-[1.08rem] font-semibold text-[#0fc092]"><TrendIcon />{card.uplift}</span></div></article>)}</div>
-          <div className="mt-12 rounded-[22px] border border-[#0a8f72] bg-[#020b1c]/86 px-6 py-8 sm:px-8"><div className="grid gap-8 [direction:ltr] sm:grid-cols-2 lg:grid-cols-4">{highlights.map((h) => <div key={h.label} className="text-center [direction:rtl]"><p className="text-[2.6rem] font-extrabold leading-none text-white">{h.value}</p><p className="mt-2 text-[1.08rem] font-semibold text-[#a8b2c3]/62">{h.label}</p></div>)}</div></div>
+          <div className="mt-14 grid gap-5 [direction:ltr] md:grid-cols-2 xl:grid-cols-4">{resultCards.map((card) => <article key={card.title} className="market-stat-card rounded-[22px] px-6 pb-6 pt-6 text-right [direction:rtl]"><p className="text-[1.55rem] font-semibold text-[#aab4c7]/72">{card.title}</p><div className="mt-4 flex items-center justify-end gap-3"><span className="text-[2.7rem] font-extrabold leading-none text-white">{card.value}</span><span className="text-[var(--brand-primary)]"><Arrow /></span><span className="text-[1.9rem] font-bold leading-none text-[#647490]/62 line-through decoration-[2px]">{card.baseline}</span></div><div className="mt-5"><span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--brand-primary-border-soft)] bg-[#241a0c] px-4 py-1.5 text-[1.08rem] font-semibold text-[var(--brand-primary-soft)]"><TrendIcon />{card.uplift}</span></div></article>)}</div>
+          <div className="mt-12 rounded-[22px] border border-[var(--brand-primary-border-soft)] bg-[#020b1c]/86 px-6 py-8 sm:px-8"><div className="grid gap-8 [direction:ltr] sm:grid-cols-2 lg:grid-cols-4">{highlights.map((h) => <div key={h.label} className="text-center [direction:rtl]"><p className="text-[2.6rem] font-extrabold leading-none text-white">{h.value}</p><p className="mt-2 text-[1.08rem] font-semibold text-[#a8b2c3]/62">{h.label}</p></div>)}</div></div>
         </div>
       </section>
 
             <section className="market-stories-section py-20 sm:py-24">
         <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
           <div className="mx-auto max-w-[840px] text-center">
-            <div className="mx-auto inline-flex items-center gap-2 rounded-full bg-[#d6e7e2] px-5 py-2 text-sm  text-[#109d76]"><span>دراسات الحالة</span><Dot /></div>
+            <div className="mx-auto inline-flex items-center gap-2 rounded-full bg-[#f3ead6] px-5 py-2 text-sm text-[var(--brand-primary-strong)]"><span>دراسات الحالة</span><Dot /></div>
             <h2 className="mt-6 text-[clamp(2.4rem,4.4vw,4.4rem)]  leading-[1.08] text-[#111827]">قصص نجاح عملائنا</h2>
             <p className="mx-auto mt-4 max-w-[760px] text-[1.15rem] leading-relaxed text-[#7b8594]">نتائج حقيقية حققناها لشركات في مختلف الصناعات</p>
           </div>
@@ -381,7 +381,7 @@ export default function MarketPage() {
               </button>
             ))}
           </div>
-          <div className="mt-12 grid gap-4 md:grid-cols-3">{story.stats.map((s) => <article key={s.label} className="market-story-card rounded-[18px] px-6 py-6 text-center"><p className="text-[2.7rem] font-extrabold leading-none text-[#109f72]">{s.value}</p><p className="mt-3 text-[1.15rem] font-semibold text-[#6c7686]">{s.label}</p></article>)}</div>
+          <div className="mt-12 grid gap-4 md:grid-cols-3">{story.stats.map((s) => <article key={s.label} className="market-story-card rounded-[18px] px-6 py-6 text-center"><p className="text-[2.7rem] font-extrabold leading-none text-[var(--brand-primary-strong)]">{s.value}</p><p className="mt-3 text-[1.15rem] font-semibold text-[#6c7686]">{s.label}</p></article>)}</div>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             <article className="market-story-card rounded-[18px] px-6 py-6 text-right"><h3 className="mb-3 text-[1.7rem] font-extrabold text-[#1f2937]">التحدي</h3><p className="text-[1.1rem] leading-relaxed text-[#677182]">{story.challenge}</p></article>
             <article className="market-story-card rounded-[18px] px-6 py-6 text-right"><h3 className="mb-3 text-[1.7rem] font-extrabold text-[#1f2937]">الحل</h3><p className="text-[1.1rem] leading-relaxed text-[#677182]">{story.solution}</p></article>
@@ -399,7 +399,7 @@ export default function MarketPage() {
       <section className="market-faq-section py-20 sm:py-24">
         <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
           <div className="mx-auto max-w-[820px] text-center">
-            <div className="mx-auto inline-flex items-center gap-2 rounded-full bg-[#d5e7e1] px-5 py-2 text-sm font-semibold text-[#119d77]"><span>الأسئلة الشائعة</span><Dot /></div>
+            <div className="mx-auto inline-flex items-center gap-2 rounded-full bg-[#f3ead6] px-5 py-2 text-sm font-semibold text-[var(--brand-primary-strong)]"><span>الأسئلة الشائعة</span><Dot /></div>
             <h2 className="mt-6 text-[clamp(2.4rem,4.4vw,4.4rem)]  leading-[1.08] text-[#111827]">أسئلة قد تهمك</h2>
             <p className="mx-auto mt-4 max-w-[760px] text-[1.15rem] leading-relaxed text-[#798394]">إجابات على الأسئلة الأكثر شيوعًا حول خدماتنا</p>
           </div>
@@ -409,17 +409,17 @@ export default function MarketPage() {
               return (
                 <article key={item.id} className={`market-faq-item px-6 py-4 sm:px-7 ${isOpen ? "market-faq-item-open py-5 sm:py-6" : ""}`}>
                   <button type="button" onClick={() => setActiveFaq(item.id)} className="flex w-full items-center justify-between gap-4 [direction:ltr]" aria-expanded={isOpen}>
-                    <span className={`flex h-10 w-10 items-center justify-center rounded-xl ${isOpen ? "bg-[#0fa878] text-white" : "bg-[#e8ebf0] text-[#8d97a8]"}`}>
+                    <span className={`flex h-10 w-10 items-center justify-center rounded-xl ${isOpen ? "bg-[var(--brand-primary)] text-white" : "bg-[#e8ebf0] text-[#8d97a8]"}`}>
                       <ChevronIcon open={isOpen} />
                     </span>
-                    <div className="flex items-center gap-4 [direction:rtl]"><span className={`inline-flex h-12 min-w-12 items-center justify-center rounded-xl px-2 text-[1.05rem] ${isOpen ? "bg-[#0fa878] text-white" : "bg-[#e8ebf0] text-[#8f99aa]"}`}>{item.id}</span><h3 className={`text-[1.65rem]  leading-none ${isOpen ? "text-[#12a17a]" : "text-[#1f2937]"}`}>{item.q}</h3></div>
+                    <div className="flex items-center gap-4 [direction:rtl]"><span className={`inline-flex h-12 min-w-12 items-center justify-center rounded-xl px-2 text-[1.05rem] ${isOpen ? "bg-[var(--brand-primary)] text-white" : "bg-[#e8ebf0] text-[#8f99aa]"}`}>{item.id}</span><h3 className={`text-[1.65rem]  leading-none ${isOpen ? "text-[var(--brand-primary-strong)]" : "text-[#1f2937]"}`}>{item.q}</h3></div>
                   </button>
-                  {isOpen && <p className="mx-auto mt-5 max-w-[92%] border-t border-[#d8ece5] pt-4 text-center text-[1.15rem] leading-relaxed text-[#6f798a]">{item.a}</p>}
+                  {isOpen && <p className="mx-auto mt-5 max-w-[92%] border-t border-[#ecdcb7] pt-4 text-center text-[1.15rem] leading-relaxed text-[#6f798a]">{item.a}</p>}
                 </article>
               );
             })}
           </div>
-          <div className="mx-auto mt-12 max-w-[980px] rounded-[18px] border border-[#6ec7b0] bg-[#d4e8e3] px-6 py-9 text-center"><p className="text-[1.25rem] font-semibold text-[#5e6878]">لديك سؤال آخر؟ تواصل معنا مباشرة</p><button type="button" className="mt-5 rounded-2xl bg-gradient-to-l from-[#11a878] to-[#0f9f72] px-12 py-3 text-[1.2rem] font-bold text-white">احجز استشارة مجانية</button></div>
+          <div className="mx-auto mt-12 max-w-[980px] rounded-[18px] border border-[var(--brand-primary-border-soft)] bg-[#f6ecd9] px-6 py-9 text-center"><p className="text-[1.25rem] font-semibold text-[#5e6878]">لديك سؤال آخر؟ تواصل معنا مباشرة</p><button type="button" className="mt-5 rounded-2xl bg-gradient-to-l from-[var(--brand-primary)] to-[var(--brand-primary-strong)] px-12 py-3 text-[1.2rem] font-bold text-white">احجز استشارة مجانية</button></div>
         </div>
       </section>
 

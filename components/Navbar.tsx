@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -47,35 +47,35 @@ const brandThemes: Record<BrandKey, BrandTheme> = {
   market: {
     subtitle: "MARKETING",
     activeNavClass:
-      "bg-gradient-to-l from-[#15b386] to-[#0ea374] text-white shadow-[0_8px_20px_rgba(17,170,122,0.32)]",
+      "bg-gradient-to-l from-[var(--brand-primary)] to-[var(--brand-primary-strong)] text-[#1a1305] shadow-[0_8px_20px_rgba(212,168,67,0.34)]",
     ctaClass:
-      "rounded-full border border-[#14ad80] bg-gradient-to-l from-[#16b786] to-[#10a776] px-7 py-2.5 text-base font-semibold text-white shadow-[0_10px_24px_rgba(16,167,118,0.28)]",
+      "rounded-full border border-[var(--brand-primary)] bg-gradient-to-l from-[var(--brand-primary)] to-[var(--brand-primary-strong)] px-7 py-2.5 text-base font-semibold text-[#1b160a] shadow-[0_10px_24px_rgba(212,168,67,0.3)]",
     mobileActiveNavClass:
-      "bg-gradient-to-l from-[#15b386] to-[#0ea374] text-white",
+      "bg-gradient-to-l from-[var(--brand-primary)] to-[var(--brand-primary-strong)] text-[#1a1305]",
     mobileCtaClass:
-      "rounded-full border border-[#14ad80] px-4 py-1.5 text-[#12b787]",
+      "rounded-full border border-[var(--brand-primary)] px-4 py-1.5 text-[var(--brand-primary-soft)]",
   },
   media: {
     subtitle: "MEDIA",
     activeNavClass:
-      "bg-gradient-to-l from-[#8f4dff] to-[#6f35e6] text-white shadow-[0_8px_20px_rgba(126,69,245,0.34)]",
+      "bg-gradient-to-l from-[var(--brand-primary)] to-[var(--brand-primary-strong)] text-[#1a1305] shadow-[0_8px_20px_rgba(212,168,67,0.34)]",
     ctaClass:
-      "rounded-full border border-[#8647f3] bg-gradient-to-l from-[#8f4dff] to-[#6f35e6] px-7 py-2.5 text-base font-semibold text-white shadow-[0_10px_24px_rgba(126,69,245,0.3)]",
+      "rounded-full border border-[var(--brand-primary)] bg-gradient-to-l from-[var(--brand-primary)] to-[var(--brand-primary-strong)] px-7 py-2.5 text-base font-semibold text-[#1b160a] shadow-[0_10px_24px_rgba(212,168,67,0.3)]",
     mobileActiveNavClass:
-      "bg-gradient-to-l from-[#8f4dff] to-[#6f35e6] text-white",
+      "bg-gradient-to-l from-[var(--brand-primary)] to-[var(--brand-primary-strong)] text-[#1a1305]",
     mobileCtaClass:
-      "rounded-full border border-[#8647f3] px-4 py-1.5 text-[#bca2ff]",
+      "rounded-full border border-[var(--brand-primary)] px-4 py-1.5 text-[var(--brand-primary-soft)]",
   },
   tech: {
     subtitle: "TECH",
     activeNavClass:
-      "bg-gradient-to-l from-[#2f7cff] to-[#1f67de] text-white shadow-[0_8px_20px_rgba(47,124,255,0.34)]",
+      "bg-gradient-to-l from-[var(--brand-primary)] to-[var(--brand-primary-strong)] text-[#1a1305] shadow-[0_8px_20px_rgba(212,168,67,0.34)]",
     ctaClass:
-      "rounded-full border border-[#2f7cff] bg-gradient-to-l from-[#2f7cff] to-[#1f67de] px-7 py-2.5 text-base font-semibold text-white shadow-[0_10px_24px_rgba(47,124,255,0.3)]",
+      "rounded-full border border-[var(--brand-primary)] bg-gradient-to-l from-[var(--brand-primary)] to-[var(--brand-primary-strong)] px-7 py-2.5 text-base font-semibold text-[#1b160a] shadow-[0_10px_24px_rgba(212,168,67,0.3)]",
     mobileActiveNavClass:
-      "bg-gradient-to-l from-[#2f7cff] to-[#1f67de] text-white",
+      "bg-gradient-to-l from-[var(--brand-primary)] to-[var(--brand-primary-strong)] text-[#1a1305]",
     mobileCtaClass:
-      "rounded-full border border-[#2f7cff] px-4 py-1.5 text-[#8dc6ff]",
+      "rounded-full border border-[var(--brand-primary)] px-4 py-1.5 text-[var(--brand-primary-soft)]",
   },
 };
 
@@ -247,4 +247,3 @@ export default function Navbar() {
     </header>
   );
 }
-

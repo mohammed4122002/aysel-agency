@@ -1,225 +1,138 @@
-﻿"use client";
+"use client";
 
-import React from "react";
-
-interface Pillar {
-  key: "market" | "media" | "tech";
-  title: string;
-  subtitle: string;
-  points: string[];
-  quote: string;
-}
-
-const pillars: Pillar[] = [
+const servicesData = [
   {
-    key: "market",
-    title: "ماركت",
-    subtitle: "الأساس الاستراتيجي للنمو المستدام",
-    points: [
-      "أبحاث وتحليل السوق",
-      "تطوير استراتيجية النمو",
-      "تحسين قمع المبيعات",
-      "تخطيط دخول السوق",
+    icon: "/figmaAssets/margin-wrap-15.svg",
+    title: "تك",
+    subtitle: "حلول رقمية تدعم أعمالك",
+    features: [
+      "تطوير المواقع المخصصة",
+      "حلول تطبيقات الجوال",
+      "لوحات التحكم والتحليلات",
+      "تكامل الأنظمة",
     ],
-    quote:
-      "نحلل ونخطط ونرسم خرائط طريق تحول الرؤية إلى نتائج قابلة للقياس.",
+    quote: "نبني حلولًا قوية وقابلة للتوسع تحول الأفكار إلى تجارب رقمية مميزة.",
   },
   {
-    key: "media",
+    icon: "/figmaAssets/margin-wrap-26.svg",
     title: "ميديا",
     subtitle: "التميز الإبداعي الذي يجذب الانتباه",
-    points: [
+    features: [
       "هوية العلامة التجارية",
       "إنشاء وإدارة المحتوى",
       "التسويق عبر وسائل التواصل",
       "الإعلانات المدفوعة",
     ],
-    quote:
-      "نصنع قصصاً تلامس القلوب، ونبني علامات تدوم، ونطلق حملات تحقق النتائج.",
+    quote: "نصنع قصصًا تلامس القلوب، ونبني علامات تدوم، ونطلق حملات تحقق النتائج.",
   },
   {
-    key: "tech",
-    title: "تك",
-    subtitle: "حلول رقمية تدعم أعمالك",
-    points: [
-      "تطوير المواقع المخصصة",
-      "حلول وتطبيقات الجوال",
-      "لوحات التحكم والتحليلات",
-      "تكامل الأنظمة",
+    icon: "/figmaAssets/margin-wrap-27.svg",
+    title: "ماركت",
+    subtitle: "الأساس الاستراتيجي للنمو المستدام",
+    features: [
+      "أبحاث وتحليل السوق",
+      "تطوير استراتيجية النمو",
+      "تحسين قمع المبيعات",
+      "تخطيط دخول السوق",
     ],
-    quote:
-      "نبني حلولاً قوية وقابلة للتوسع تحول الأفكار إلى تجارب رقمية مميزة.",
+    quote: "نحلل ونخطط ونرسم خرائط طريق تحول الرؤية إلى نتائج قابلة للقياس.",
   },
 ];
 
-function CheckIcon() {
+export default function PillarsSection(): JSX.Element {
   return (
-    <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden>
-      <path
-        d="m3.4 8.2 3 3.1 6-6.4"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
+    <section className="w-full px-6 py-20">
+      <div className="mx-auto max-w-screen-xl">
+        <div className="flex flex-col items-center pb-20">
+          <div className="flex w-full max-w-[1232px] flex-col items-center">
+            <div className="flex w-full justify-center pb-4">
+              <div className="inline-flex h-9 items-center rounded-full border-0 bg-[#0b12260f] px-4 py-2 text-xs font-semibold">
+                <span className="text-center text-sm font-normal leading-5 text-[#0b1226] [direction:rtl]">
+                  منظومة متكاملة
+                </span>
+              </div>
+            </div>
 
-function MarketIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-      <rect x="4.2" y="4.2" width="11.6" height="11.6" rx="1.6" stroke="currentColor" strokeWidth="1.6" />
-      <path
-        d="m6.9 12 2.2-2.3 1.9 1.9 2.2-2.4"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
+            <div className="flex w-full justify-center pb-6">
+              <h2 className="text-center text-5xl font-bold leading-[48px] text-[#111726] [direction:rtl]">
+                ثلاث ركائز، رؤية واحدة
+              </h2>
+            </div>
 
-function MediaIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-      <path d="M5.3 8.2 12.7 5v10l-7.4-3.3V8.2Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
-      <path
-        d="M12.7 7.7c1.5.3 2.5 1.5 2.5 2.9s-1 2.6-2.5 2.9"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-      />
-      <path d="M4.8 11.9V14c0 .6.5 1.1 1.1 1.1h1.3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function TechIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-      <path
-        d="m7.2 6.1-3 3.9 3 3.9M12.8 6.1l3 3.9-3 3.9"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path d="m11 4.7-2.2 10.6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function BellIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
-      <path
-        d="M8 2.8A2.5 2.5 0 0 0 5.5 5.3v.9c0 .7-.2 1.4-.6 2L4.2 9.3h7.6l-.7-1.1a3.4 3.4 0 0 1-.6-2v-.9A2.5 2.5 0 0 0 8 2.8Z"
-        stroke="currentColor"
-        strokeWidth="1.3"
-      />
-      <path d="M6.9 10.8a1.2 1.2 0 0 0 2.2 0" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-const iconMap = {
-  market: <MarketIcon  />,
-  media: <MediaIcon />,
-  tech: <TechIcon />,
-};
-
-function TinyIcon({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[#0c1633] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
-      {children}
-    </span>
-  );
-}
-
-export default function PillarsSection() {
-  return (
-    <section className="pillars-section relative z-20 py-20 sm:py-24">
-      <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
-        <div className="mx-auto max-w-[720px] text-center">
-          <div className="mx-auto inline-flex rounded-full bg-[#e4e6eb] px-4 py-1.5 text-xs font-semibold text-[#667085]">
-            منظومة متكاملة
+            <div className="flex w-full max-w-screen-md flex-col items-center">
+              <p className="text-center text-xl font-normal leading-[32.5px] text-[#4a5462] [direction:rtl]">
+                بنينا نظامًا متكاملًا حيث تعمل الاستراتيجية والإبداع والتكنولوجيا معًا بسلاسة لتحقيق نتائج
+                استثنائية.
+              </p>
+            </div>
           </div>
-
-          <h2 className="mt-5 text-[clamp(1.64rem,3.5vw,2.79rem)] font-extrabold leading-[1.1] text-[#111827]">
-            ثلاث ركائز، رؤية واحدة
-          </h2>
-
-          <p className="mx-auto mt-4 max-w-[660px] text-[1.01rem] leading-relaxed text-[#6b7280]">
-            بنينا نظاماً متكاملاً حيث تعمل الاستراتيجية والإبداع والتكنولوجيا معاً
-            بسلاسة لتحقيق نتائج استثنائية.
-          </p>
         </div>
 
-        <div className="mt-16 grid gap-5 lg:grid-cols-3">
-          {pillars.map((pillar) => (
-            <article key={pillar.key} className="pillar-card px-6 pb-6 pt-7">
-              <div className=" mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#0c1633] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
-                {iconMap[pillar.key]}
-              </div>
+        <div className="pb-16  " dir="ltr">
+          <div className="mx-auto grid max-w-[1232px] grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {servicesData.map((service) => (
+              <article
+                key={service.title}
+                className="flex flex-col items-end overflow-hidden rounded-3xl border border-solid border-[#f2f4f5] bg-white p-[41px] shadow-[0px_2px_20px_#0000001a]"
+              >
+                <div className="flex w-full flex-col items-end space-y-4 p-0">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img className="shrink-0" alt={service.title} src={service.icon} />
 
-              <h3 className="text-[1.72rem] font-extrabold leading-none text-[#111827]">{pillar.title}</h3>
-              <p className="mt-3 text-[0.95rem] text-[#6b7280]">{pillar.subtitle}</p>
+                  <div className="flex w-full justify-end">
+                    <h3 className="text-3xl font-bold leading-9 text-[#111726] [direction:rtl]">{service.title}</h3>
+                  </div>
 
-              <ul className="mt-4 space-y-2.5 text-[0.93rem] text-[#374151]">
-                {pillar.points.map((point) => (
-                  <li key={point} className="flex items-start justify-start gap-2">
-                    <CheckIcon />
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
+                  <div className="flex w-full justify-end pb-2">
+                    <p className="text-lg font-normal leading-[29.2px] text-[#4a5462] [direction:rtl]">
+                      {service.subtitle}
+                    </p>
+                  </div>
 
-              <div className="mt-5 border-t border-[#e5e7eb] pt-4">
-                <p className="text-sm leading-relaxed text-[#9ca3af]">&ldquo;{pillar.quote}&rdquo;</p>
-              </div>
-            </article>
-          ))}
+                  <div className="flex w-full flex-col items-end space-y-3 pb-4">
+                    {service.features.map((feature) => (
+                      <div key={feature} className="flex w-full items-center justify-end gap-3">
+                        <span className="text-base font-normal leading-6 text-[#374050] [direction:rtl]">
+                          {feature}
+                        </span>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img className="shrink-0" alt="Check" src="/figmaAssets/i-675.svg" />
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex w-full flex-col items-end border-t border-solid border-[#e4e7eb] pt-[25px]">
+                    <p className="line-clamp-2 text-right text-sm font-normal leading-5 text-[#6a7280] [direction:rtl]">
+                      &ldquo;{service.quote}&rdquo;
+                    </p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
 
-        <div className="mt-10 rounded-[20px] border border-[#b7bfcc] bg-[#f4f5f8] px-6 py-8 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] sm:px-8">
-          <div className="mb-4 inline-flex items-center flex-row-reverse gap-3 text-[#334155]">
-            <TinyIcon>
-              <BellIcon />
-            </TinyIcon>
+        <div className="mx-auto flex max-w-[1232px] flex-col items-end rounded-3xl border border-solid border-[#0b1226a1] bg-[#0b122605] p-[49px] shadow">
+          <div className="flex w-full flex-col items-center p-0">
+            <div className="flex w-full max-w-screen-md flex-col items-end space-y-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img className="shrink-0" alt="Integration" src="/figmaAssets/margin-wrap-18.svg" />
 
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
-              <path
-                d="M14 9H4.5m0 0L7.6 5.8M4.5 9l3.1 3.2"
-                stroke="currentColor"
-                strokeWidth="1.7"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+              <div className="flex w-full justify-center pb-4">
+                <h3 className="text-center text-3xl font-bold leading-9 text-[#111726] [direction:rtl]">قوة التكامل</h3>
+              </div>
 
-            <TinyIcon>
-              <TechIcon />
-            </TinyIcon>
-            <span className="text-xl">+</span>
-            <TinyIcon>
-              <MediaIcon />
-            </TinyIcon>
-            <span className="text-xl">+</span>
-            <TinyIcon>
-              <MarketIcon />
-            </TinyIcon>
+              <div className="flex w-full flex-col items-center">
+                <p className="text-center text-lg font-normal leading-[29.2px] text-[#374050] [direction:rtl]">
+                  عندما تعمل الاستراتيجية والإبداع والتكنولوجيا معًا، يحدث السحر. نحن لا نقدم خدمات منفصلة بل
+                  نخلق حلولًا متكاملة حيث تعزز كل ركيزة الأخرى، مما يؤدي إلى نمو هائل لأعمالك.
+                </p>
+              </div>
+            </div>
           </div>
-
-          <h3 className="text-[1.72rem] font-extrabold text-[#111827]">قوة التكامل</h3>
-          <p className="mx-auto mt-3 max-w-[860px] text-[0.98rem] leading-relaxed text-[#4b5563]">
-            عندما تعمل الاستراتيجية والإبداع والتكنولوجيا معًا، يحدث السحر. نحن لا
-            نقدم خدمات منفصلة، بل نخلق حلولًا متكاملة حيث يعزز كل ركيزة الأخرى،
-            مما يؤدي إلى نمو فعال لأعمالك.
-          </p>
         </div>
       </div>
     </section>
   );
 }
+

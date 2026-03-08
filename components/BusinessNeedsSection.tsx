@@ -1,161 +1,138 @@
 "use client";
 
-import React from "react";
+import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
-interface NeedCard {
-  key: "market" | "media" | "tech";
-  title: string;
-  description: string;
-  bullets: string[];
-  cta: string;
-}
+const solutionCards = [
+  {
 
-const cards: NeedCard[] = [
-  {
-    key: "market",
-    title: "ماركت",
-    description:
-      "تحتاج استراتيجية واضحة؟ تريد فهم سوقك بشكل أعمق؟ تبحث عن تحسين عملية المبيعات؟",
-    bullets: ["التخطيط الاستراتيجي", "تحليل السوق والمنافسين", "تحسين النمو والمبيعات"],
-    cta: "استكشف ماركت",
-  },
-  {
-    key: "media",
-    title: "ميديا",
-    description:
-      "تريد بناء علامتك التجارية؟ تحتاج محتوى جذاب؟ تبحث عن الوصول لعملاء أكثر؟",
-    bullets: ["تطوير العلامة التجارية", "إنشاء المحتوى الإبداعي", "التسويق الرقمي والإعلانات"],
-    cta: "استكشف ميديا",
-  },
-  {
-    key: "tech",
+    id: "tech",
     title: "تك",
-    description:
-      "تحتاج موقع أو تطبيق؟ تريد أتمتة العمليات؟ تبحث عن حلول مخصصة؟",
-    bullets: ["تطوير المواقع الإلكترونية", "تطبيقات الجوال", "الحلول والأنظمة المخصصة"],
-    cta: "استكشف تك",
+    description: "تحتاج موقع أو تطبيق؟ تريد أتمتة العمليات؟ تبحث عن حلول مخصصة؟",
+    icon: "/figmaAssets/margin-wrap-31.svg",
+    features: ["تطوير المواقع الإلكترونية", "تطبيقات الجوال", "الحلول والأنظمة المخصصة"],
+    linkText: "استكشف تك",
+    gradientOverlay:
+      "bg-[linear-gradient(118deg,rgba(6,182,212,0)_0%,rgba(14,165,233,0)_100%)]",
+  },
+  {
+    id: "media",
+    title: "ميديا",
+    description: "تريد بناء علامتك التجارية؟ تحتاج محتوى جذاب؟ تبحث عن الوصول لعملاء أكثر؟",
+    icon: "/figmaAssets/margin-wrap-23.svg",
+    features: ["تطوير العلامة التجارية", "إنشاء المحتوى الإبداعي", "التسويق الرقمي والإعلانات"],
+    linkText: "استكشف ميديا",
+    gradientOverlay:
+      "bg-[linear-gradient(118deg,rgba(244,63,94,0)_0%,rgba(236,72,153,0)_100%)]",
+  },
+  {
+    id: "market",
+    title: "ماركت",
+    description: "تحتاج استراتيجية واضحة؟ تريد فهم سوقك بشكل أعمق؟ تبحث عن تحسين عملية المبيعات؟",
+    icon: "/figmaAssets/margin-wrap-29.svg",
+    features: ["التخطيط الاستراتيجي", "تحليل السوق والمنافسين", "تحسين النمو والمبيعات"],
+    linkText: "استكشف ماركت",
+    gradientOverlay:
+      "bg-[linear-gradient(118deg,rgba(20,184,166,0)_0%,rgba(16,185,129,0)_100%)]",
   },
 ];
 
-function IconMarket() {
+export default function BusinessNeedsSection(): JSX.Element {
   return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-      <path d="M4.5 4.5v11h11" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-      <path
-        d="m7.1 12 2.3-2.3 1.9 1.9 2.4-2.5"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
+    <section className="relative w-full overflow-hidden bg-[#090e1a] py-28">
+      <div className="absolute left-0 top-0 h-full w-full opacity-5">
+        <div className="relative h-full w-full [background:radial-gradient(50%_50%_at_0%_0%,rgba(255,255,255,1)_0%,rgba(0,0,0,0)_0%)]" />
+      </div>
 
-function IconMedia() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-      <path d="M5.5 8.3 12.8 5v10L5.5 11.7V8.3Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
-      <path
-        d="M12.8 7.7c1.5.3 2.5 1.5 2.5 2.9s-1 2.6-2.5 2.9"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-      />
-      <path d="M5 11.8V14c0 .6.5 1.1 1.1 1.1h1.3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  );
-}
+      <div className="absolute left-[696px] top-0 h-96 w-96 rounded-full bg-[#d4af370f] blur-[32px]" />
+      <div className="absolute left-[360px] top-[851px] h-96 w-96 rounded-full bg-[#d4af370f] blur-[32px]" />
 
-function IconTech() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-      <path
-        d="m7.2 6.1-3 3.9 3 3.9M12.8 6.1l3 3.9-3 3.9"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path d="m11 4.7-2.2 10.6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-const iconByKey = {
-  market: <IconMarket />,
-  media: <IconMedia />,
-  tech: <IconTech />,
-};
-
-function ChevronItem({ text }: { text: string }) {
-  return (
-    <li className="flex items-center justify-between gap-3 text-[14px] text-white/75">
-      <span className="text-white/85">{text}</span>
-      <span className="text-[#d4a843] text-[13px]">&#8249;</span>
-    </li>
-  );
-}
-
-export default function BusinessNeedsSection() {
-  return (
-    <section className="business-needs-section relative py-20 sm:py-24">
-      <div className="mx-auto w-full max-w-[1120px] px-4 sm:px-8 lg:px-10">
-        <div className="mx-auto max-w-[680px] text-center">
-          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-[var(--brand-primary-border-soft)] bg-[#19130a]/70 px-4 py-1.5 text-[11px] font-semibold text-[var(--brand-primary-soft)]">
-            <span className="text-[8px] text-[var(--brand-primary)]">&#9679;</span>
-            <span>اختر مسارك</span>
-          </div>
-
-          <h2 className="mt-6 text-[28px] font-extrabold leading-[1.2] text-white sm:text-[32px] lg:text-[36px]">
-            ماذا يحتاج عملك؟
-          </h2>
-
-          <p className="mx-auto mt-4 max-w-[640px] text-[14px] leading-relaxed text-white/70">
-            اختر المجال الذي يناسب أهدافك الحالية. كل قسم مصمم لحل تحديات محددة
-            وتحقيق نتائج قابلة للقياس.
-          </p>
-        </div>
-
-        <div className="mt-14 grid gap-5 sm:gap-6 lg:grid-cols-3">
-          {cards.map((card) => (
-            <article key={card.key} className="needs-card flex-1 rounded-[18px] px-7 pb-7 pt-6 text-right">
-              <div className="mb-6 flex justify-end">
-                <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--brand-primary)] text-[#1b160a] shadow-[0_10px_24px_rgba(212,168,67,0.25)]">
-                  {iconByKey[card.key]}
-                </span>
+      <div className="relative px-6 lg:px-20">
+        <div className="mx-auto flex w-full max-w-screen-xl flex-col items-end lg:px-6">
+          <div className="w-full pb-20">
+            <div className="flex w-full flex-col items-end">
+              <div className="flex w-full items-start justify-center pb-6">
+                <Badge className="h-10 gap-2 rounded-full border-0 bg-[#d4af371a] px-5 py-2.5 hover:bg-[#d4af371a]">
+                  <span className="text-center text-sm font-bold leading-5 text-[#d4af37] [direction:rtl]">
+                    اختر مسارك
+                  </span>
+                  <Image className="h-5 w-[14.3px]" alt="Icon" src="/figmaAssets/i-312.svg" width={14} height={20} />
+                </Badge>
               </div>
 
-              <h3 className="text-[22px] font-extrabold leading-none text-white">{card.title}</h3>
-              <p className="mt-4 text-[14px] leading-relaxed text-white/70">{card.description}</p>
+              <div className="w-full pb-6">
+                <h2 className="text-center text-4xl font-bold leading-[52px] text-white [direction:rtl] sm:text-5xl sm:leading-[56px] lg:text-6xl lg:leading-[60px]">
+                  ماذا يحتاج عملك؟
+                </h2>
+              </div>
 
-              <ul className="mt-5 space-y-2.5">
-                {card.bullets.map((item) => (
-                  <ChevronItem key={item} text={item} />
-                ))}
-              </ul>
+              <div className="flex w-full justify-center">
+                <div className="max-w-screen-md text-center">
+                  <p className="text-xl font-normal leading-[32.5px] text-[#d0d5da] [direction:rtl]">
+                    اختر المجال الذي يناسب أهدافك الحالية. كل قسم مصمم لحل تحديات محددة وتحقيق نتائج قابلة للقياس
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-              <button
-                type="button"
-                className="mt-7 inline-flex items-center gap-2 text-[14px] font-semibold text-[var(--brand-primary)] hover:text-[var(--brand-primary-soft)]"
+          <div className="flex w-full flex-wrap items-start justify-end gap-8" dir="ltr">
+            {solutionCards.map((service) => (
+                      <article
+                key={service.id}
+                className="flex flex-col items-end overflow-hidden rounded-3xl border-2 border-[#374050] bg-[linear-gradient(118deg,rgba(31,41,55,0.8)_0%,rgba(17,24,39,0.8)_100%)] p-[42px] shadow-[0px_2px_20px_#0000001a] backdrop-blur-[2px] backdrop-brightness-[100%] [-webkit-backdrop-filter:blur(2px)_brightness(100%)] md:w-[calc(50%-1rem)] lg:w-[340.33px]"
               >
-                <span>{card.cta}</span>
-                <span>&#8592;</span>
-              </button>
-            </article>
-          ))}
-        </div>
+                <div className="flex w-full flex-col items-end space-y-4 p-0">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img className="shrink-0" alt={service.title} src={service.icon} />
 
-        <div className="mt-12 text-center">
-          <p className="text-[14px] text-white/60">لست متأكداً أي قسم تحتاج؟</p>
-          <button
-            type="button"
-            className="mt-4 rounded-full border border-[var(--brand-primary)] bg-gradient-to-l from-[var(--brand-primary)] to-[var(--brand-primary-strong)] px-8 py-3 text-[14px] font-bold text-white shadow-[0_12px_26px_rgba(0,0,0,0.28)]"
-          >
-            احصل على استشارة مجانية
-          </button>
+                  <div className="flex w-full justify-end flex-col">
+                         <h3 className="pb-4 text-3xl font-bold leading-9 text-white [direction:rtl]">{service.title}</h3>
+                  <p className="overflow-hidden pb-8 text-ellipsis text-base font-normal leading-[26px] text-[#d0d5da] [direction:rtl] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]">
+                    {service.description}
+                  </p>
+                  </div>
+
+                     <div className="flex w-full flex-col gap-3 pb-10">
+                    {service.features.map((feature) => (
+                      <div key={feature} className="flex items-center justify-end gap-3">
+                        <span className="text-base font-normal leading-6 text-gray-400 [direction:rtl]">{feature}</span>
+                        <Image className="h-7 w-5" alt="Feature icon" src="/figmaAssets/i-425.svg" width={20} height={28} />
+                      </div>
+                    ))}
+                  </div>
+ 
+                  
+
+               
+  <Button className="h-auto w-full items-center justify-end gap-2 bg-transparent p-0 hover:bg-transparent">
+                    <Image className="h-6 w-4" alt="Arrow" src="/figmaAssets/i-391.svg" width={16} height={24} />
+                    <span className="text-base font-bold leading-6 text-[#d4af37] [direction:rtl]">{service.linkText}</span>
+                  </Button>
+
+                
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="w-full pt-20">
+            <div className="flex w-full flex-col items-end">
+              <div className="w-full pb-6">
+                <p className="text-center text-lg font-normal leading-7 text-gray-400 [direction:rtl]">لست متأكدًا أي قسم تحتاج؟</p>
+              </div>
+              <div className="flex w-full items-start justify-center">
+                <Button className="h-14 rounded-2xl bg-white px-10 py-4 shadow-[0px_20px_25px_-5px_#0000001a,0px_8px_10px_-6px_#0000001a] hover:bg-white/90">
+                  <span className="text-center text-base font-bold leading-6 text-[#111726] [direction:rtl]">احصل على استشارة مجانية</span>
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
+

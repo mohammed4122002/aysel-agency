@@ -132,7 +132,7 @@ export default function SiteFooter({ brandSubtitle }: SiteFooterProps) {
       <div className="mx-auto w-full max-w-[1280px] px-4 py-14 sm:px-8 lg:px-10 lg:py-16">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div className="text-right">
-            <div className="mb-6 flex items-center justify-end gap-2.5 text-white">
+            <div className="mb-6 flex items-center  gap-2.5 text-white">
               <Image
                 key={logo.src}
                 src={logo.src}
@@ -145,7 +145,7 @@ export default function SiteFooter({ brandSubtitle }: SiteFooterProps) {
 
             <p className="max-w-[300px] text-[0.97rem] leading-[1.8] text-[#9e8a67]">{footerDescription}</p>
 
-            <div className="mt-6 flex items-center justify-end gap-3">
+            <div className="mt-6 flex items-center  gap-3">
               <button
                 type="button"
                 className="flex h-11 w-11 items-center justify-center rounded-xl border border-[rgba(212,168,67,0.2)] bg-[rgba(212,168,67,0.06)] text-[#d4a843] transition-colors hover:bg-[rgba(212,168,67,0.14)]"
@@ -195,25 +195,28 @@ export default function SiteFooter({ brandSubtitle }: SiteFooterProps) {
           <div className="text-right">
             <h3 className="mb-5 text-[1.72rem] font-bold leading-none text-[#f2ead6]">تواصل معنا</h3>
             <ul className="space-y-4 text-[0.99rem] text-[#9e8a67]">
-              <li className="flex items-center justify-end gap-3.5">
-                <span>{footerContact.email}</span>
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-[rgba(212,168,67,0.2)] bg-[rgba(212,168,67,0.06)] text-[#d4a843]">
+              <li className="flex items-center  gap-3.5">
+                 <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-[rgba(212,168,67,0.2)] bg-[rgba(212,168,67,0.06)] text-[#d4a843]">
                   <MailIcon />
                 </span>
+                <span>{footerContact.email}</span>
+               
               </li>
 
-              <li className="flex items-center justify-end gap-3.5">
-                <span dir="ltr">{footerContact.phone}</span>
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-[rgba(212,168,67,0.2)] bg-[rgba(212,168,67,0.06)] text-[#d4a843]">
+              <li className="flex items-center gap-3.5">
+                   <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-[rgba(212,168,67,0.2)] bg-[rgba(212,168,67,0.06)] text-[#d4a843]">
                   <PhoneIcon />
                 </span>
+                <span dir="ltr">{footerContact.phone}</span>
+             
               </li>
 
-              <li className="flex items-center justify-end gap-3.5">
-                <span>{footerContact.address}</span>
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-[rgba(212,168,67,0.2)] bg-[rgba(212,168,67,0.06)] text-[#d4a843]">
+              <li className="flex items-center gap-3.5">
+                 <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-[rgba(212,168,67,0.2)] bg-[rgba(212,168,67,0.06)] text-[#d4a843]">
                   <PinIcon />
                 </span>
+                <span>{footerContact.address}</span>
+               
               </li>
             </ul>
           </div>

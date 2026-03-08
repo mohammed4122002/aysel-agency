@@ -23,7 +23,7 @@ export default function Home() {
         <Navbar />
 
         <section className="relative z-10 mx-auto w-full px-4 pb-12 pt-[7.2rem] sm:px-8 sm:pb-14 sm:pt-[8rem] lg:px-10 lg:pb-80 lg:pt-[9.2rem]">
-          <div className="mx-auto flex max-w-[1304px] flex-col-reverse gap-8 lg:[direction:ltr] lg:grid lg:grid-cols-[506px_734px] lg:items-start lg:justify-between lg:gap-16">
+          <div className="mx-auto flex max-w-[1304px] flex-col-reverse gap-8 lg:[direction:ltr] lg:grid lg:grid-cols-[506px_734px] lg:items-start lg:justify-between lg:gap-16 mt-7">
         
             <div className="w-full lg:pt-10">
               <ServiceCards />

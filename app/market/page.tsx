@@ -186,7 +186,7 @@ export default function MarketPage() {
 
   return (
     <main className="bg-[#eceef2]">
-      <section className="market-shell relative min-h-screen overflow-hidden">
+      <section className="market-shell relative overflow-hidden">
         <div className="market-hero-bg" aria-hidden>
           <div className="market-hero-glow-main" />
           <div className="market-hero-glow-secondary" />
@@ -196,9 +196,9 @@ export default function MarketPage() {
       
         </div>
         <Navbar />
-        <section className="relative z-10 mx-auto w-full max-w-[1220px] px-4 pb-16 pt-[7.8rem] sm:px-8 sm:pt-[8.8rem] lg:px-10 lg:pt-[9.8rem]">
-          <div className="grid gap-12 [direction:ltr] lg:grid-cols-2 lg:items-center">
-            <div className="relative mx-auto h-[520px] w-full max-w-[620px]">
+        <section className="relative z-10 mx-auto w-full px-4 pb-12 pt-[7.2rem] sm:px-8 sm:pb-14 sm:pt-[8rem] lg:px-10 lg:pb-96 lg:pt-[9.2rem]">
+          <div className="mx-auto grid max-w-[1304px] gap-8 [direction:ltr] lg:grid-cols-[506px_734px] lg:items-start lg:justify-between lg:gap-16">
+            <div className="relative mx-auto h-[470px] w-full max-w-[506px] mt-13">
               <div className="absolute left-[4%] top-[15%] w-[90%] rounded-[28px] border border-white/12 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02))] p-8 shadow-[0_22px_48px_rgba(2,8,20,0.56)]">
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--brand-primary)] text-white text-2xl">$</div>
                 <p className="mt-5 text-center text-[4rem] font-extrabold leading-none text-white">300%</p>
@@ -262,6 +262,12 @@ export default function MarketPage() {
             </div>
           </div>
         </section>
+        <div className="pointer-events-none absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-center text-xs text-white/40">
+          <p className="mb-2">اكتشف المزيد</p>
+          <div className="mx-auto flex h-9 w-5 items-start justify-center rounded-full border border-white/30 p-[6px]">
+            <span className="mt-0.5 h-2.5 w-1 animate-[pulse_1.8s_ease-in-out_infinite] rounded-full bg-[var(--brand-primary)]" />
+          </div>
+        </div>
       </section>
 
       <section className="market-who-section py-20 sm:py-24">

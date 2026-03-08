@@ -160,10 +160,10 @@ export default function MediaPage() {
 
   return (
     <main className="bg-[var(--brand-bg)]">
-      <section className="media-shell relative min-h-screen overflow-hidden">
+      <section className="media-shell relative overflow-hidden">
         <Navbar />
 
-        <section className="relative z-10 mx-auto flex w-full max-w-[1220px] flex-col gap-12 px-4 pb-14 pt-[7.8rem] sm:px-8 sm:pt-[8.8rem] lg:flex-row lg:items-center lg:gap-10 lg:px-10 lg:pt-[10.2rem]">
+        <section className="relative z-10 mx-auto flex w-full max-w-[1304px] flex-col gap-8 px-4 pb-12 pt-[7.2rem] sm:px-8 sm:pb-14 sm:pt-[8rem] lg:flex-row lg:items-start lg:gap-16 lg:px-10 lg:pb-72 lg:pt-[9.2rem]">
           <div className="order-2 w-full lg:order-2 lg:w-[52%]">
             <div className="relative mx-auto h-[560px] max-w-[640px] sm:h-[620px] [direction:ltr]">
               <span className="absolute left-[6%] top-[30%] h-20 w-20 rounded-full border border-[rgba(212,168,67,0.45)] sm:h-24 sm:w-24" />
@@ -252,10 +252,10 @@ export default function MediaPage() {
           </div>
         </section>
 
-        <div className="pointer-events-none absolute bottom-5 left-1/2 z-10 -translate-x-1/2 text-center text-xs text-white/35">
+        <div className="pointer-events-none absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-center text-xs text-white/40">
           <p className="mb-2">اكتشف المزيد</p>
-          <div className="mx-auto flex h-10 w-6 items-start justify-center rounded-full border border-white/25 p-1">
-            <span className="mt-1 h-2.5 w-1.5 animate-[pulse_1.8s_ease-in-out_infinite] rounded-full bg-[var(--brand-primary)]" />
+          <div className="mx-auto flex h-9 w-5 items-start justify-center rounded-full border border-white/30 p-[6px]">
+            <span className="mt-0.5 h-2.5 w-1 animate-[pulse_1.8s_ease-in-out_infinite] rounded-full bg-[var(--brand-primary)]" />
           </div>
         </div>
       </section>

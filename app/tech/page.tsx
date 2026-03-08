@@ -555,7 +555,7 @@ export default function TechPage() {
 
   return (
     <main className="bg-[#040812]">
-      <section className="relative min-h-screen overflow-hidden bg-[radial-gradient(1080px_620px_at_76%_32%,rgba(16,24,48,0.7),transparent_67%),radial-gradient(780px_480px_at_20%_74%,rgba(8,16,32,0.9),transparent_70%),linear-gradient(180deg,#020915_0%,#020918_56%,#020713_100%)]">
+      <section className="relative overflow-hidden bg-[radial-gradient(1080px_620px_at_76%_32%,rgba(16,24,48,0.7),transparent_67%),radial-gradient(780px_480px_at_20%_74%,rgba(8,16,32,0.9),transparent_70%),linear-gradient(180deg,#020915_0%,#020918_56%,#020713_100%)]">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 bg-[repeating-linear-gradient(116deg,rgba(212,168,67,0.08)_0,rgba(212,168,67,0.08)_1px,transparent_1px,transparent_92px)] opacity-30" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_720px_280px_at_52%_52%,rgba(212,168,67,0.26),transparent_72%)]" />
@@ -566,8 +566,8 @@ export default function TechPage() {
 
         <Navbar />
 
-        <section className="relative z-10 mx-auto w-full max-w-[1320px] px-4 pb-16 pt-[7.7rem] sm:px-8 sm:pt-[8.7rem] lg:px-10 lg:pt-[10.1rem]">
-          <div className="grid   gap-12 [direction:ltr] lg:grid-cols-2 lg:items-center">
+        <section className="relative z-10 mx-auto w-full max-w-[1304px] px-4 pb-12 pt-[7.2rem] sm:px-8 sm:pb-14 sm:pt-[8rem] lg:px-10 lg:pb-72 lg:pt-[9.2rem]">
+          <div className="grid gap-8 [direction:ltr] lg:grid-cols-2 lg:items-start lg:gap-16">
             <div className="relative mx-auto h-[560px] w-full max-w-[700px] lg:h-[620px] order-2 lg:order-1">
               <div className="absolute left-[8%] top-[14%] w-[82%] overflow-hidden rounded-[24px] border border-[#29406c] bg-[linear-gradient(180deg,#0b1630_0%,#081126_100%)] shadow-[0_20px_42px_rgba(0,0,0,0.5)]">
                 <div className="flex items-center justify-between border-b border-[#1d2b4d] px-4 py-3">
@@ -700,10 +700,10 @@ export default function TechPage() {
           </div>
         </section>
 
-        <div className="pointer-events-none absolute bottom-5 left-1/2 z-10 -translate-x-1/2 text-center text-xs text-white/35">
+        <div className="pointer-events-none absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-center text-xs text-white/40">
           <p className="mb-2">اكتشف المزيد</p>
-          <div className="mx-auto flex h-10 w-6 items-start justify-center rounded-full border border-white/25 p-1">
-            <span className="mt-1 h-2.5 w-1.5 animate-[pulse_1.8s_ease-in-out_infinite] rounded-full bg-[var(--brand-primary)]" />
+          <div className="mx-auto flex h-9 w-5 items-start justify-center rounded-full border border-white/30 p-[6px]">
+            <span className="mt-0.5 h-2.5 w-1 animate-[pulse_1.8s_ease-in-out_infinite] rounded-full bg-[var(--brand-primary)]" />
           </div>
         </div>
       </section>

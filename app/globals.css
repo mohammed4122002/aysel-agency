@@ -12,7 +12,7 @@
 @theme inline {
   --color-background: #050a16;
   --color-foreground: #f2f5fb;
-  --font-sans: var(--font-cairo);
+  --font-sans: var(--font-almarai);
   --font-mono: var(--font-geist-mono);
 }
 
@@ -37,7 +37,7 @@ body {
   margin: 0;
   background: var(--color-background);
   color: var(--color-foreground);
-  font-family: "Cairo", sans-serif;
+  font-family: "Almarai", sans-serif;
 }
 
 .site-motion-root {

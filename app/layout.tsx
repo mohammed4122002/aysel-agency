@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Cairo } from "next/font/google";
+import { Almarai } from "next/font/google";
 import SiteMotion from "@/components/SiteMotion";
 import "./globals.css";
 
-const cairo = Cairo({
-  variable: "--font-cairo",
+const almarai = Almarai({
+  variable: "--font-almarai",
   subsets: ["arabic", "latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl">
-      <body className={`${cairo.variable} font-[Cairo,sans-serif] antialiased`}>
+      <body className={`${almarai.variable} font-sans antialiased`}>
         <SiteMotion>{children}</SiteMotion>
       </body>
     </html>

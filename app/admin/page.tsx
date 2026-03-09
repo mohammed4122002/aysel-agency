@@ -527,8 +527,7 @@ export default function AdminPage() {
                 className="text-[9px] font-bold uppercase text-[var(--gold-500)]">
                 AYSEL SECURE ACCESS
               </p>
-              <h1 style={{ fontFamily: "'Playfair Display', serif" }}
-                className="mt-2 text-3xl font-bold text-white">
+              <h1 className="mt-2 text-3xl font-bold text-white">
                 بوابة الإدارة
               </h1>
               <div className="mt-2 h-px w-20 mr-auto bg-gradient-to-r from-[#c8973a] via-[#e8cc88] to-transparent" />
@@ -577,8 +576,7 @@ export default function AdminPage() {
                 className="text-[9px] font-bold uppercase text-[var(--gold-500)]">
                 AYSEL ADMIN
               </p>
-              <h1 style={{ fontFamily: "'Playfair Display', serif" }}
-                className="mt-1 text-xl font-bold text-white sm:text-2xl">
+              <h1 className="mt-1 text-xl font-bold text-white sm:text-2xl">
                 لوحة التحكم
               </h1>
               <p className="text-xs text-[var(--text-muted)]">إدارة محتوى كاملة لجميع أقسام الموقع</p>
@@ -668,8 +666,7 @@ export default function AdminPage() {
                 وضع التحرير مفعل
               </span>
               <div className="text-right">
-                <h2 style={{ fontFamily: "'Playfair Display', serif" }}
-                  className="text-lg font-bold text-white">
+                <h2 className="text-lg font-bold text-white">
                   {tabs.find((t) => t.id === tab)?.label}
                 </h2>
                 <p className="text-xs text-[var(--text-muted)]">{tabDescriptions[tab]}</p>

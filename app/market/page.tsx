@@ -4,6 +4,16 @@ import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import SiteFooter from "@/components/SiteFooter";
 import { useMemo, useState } from "react";
+import {
+  FiArrowLeft,
+  FiArrowUpRight,
+  FiBarChart2,
+  FiBell,
+  FiChevronDown,
+  FiClock,
+  FiDollarSign,
+  FiTrendingUp,
+} from "react-icons/fi";
 
 type StepId = "01" | "02" | "03" | "04" | "05";
 type StoryId = "startup" | "ecommerce" | "b2b";
@@ -94,86 +104,37 @@ function Dot() {
 }
 
 function Arrow() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-      <path d="M12 8H4.2M4.2 8l2.7-2.7M4.2 8l2.7 2.7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-    </svg>
-  );
+  return <FiArrowLeft className="text-[1rem]" aria-hidden />;
 }
 
 function IconGlyph() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-      <path
-        d="M6 17l4.2-4.2 2.7 2.7 5.1-5.1M16 10h2.6V7.4"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
+  return <FiTrendingUp className="text-[1.1rem]" aria-hidden />;
 }
 
 function ChevronIcon({ open }: { open: boolean }) {
-  return (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 20 20"
-      fill="none"
-      aria-hidden
-      className={open ? "" : "rotate-180"}
-    >
-      <path d="M5.5 12.5 10 8l4.5 4.5" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
+  return <FiChevronDown className={`text-[0.9rem] ${open ? "" : "rotate-180"}`} aria-hidden />;
 }
 
 function TrendIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
-      <path d="M3 11.5 9.5 5M9.5 5H6.7M9.5 5v2.8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
+  return <FiArrowUpRight className="text-[0.95rem]" aria-hidden />;
 }
 
 function HeroPanelIcon({ index, active }: { index: number; active: boolean }) {
-  const color = active ? "var(--brand-primary)" : "currentColor";
+  const sizeClass = active ? "text-[1rem]" : "text-[0.95rem]";
 
   if (index === 0) {
-    return (
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
-        <path d="M9 3.2a3.4 3.4 0 0 0-3.4 3.4v1.8l-1 1.7h8.8l-1-1.7V6.6A3.4 3.4 0 0 0 9 3.2Z" stroke={color} strokeWidth="1.4" strokeLinejoin="round" />
-        <path d="M7.6 12.8a1.4 1.4 0 0 0 2.8 0" stroke={color} strokeWidth="1.4" strokeLinecap="round" />
-      </svg>
-    );
+    return <FiBell className={sizeClass} aria-hidden />;
   }
 
   if (index === 1) {
-    return (
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
-        <path d="M4 13.6h10" stroke={color} strokeWidth="1.4" strokeLinecap="round" />
-        <path d="M4.4 12.6V5.2M13.6 12.6v-2.8M9 12.6V7.3" stroke={color} strokeWidth="1.4" strokeLinecap="round" />
-      </svg>
-    );
+    return <FiBarChart2 className={sizeClass} aria-hidden />;
   }
 
   if (index === 2) {
-    return (
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
-        <circle cx="9" cy="9" r="5.4" stroke={color} strokeWidth="1.4" />
-        <path d="M9 9V3.6M9 9h5.2" stroke={color} strokeWidth="1.4" strokeLinecap="round" />
-      </svg>
-    );
+    return <FiClock className={sizeClass} aria-hidden />;
   }
 
-  return (
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
-      <circle cx="9" cy="9" r="5.4" stroke={color} strokeWidth="1.4" />
-      <path d="M9 6.2v5.6M10.9 7.5c0-.7-.8-1.3-1.9-1.3s-1.9.6-1.9 1.3c0 .7.8 1.3 1.9 1.3s1.9.6 1.9 1.3c0 .7-.8 1.3-1.9 1.3s-1.9-.6-1.9-1.3" stroke={color} strokeWidth="1.2" strokeLinecap="round" />
-    </svg>
-  );
+  return <FiDollarSign className={sizeClass} aria-hidden />;
 }
 
 export default function MarketPage() {
@@ -200,7 +161,9 @@ export default function MarketPage() {
           <div className="mx-auto grid max-w-[1304px] gap-8 [direction:ltr] lg:grid-cols-[506px_734px] lg:items-start lg:justify-between lg:gap-16">
             <div className="relative mx-auto h-[470px] w-full max-w-[506px] mt-13">
               <div className="absolute left-[4%] top-[15%] w-[90%] rounded-[28px] border border-white/12 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02))] p-8 shadow-[0_22px_48px_rgba(2,8,20,0.56)]">
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--brand-primary)] text-white text-2xl">$</div>
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--brand-primary)] text-white text-2xl">
+                  <FiDollarSign aria-hidden />
+                </div>
                 <p className="mt-5 text-center text-[4rem] font-extrabold leading-none text-white">300%</p>
                 <p className="mt-2 text-center text-[1.36rem] font-semibold text-white/72">نمو الإيرادات</p>
                 <div className="mt-7 grid grid-cols-4 gap-2.5">

@@ -1,15 +1,26 @@
 ﻿"use client";
 
-import { useEffect, useState, type FormEvent, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
 import Link from "next/link";
 import { clearContentCache } from "@/lib/site-content-client";
 import { defaultSiteContent } from "@/lib/site-content-default";
 import { deepMerge } from "@/lib/deep-merge";
 import "./admin.css";
 
-type EditorTab = "agency" | "market" | "media" | "tech" | "security";
+type EditorTab = "agency" | "market" | "media" | "tech" | "requests" | "security";
 type ObjField = { key: string; label: string; dir?: "rtl" | "ltr"; multiline?: boolean };
 type Credentials = { username: string; password: string };
+type ConsultationRequest = {
+  id: string;
+  createdAt: string;
+  status: string;
+  department: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  budget: string;
+  details: string;
+};
 
 const DEFAULT_CREDENTIALS: Credentials = { username: "admin", password: "admin" };
 const CREDENTIALS_KEY = "aysel.admin.credentials";
@@ -85,6 +96,16 @@ function asStringList(value: unknown): string[] {
   return value.map((item) => asString(item));
 }
 
+function normalizeSearch(value: string) {
+  return value.trim().toLowerCase();
+}
+
+function formatDateLabel(iso: string) {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "تاريخ غير متاح";
+  return date.toLocaleString("ar-SA", { dateStyle: "medium", timeStyle: "short" });
+}
+
 async function uploadImageFile(file: File) {
   if (!file.type.startsWith("image/")) throw new Error("يرجى اختيار صورة فقط.");
   const formData = new FormData();
@@ -95,7 +116,7 @@ async function uploadImageFile(file: File) {
   return data.path;
 }
 
-/* ─── Card wrapper ───────────────────────────────────────────────────────── */
+/* ??? Card wrapper ????????????????????????????????????????????????????????? */
 function Card({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="admin-card p-5 sm:p-6">
@@ -108,7 +129,7 @@ function Card({ title, children }: { title: string; children: ReactNode }) {
   );
 }
 
-/* ─── Field ──────────────────────────────────────────────────────────────── */
+/* ??? Field ???????????????????????????????????????????????????????????????? */
 function Field({
   label, value, onChange, dir = "rtl", multiline = false, type = "text", placeholder,
 }: {
@@ -116,7 +137,7 @@ function Field({
   dir?: "rtl" | "ltr"; multiline?: boolean; type?: string; placeholder?: string;
 }) {
   const base =
-    "admin-focus w-full rounded-xl border border-[var(--border)] bg-[rgba(8,10,22,0.8)] px-3 py-2.5 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[rgba(200,151,58,0.55)] focus:bg-[var(--bg-elevated)]";
+    "admin-focus w-full rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] px-3 py-2.5 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[rgba(200,151,58,0.55)] focus:bg-[var(--bg-elevated)]";
   return (
     <label className="block text-right">
       <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">{label}</span>
@@ -131,7 +152,7 @@ function Field({
   );
 }
 
-/* ─── Single image uploader ──────────────────────────────────────────────── */
+/* ??? Single image uploader ???????????????????????????????????????????????? */
 function SingleImageUploader({ label, value, onChange }: { label: string; value: string; onChange: (next: string) => void }) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
@@ -146,7 +167,7 @@ function SingleImageUploader({ label, value, onChange }: { label: string; value:
       <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">{label}</p>
       {error && <p className="rounded-xl border border-[rgba(224,92,110,0.4)] bg-[rgba(224,92,110,0.1)] px-3 py-2 text-xs font-semibold text-[var(--danger)]">{error}</p>}
       <div className="flex flex-wrap items-center justify-end gap-2">
-        <label className="admin-focus inline-flex cursor-pointer items-center rounded-xl border border-[rgba(200,151,58,0.45)] bg-[rgba(200,151,58,0.1)] px-3 py-2 text-xs font-semibold text-[#e8cc88] hover:bg-[rgba(200,151,58,0.18)]">
+        <label className="admin-focus inline-flex cursor-pointer items-center rounded-xl border border-[rgba(200,151,58,0.45)] bg-[rgba(200,151,58,0.1)] px-3 py-2 text-xs font-semibold text-[var(--primary-600)] hover:bg-[rgba(200,151,58,0.18)]">
           اختر من الجهاز
           <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (!f) return; void handleUpload(f); e.currentTarget.value = ""; }} />
         </label>
@@ -165,7 +186,7 @@ function SingleImageUploader({ label, value, onChange }: { label: string; value:
             <img src={value} alt="preview" className="h-32 w-full object-cover sm:h-36" />
           </div>
         ) : (
-          <div className="rounded-xl border border-dashed border-[rgba(200,151,58,0.2)] bg-[rgba(5,7,14,0.6)] p-6 text-center text-xs text-[var(--text-muted)]">
+          <div className="rounded-xl border border-dashed border-[rgba(200,151,58,0.2)] bg-[var(--surface-subtle)] p-6 text-center text-xs text-[var(--text-muted)]">
             لا توجد صورة. اختر صورة من جهازك.
           </div>
         )}
@@ -174,13 +195,13 @@ function SingleImageUploader({ label, value, onChange }: { label: string; value:
   );
 }
 
-/* ─── Tab button ─────────────────────────────────────────────────────────── */
+/* ??? Tab button ??????????????????????????????????????????????????????????? */
 function TabBtn({ active, label, onClick }: { active: boolean; label: string; onClick: () => void }) {
   return (
     <button type="button" onClick={onClick}
       className={`admin-focus w-full rounded-xl border px-4 py-2.5 text-sm font-semibold text-right transition-colors ${
         active
-          ? "border-[rgba(200,151,58,0.55)] bg-gradient-to-l from-[rgba(200,151,58,0.14)] to-[rgba(200,151,58,0.06)] text-[#e8cc88] shadow-[0_4px_20px_rgba(200,151,58,0.12)]"
+          ? "border-[rgba(200,151,58,0.55)] bg-gradient-to-l from-[rgba(200,151,58,0.14)] to-[rgba(200,151,58,0.06)] text-[var(--primary-600)] shadow-[0_4px_20px_rgba(200,151,58,0.12)]"
           : "border-[var(--border)] bg-[var(--panel)] text-[var(--text-muted)] hover:border-[rgba(200,151,58,0.28)] hover:text-[var(--text-soft)]"
       }`}>
       {label}
@@ -192,7 +213,7 @@ function isImageField(field: ObjField) {
   return field.key.toLowerCase().includes("image") || field.label.includes("صورة");
 }
 
-/* ─── Object list editor ─────────────────────────────────────────────────── */
+/* ??? Object list editor ??????????????????????????????????????????????????? */
 function ObjListEditor({ title, path, fields, newItem, content, updateField, removeRow, addRow }: {
   title: string; path: string[]; fields: ObjField[]; newItem: Record<string, unknown>;
   content: unknown;
@@ -221,7 +242,7 @@ function ObjListEditor({ title, path, fields, newItem, content, updateField, rem
       </div>
       {uploadError && <p className="rounded-xl border border-[rgba(224,92,110,0.4)] bg-[rgba(224,92,110,0.1)] px-3 py-2 text-right text-xs font-semibold text-[var(--danger)]">{uploadError}</p>}
       {rows.map((row, index) => (
-        <div key={`${title}-${index}`} className="space-y-3 rounded-xl border border-[var(--border)] bg-[rgba(8,10,22,0.7)] p-3">
+        <div key={`${title}-${index}`} className="space-y-3 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] p-3">
           <div className={`grid gap-3 ${fields.length > 2 ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
             {fields.map((item) => {
               const value = asString(row[item.key]);
@@ -238,7 +259,7 @@ function ObjListEditor({ title, path, fields, newItem, content, updateField, rem
                 <div key={`${item.key}-${index}`} className="space-y-2">
                   <p className="text-right text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">{item.label}</p>
                   <div className="flex flex-wrap items-center justify-end gap-2">
-                    <label className="admin-focus inline-flex cursor-pointer items-center rounded-xl border border-[rgba(200,151,58,0.45)] bg-[rgba(200,151,58,0.1)] px-3 py-2 text-xs font-semibold text-[#e8cc88]">
+                    <label className="admin-focus inline-flex cursor-pointer items-center rounded-xl border border-[rgba(200,151,58,0.45)] bg-[rgba(200,151,58,0.1)] px-3 py-2 text-xs font-semibold text-[var(--primary-600)]">
                       اختر من الجهاز
                       <input type="file" accept="image/*" className="hidden"
                         onChange={(e) => { const f = e.target.files?.[0]; if (!f) return; void uploadImage(index, item.key, f); e.currentTarget.value = ""; }} />
@@ -252,7 +273,7 @@ function ObjListEditor({ title, path, fields, newItem, content, updateField, rem
                         <img src={value} alt="preview" className="h-44 w-full object-cover sm:h-56" />
                       </div>
                     ) : (
-                      <div className="rounded-xl border border-dashed border-[rgba(200,151,58,0.2)] bg-[rgba(5,7,14,0.6)] p-6 text-center text-xs text-[var(--text-muted)]">
+                      <div className="rounded-xl border border-dashed border-[rgba(200,151,58,0.2)] bg-[var(--surface-subtle)] p-6 text-center text-xs text-[var(--text-muted)]">
                         لا توجد صورة بعد
                       </div>
                     )}
@@ -271,7 +292,7 @@ function ObjListEditor({ title, path, fields, newItem, content, updateField, rem
       ))}
       <div className="text-right">
         <button type="button" onClick={() => addRow(path, newItem)}
-          className="admin-focus rounded-xl border border-[rgba(200,151,58,0.4)] bg-[rgba(200,151,58,0.08)] px-4 py-2 text-sm font-semibold text-[#e8cc88] hover:bg-[rgba(200,151,58,0.15)]">
+          className="admin-focus rounded-xl border border-[rgba(200,151,58,0.4)] bg-[rgba(200,151,58,0.08)] px-4 py-2 text-sm font-semibold text-[var(--primary-600)] hover:bg-[rgba(200,151,58,0.15)]">
           + إضافة
         </button>
       </div>
@@ -279,7 +300,7 @@ function ObjListEditor({ title, path, fields, newItem, content, updateField, rem
   );
 }
 
-/* ─── String list editor ─────────────────────────────────────────────────── */
+/* ??? String list editor ??????????????????????????????????????????????????? */
 function StrListEditor({ title, path, content, updateField, removeRow, addRow, imageOnly = false }: {
   title: string; path: string[]; content: unknown;
   updateField: (path: string[], index: number, value: string) => void;
@@ -325,7 +346,7 @@ function StrListEditor({ title, path, content, updateField, removeRow, addRow, i
                 )}
               </div>
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <label className="admin-focus inline-flex cursor-pointer items-center rounded-xl border border-[rgba(200,151,58,0.45)] bg-[rgba(200,151,58,0.1)] px-3 py-2 text-xs font-semibold text-[#e8cc88]">
+                <label className="admin-focus inline-flex cursor-pointer items-center rounded-xl border border-[rgba(200,151,58,0.45)] bg-[rgba(200,151,58,0.1)] px-3 py-2 text-xs font-semibold text-[var(--primary-600)]">
                   استبدال
                   <input type="file" accept="image/*" className="hidden"
                     onChange={(e) => { const f = e.target.files?.[0]; if (!f) return; void uploadAtIndex(index, f); e.currentTarget.value = ""; }} />
@@ -342,7 +363,7 @@ function StrListEditor({ title, path, content, updateField, removeRow, addRow, i
       ) : (
         rows.map((row, index) => (
           <div key={`${title}-${index}`}
-            className="grid gap-3 rounded-xl border border-[var(--border)] bg-[rgba(8,10,22,0.7)] p-3 md:grid-cols-[1fr_auto] md:items-end">
+            className="grid gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] p-3 md:grid-cols-[1fr_auto] md:items-end">
             <Field label={`العنصر ${index + 1}`} value={row} onChange={(next) => updateField(path, index, next)} />
             <button type="button" onClick={() => removeRow(path, index)}
               className="admin-focus rounded-xl border border-[rgba(224,92,110,0.35)] bg-[rgba(224,92,110,0.08)] px-3 py-2 text-xs font-semibold text-[var(--danger)]">
@@ -354,14 +375,14 @@ function StrListEditor({ title, path, content, updateField, removeRow, addRow, i
 
       <div className="text-right">
         {imageOnly ? (
-          <label className="admin-focus inline-flex cursor-pointer items-center rounded-xl border border-[rgba(200,151,58,0.4)] bg-[rgba(200,151,58,0.08)] px-4 py-2 text-sm font-semibold text-[#e8cc88] hover:bg-[rgba(200,151,58,0.15)]">
+          <label className="admin-focus inline-flex cursor-pointer items-center rounded-xl border border-[rgba(200,151,58,0.4)] bg-[rgba(200,151,58,0.08)] px-4 py-2 text-sm font-semibold text-[var(--primary-600)] hover:bg-[rgba(200,151,58,0.15)]">
             + إضافة صورة
             <input type="file" accept="image/*" className="hidden"
               onChange={(e) => { const f = e.target.files?.[0]; if (!f) return; void addImage(f); e.currentTarget.value = ""; }} />
           </label>
         ) : (
           <button type="button" onClick={() => addRow(path, "")}
-            className="admin-focus rounded-xl border border-[rgba(200,151,58,0.4)] bg-[rgba(200,151,58,0.08)] px-4 py-2 text-sm font-semibold text-[#e8cc88] hover:bg-[rgba(200,151,58,0.15)]">
+            className="admin-focus rounded-xl border border-[rgba(200,151,58,0.4)] bg-[rgba(200,151,58,0.08)] px-4 py-2 text-sm font-semibold text-[var(--primary-600)] hover:bg-[rgba(200,151,58,0.15)]">
             + إضافة
           </button>
         )}
@@ -375,15 +396,42 @@ const tabs: Array<{ id: EditorTab; label: string }> = [
   { id: "market",   label: "ماركت"   },
   { id: "media",    label: "ميديا"   },
   { id: "tech",     label: "تك"      },
+  { id: "requests", label: "الطلبات" },
   { id: "security", label: "الدخول"  },
 ];
 
-/* ════════════════════════════════════════════════════
+const tabSearchKeywords: Record<EditorTab, string[]> = {
+  agency: ["الوكالة", "portfolio", "projects", "clients", "معرض", "عملاء"],
+  market: ["ماركت", "case studies", "faq", "numbers", "حالات", "أسئلة"],
+  media: ["ميديا", "projects", "services", "why us", "خدمات", "مشاريع"],
+  tech: ["تك", "projects", "filters", "technical", "تقني", "فلاتر"],
+  requests: ["الطلبات", "consultation", "leads", "استشارات", "طلبات"],
+  security: ["الدخول", "security", "credentials", "password", "كلمة السر"],
+};
+
+const departmentLabels: Record<string, string> = {
+  all: "الكل",
+  market: "ماركت",
+  media: "ميديا",
+  tech: "تك",
+};
+
+const tabDescriptions: Record<EditorTab, string> = {
+  agency:   "إدارة أقسام الوكالة: معرض الأعمال وآراء العملاء.",
+  market:   "إدارة دراسات الحالة، الأرقام، والأسئلة الشائعة لقسم ماركت.",
+  media:    "إدارة خدمات ومشاريع ميديا ولماذا نحن والأسئلة الشائعة.",
+  tech:     "إدارة مشاريع قسم تك والفلاتر والمحتوى المرتبط بها.",
+  requests: "عرض طلبات الاستشارة القادمة من نموذج الموقع المخزنة في قاعدة البيانات.",
+  security: "تحديث بيانات الدخول الخاصة بلوحة الإدارة.",
+};
+
+/* ????????????????????????????????????????????????????
    MAIN PAGE
-   ════════════════════════════════════════════════════ */
+   ???????????????????????????????????????????????????? */
 export default function AdminPage() {
-  const [credentials, setCredentials] = useState<Credentials>(() => loadStoredCredentials());
-  const [isAuthenticated, setIsAuthenticated] = useState(() => loadSession());
+  const [hasMounted, setHasMounted] = useState(false);
+  const [credentials, setCredentials] = useState<Credentials>(DEFAULT_CREDENTIALS);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loginUser, setLoginUser]   = useState("");
   const [loginPass, setLoginPass]   = useState("");
   const [loginError, setLoginError] = useState("");
@@ -396,11 +444,26 @@ export default function AdminPage() {
   const [changeError, setChangeError]   = useState("");
   const [changeSuccess, setChangeSuccess] = useState("");
   const [tab, setTab]       = useState<EditorTab>("agency");
+  const [dashboardSearch, setDashboardSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving]   = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError]     = useState("");
   const [content, setContent] = useState<unknown>(structuredClone(defaultSiteContent));
+  const [savedSnapshot, setSavedSnapshot] = useState("");
+  const [lastSavedAt, setLastSavedAt] = useState("");
+  const [consultationRequests, setConsultationRequests] = useState<ConsultationRequest[]>([]);
+  const [requestsLoading, setRequestsLoading] = useState(false);
+  const [requestsError, setRequestsError] = useState("");
+  const [requestsQuery, setRequestsQuery] = useState("");
+  const [requestsDepartmentFilter, setRequestsDepartmentFilter] = useState("all");
+  const [copiedKey, setCopiedKey] = useState("");
+
+  useEffect(() => {
+    setCredentials(loadStoredCredentials());
+    setIsAuthenticated(loadSession());
+    setHasMounted(true);
+  }, []);
 
   const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -433,9 +496,13 @@ export default function AdminPage() {
       setLoading(true);
       try {
         const res = await fetch("/api/admin/content", { cache: "no-store" });
-        const data = (await res.json()) as { content?: unknown };
-        setContent(structuredClone(deepMerge(defaultSiteContent, data.content)));
-      } catch { setError("تعذر تحميل المحتوى."); }
+        const data = (await res.json()) as { ok?: boolean; error?: string; content?: unknown };
+        if (!res.ok || data.ok === false) throw new Error(data.error ?? "تعذر تحميل المحتوى من قاعدة البيانات.");
+        const merged = structuredClone(deepMerge(defaultSiteContent, data.content));
+        setContent(merged);
+        setSavedSnapshot(JSON.stringify(merged));
+        setLastSavedAt(formatDateLabel(new Date().toISOString()));
+      } catch (err) { setError(err instanceof Error ? err.message : "تعذر تحميل المحتوى."); }
       finally { setLoading(false); }
     };
     run();
@@ -462,8 +529,22 @@ export default function AdminPage() {
   const removeRow = (path: string[], index: number) => updateList(path, (items) => items.splice(index, 1));
   const addRow    = (path: string[], item: unknown)  => updateList(path, (items) => items.push(item));
 
+  const hasUnsavedChanges = useMemo(() => {
+    if (loading || !savedSnapshot) return false;
+    try {
+      return JSON.stringify(content) !== savedSnapshot;
+    } catch {
+      return true;
+    }
+  }, [content, loading, savedSnapshot]);
+
   const save = async () => {
     setSaving(true); setMessage(""); setError("");
+    if (!hasUnsavedChanges) {
+      setSaving(false);
+      setMessage("لا توجد تغييرات جديدة للحفظ.");
+      return;
+    }
     try {
       const res = await fetch("/api/admin/content", {
         method: "PUT", headers: { "Content-Type": "application/json" },
@@ -471,18 +552,35 @@ export default function AdminPage() {
       });
       const payload = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
       if (!res.ok || !payload.ok) throw new Error(payload.error ?? "تعذر حفظ المحتوى.");
-      clearContentCache(); setMessage("تم حفظ التعديلات بنجاح ✓");
+      clearContentCache();
+      setSavedSnapshot(JSON.stringify(content));
+      setLastSavedAt(formatDateLabel(new Date().toISOString()));
+      setMessage("تم حفظ التعديلات بنجاح ?");
     } catch (err) { setError(err instanceof Error ? err.message : "تعذر حفظ المحتوى."); }
     finally { setSaving(false); }
   };
 
-  const tabDescriptions: Record<EditorTab, string> = {
-    agency:   "إدارة أقسام الوكالة: معرض الأعمال وآراء العملاء.",
-    market:   "إدارة دراسات الحالة، الأرقام، والأسئلة الشائعة لقسم ماركت.",
-    media:    "إدارة خدمات ومشاريع ميديا ولماذا نحن والأسئلة الشائعة.",
-    tech:     "إدارة مشاريع قسم تك والفلاتر والمحتوى المرتبط بها.",
-    security: "تحديث بيانات الدخول الخاصة بلوحة الإدارة.",
-  };
+  const loadConsultationRequests = useCallback(async () => {
+    setRequestsLoading(true);
+    setRequestsError("");
+    try {
+      const res = await fetch("/api/consultation?limit=150", { cache: "no-store" });
+      const data = (await res.json()) as { ok?: boolean; error?: string; items?: unknown[] };
+      if (!res.ok || !data.ok) throw new Error(data.error ?? "تعذر تحميل الطلبات.");
+      const items = Array.isArray(data.items) ? (data.items as ConsultationRequest[]) : [];
+      setConsultationRequests(items);
+    } catch (err) {
+      setRequestsError(err instanceof Error ? err.message : "تعذر تحميل الطلبات.");
+      setConsultationRequests([]);
+    } finally {
+      setRequestsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isAuthenticated || tab !== "requests") return;
+    void loadConsultationRequests();
+  }, [isAuthenticated, tab, loadConsultationRequests]);
 
   const statGroups: Record<EditorTab, Array<{ label: string; count: number }>> = {
     agency: [
@@ -505,6 +603,11 @@ export default function AdminPage() {
       { label: "فلاتر تك",   count: asObjectList(readPath(content, ["pages","tech","projectsSection","filters"])).length },
       { label: "كتل المحتوى", count: asObject(readPath(content, ["pages","tech"])).projectsSection ? 1 : 0 },
     ],
+    requests: [
+      { label: "إجمالي الطلبات", count: consultationRequests.length },
+      { label: "طلبات بميزانية", count: consultationRequests.filter((item) => Boolean(item.budget)).length },
+      { label: "طلبات جديدة", count: consultationRequests.filter((item) => item.status === "new").length },
+    ],
     security: [
       { label: "جلسة نشطة",      count: isAuthenticated ? 1 : 0 },
       { label: "تحديثات الدخول", count: 1 },
@@ -514,8 +617,81 @@ export default function AdminPage() {
 
   const activeStats = statGroups[tab];
   const maxStat = Math.max(1, ...activeStats.map((s) => s.count));
+  const normalizedDashboardSearch = normalizeSearch(dashboardSearch);
+  const normalizedRequestsSearch = normalizeSearch(requestsQuery);
 
-  /* ─── Login screen ─────────────────────────────────────────────────────── */
+  const quickTabMatches = useMemo(() => {
+    if (!normalizedDashboardSearch) return [];
+    return tabs.filter((item) => {
+      const haystack = [
+        item.label,
+        tabDescriptions[item.id],
+        ...tabSearchKeywords[item.id],
+      ].join(" ");
+      return normalizeSearch(haystack).includes(normalizedDashboardSearch);
+    });
+  }, [normalizedDashboardSearch]);
+
+  const requestDepartmentOptions = useMemo(() => {
+    const unique = new Set<string>();
+    for (const item of consultationRequests) {
+      const value = item.department.trim();
+      if (value) unique.add(value);
+    }
+    return ["all", ...Array.from(unique)];
+  }, [consultationRequests]);
+
+  const filteredConsultationRequests = useMemo(() => {
+    return consultationRequests.filter((item) => {
+      if (requestsDepartmentFilter !== "all" && item.department !== requestsDepartmentFilter) {
+        return false;
+      }
+      if (!normalizedRequestsSearch) return true;
+      const searchable = [
+        item.fullName,
+        item.email,
+        item.phone,
+        item.department,
+        item.budget,
+        item.details,
+      ].join(" ");
+      return normalizeSearch(searchable).includes(normalizedRequestsSearch);
+    });
+  }, [consultationRequests, normalizedRequestsSearch, requestsDepartmentFilter]);
+
+  const handleCopyValue = useCallback(async (value: string, key: string) => {
+    if (!value.trim()) return;
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopiedKey(key);
+      window.setTimeout(() => {
+        setCopiedKey((prev) => (prev === key ? "" : prev));
+      }, 1400);
+    } catch {
+      setError("تعذر نسخ النص إلى الحافظة.");
+    }
+  }, []);
+
+  if (!hasMounted) {
+    return (
+      <main className="admin-theme admin-surface min-h-screen">
+        <div className="admin-auth-shell">
+          <section className="admin-auth-card">
+            <div className="text-right">
+              <p style={{ letterSpacing: "0.22em" }}
+                className="text-[9px] font-bold uppercase text-[var(--gold-500)]">
+                AYSEL ADMIN
+              </p>
+              <h1 className="mt-2 text-2xl font-bold text-[var(--text)]">جاري تهيئة لوحة التحكم...</h1>
+              <p className="mt-3 text-sm text-[var(--text-muted)]">يرجى الانتظار لحظة.</p>
+            </div>
+          </section>
+        </div>
+      </main>
+    );
+  }
+
+  /* ??? Login screen ??????????????????????????????????????????????????????? */
   if (!isAuthenticated) {
     return (
       <main className="admin-theme admin-surface min-h-screen">
@@ -527,13 +703,13 @@ export default function AdminPage() {
                 className="text-[9px] font-bold uppercase text-[var(--gold-500)]">
                 AYSEL SECURE ACCESS
               </p>
-              <h1 className="mt-2 text-3xl font-bold text-white">
+              <h1 className="mt-2 text-3xl font-bold text-[var(--text)]">
                 بوابة الإدارة
               </h1>
               <div className="mt-2 h-px w-20 mr-auto bg-gradient-to-r from-[#c8973a] via-[#e8cc88] to-transparent" />
               <p className="mt-3 text-sm text-[var(--text-muted)]">
                 بيانات الدخول الافتراضية:{" "}
-                <span className="font-semibold text-[#e8cc88]">admin / admin</span>
+                <span className="font-semibold text-[var(--primary-600)]">admin / admin</span>
               </p>
             </div>
 
@@ -553,7 +729,7 @@ export default function AdminPage() {
               )}
 
               <button type="submit"
-                className="admin-focus mt-2 w-full rounded-xl bg-gradient-to-r from-[#a87828] via-[#c8973a] to-[#b8832a] px-4 py-3 text-sm font-bold text-[#05070e] shadow-[0_8px_24px_rgba(200,151,58,0.28)]">
+                className="admin-focus mt-2 w-full rounded-xl bg-gradient-to-r from-[#e2c183] via-[#cfaa62] to-[#bc8a3f] px-4 py-3 text-sm font-bold text-[#1e2d4a] shadow-[0_8px_24px_rgba(200,151,58,0.28)]">
                 دخول الإدارة
               </button>
             </form>
@@ -563,20 +739,20 @@ export default function AdminPage() {
     );
   }
 
-  /* ─── Main dashboard ───────────────────────────────────────────────────── */
+  /* ??? Main dashboard ????????????????????????????????????????????????????? */
   return (
     <main className="admin-theme admin-surface min-h-screen text-[var(--text)]">
-      <div className="mx-auto w-full max-w-[1680px] px-4 py-4 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full max-w-[1520px] px-4 py-5 sm:px-6 lg:px-8">
 
         {/* Header */}
-        <header className="admin-panel admin-glow p-4 sm:p-5">
+        <header className="admin-panel admin-glow p-5 sm:p-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="text-right">
               <p style={{ letterSpacing: "0.2em" }}
                 className="text-[9px] font-bold uppercase text-[var(--gold-500)]">
                 AYSEL ADMIN
               </p>
-              <h1 className="mt-1 text-xl font-bold text-white sm:text-2xl">
+              <h1 className="mt-1 text-xl font-bold text-[var(--text)] sm:text-2xl">
                 لوحة التحكم
               </h1>
               <p className="text-xs text-[var(--text-muted)]">إدارة محتوى كاملة لجميع أقسام الموقع</p>
@@ -584,14 +760,59 @@ export default function AdminPage() {
 
             <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto">
               <div className="relative min-w-[220px] grow sm:grow-0">
-                <input type="search" placeholder="ابحث داخل لوحة التحكم..."
-                  className="admin-focus w-full rounded-xl border border-[var(--border)] bg-[rgba(8,10,22,0.8)] px-10 py-2.5 text-sm text-[var(--text)] placeholder:text-[var(--text-muted)] outline-none focus:border-[rgba(200,151,58,0.5)]" />
-                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]">⌕</span>
+                <input
+                  type="search"
+                  value={dashboardSearch}
+                  onChange={(e) => setDashboardSearch(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key !== "Enter") return;
+                    const first = quickTabMatches[0];
+                    if (!first) return;
+                    e.preventDefault();
+                    setTab(first.id);
+                    setDashboardSearch("");
+                  }}
+                  placeholder="ابحث عن قسم (ماركت، ميديا، الطلبات...)"
+                  className="admin-focus w-full rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] px-10 py-2.5 text-sm text-[var(--text)] placeholder:text-[var(--text-muted)] outline-none focus:border-[rgba(200,151,58,0.5)]"
+                />
+                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-[var(--text-muted)]">
+                  بحث
+                </span>
+                {normalizedDashboardSearch && (
+                  <div className="admin-search-dropdown">
+                    {quickTabMatches.length ? (
+                      quickTabMatches.slice(0, 5).map((item) => (
+                        <button
+                          key={item.id}
+                          type="button"
+                          onClick={() => {
+                            setTab(item.id);
+                            setDashboardSearch("");
+                          }}
+                          className="admin-focus admin-search-item"
+                        >
+                          <span className="text-xs text-[var(--text-muted)]">{tabDescriptions[item.id]}</span>
+                          <strong className="text-sm font-bold text-[var(--text)]">{item.label}</strong>
+                        </button>
+                      ))
+                    ) : (
+                      <p className="px-3 py-2 text-right text-xs text-[var(--text-muted)]">لا يوجد قسم مطابق.</p>
+                    )}
+                  </div>
+                )}
               </div>
 
-              <button type="button" onClick={save} disabled={loading || saving}
-                className="admin-focus rounded-xl bg-gradient-to-r from-[#a87828] via-[#c8973a] to-[#b8832a] px-4 py-2.5 text-sm font-bold text-[#05070e] shadow-[0_6px_18px_rgba(200,151,58,0.22)] disabled:opacity-50">
-                {saving ? "جاري الحفظ..." : "حفظ كل التعديلات"}
+              <span
+                className={`admin-chip px-3 py-2 text-[10px] ${
+                  hasUnsavedChanges ? "admin-chip-strong" : ""
+                }`}
+              >
+                {hasUnsavedChanges ? "تغييرات غير محفوظة" : "جميع التغييرات محفوظة"}
+              </span>
+
+              <button type="button" onClick={save} disabled={loading || saving || !hasUnsavedChanges}
+                className="admin-focus rounded-xl bg-gradient-to-r from-[#e2c183] via-[#cfaa62] to-[#bc8a3f] px-4 py-2.5 text-sm font-bold text-[#1e2d4a] shadow-[0_6px_18px_rgba(200,151,58,0.22)] disabled:opacity-50">
+                {saving ? "جاري الحفظ..." : hasUnsavedChanges ? "حفظ كل التعديلات" : "لا يوجد تعديلات"}
               </button>
 
               <button type="button" onClick={handleLogout}
@@ -602,7 +823,29 @@ export default function AdminPage() {
           </div>
         </header>
 
-        <div className="mt-4 grid gap-4 xl:grid-cols-[260px_minmax(0,1fr)]">
+        <section className="mt-4 lg:hidden">
+          <div className="admin-card p-3">
+            <p className="mb-2 text-right text-[11px] font-semibold text-[var(--text-muted)]">تنقل سريع بين الأقسام</p>
+            <div className="flex gap-2 overflow-x-auto pb-1 [direction:rtl]">
+              {tabs.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setTab(item.id)}
+                  className={`admin-focus shrink-0 rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
+                    tab === item.id
+                      ? "border-[rgba(200,151,58,0.55)] bg-[rgba(200,151,58,0.14)] text-[var(--primary-600)]"
+                      : "border-[var(--border)] bg-[var(--panel)] text-[var(--text-muted)]"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <div className="mt-5 grid gap-4 xl:grid-cols-[300px_minmax(0,1fr)]">
 
           {/* Sidebar */}
           <aside className="space-y-3 xl:sticky xl:top-4 xl:self-start">
@@ -628,7 +871,7 @@ export default function AdminPage() {
                 {activeStats.map((item) => (
                   <article key={item.label} className="admin-card-soft px-3 py-2.5">
                     <p className="text-right text-[11px] text-[var(--text-muted)]">{item.label}</p>
-                    <p className="text-right text-2xl font-extrabold text-white">{item.count}</p>
+                    <p className="text-right text-2xl font-extrabold text-[var(--text)]">{item.count}</p>
                   </article>
                 ))}
               </div>
@@ -644,13 +887,13 @@ export default function AdminPage() {
                   className="admin-focus w-full rounded-xl border border-[rgba(212,168,74,0.4)] bg-[rgba(212,168,74,0.08)] px-3 py-2.5 text-sm font-semibold text-[var(--warning)] hover:bg-[rgba(212,168,74,0.14)]">
                   إعادة المحتوى الافتراضي
                 </button>
-                <button type="button" onClick={save} disabled={loading || saving}
-                  className="admin-focus w-full rounded-xl bg-gradient-to-r from-[#a87828] via-[#c8973a] to-[#b8832a] px-3 py-2.5 text-sm font-bold text-[#05070e] disabled:opacity-50">
-                  حفظ الآن
+                <button type="button" onClick={save} disabled={loading || saving || !hasUnsavedChanges}
+                  className="admin-focus w-full rounded-xl bg-gradient-to-r from-[#e2c183] via-[#cfaa62] to-[#bc8a3f] px-3 py-2.5 text-sm font-bold text-[#1e2d4a] disabled:opacity-50">
+                  {hasUnsavedChanges ? "حفظ الآن" : "لا يوجد تعديلات"}
                 </button>
                 <Link href="/"
                   className="admin-focus block w-full rounded-xl border border-[var(--border)] bg-[var(--panel)] px-3 py-2.5 text-center text-sm font-semibold text-[var(--text-soft)] hover:border-[rgba(200,151,58,0.28)]">
-                  ← العودة للموقع
+                  العودة للموقع
                 </Link>
               </div>
             </section>
@@ -660,13 +903,13 @@ export default function AdminPage() {
           <section className="admin-panel p-4 sm:p-6">
 
             {/* Section header */}
-            <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--border)] bg-[rgba(8,10,22,0.6)] p-4">
+            <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--border)] bg-[var(--surface-subtle)] p-4">
               <span className="admin-chip inline-flex items-center gap-1.5 px-3 py-2 text-xs">
                 <span className="status-dot" />
                 وضع التحرير مفعل
               </span>
               <div className="text-right">
-                <h2 className="text-lg font-bold text-white">
+                <h2 className="text-lg font-bold text-[var(--text)]">
                   {tabs.find((t) => t.id === tab)?.label}
                 </h2>
                 <p className="text-xs text-[var(--text-muted)]">{tabDescriptions[tab]}</p>
@@ -685,7 +928,7 @@ export default function AdminPage() {
                       </span>
                       <p className="text-[11px] text-[var(--text-muted)]">{item.label}</p>
                     </div>
-                    <p className="mt-2 text-2xl font-extrabold text-white">{item.count}</p>
+                    <p className="mt-2 text-2xl font-extrabold text-[var(--text)]">{item.count}</p>
                     <div className="mt-3 admin-stat-line">
                       <span style={{ width: `${width}%` }} />
                     </div>
@@ -713,7 +956,7 @@ export default function AdminPage() {
             ) : (
               <div className="space-y-5">
 
-                {/* ── AGENCY ── */}
+                {/* ?? AGENCY ?? */}
                 {tab === "agency" && (
                   <>
                     <Card title="الوكالة — معرض الأعمال">
@@ -763,7 +1006,7 @@ export default function AdminPage() {
                   </>
                 )}
 
-                {/* ── MARKET ── */}
+                {/* ?? MARKET ?? */}
                 {tab === "market" && (
                   <>
                     <Card title="ماركت — دراسات الحالة">
@@ -806,7 +1049,7 @@ export default function AdminPage() {
                   </>
                 )}
 
-                {/* ── MEDIA ── */}
+                {/* ?? MEDIA ?? */}
                 {tab === "media" && (
                   <>
                     <Card title="ميديا — ماذا نقدم؟">
@@ -848,7 +1091,7 @@ export default function AdminPage() {
                   </>
                 )}
 
-                {/* ── TECH ── */}
+                {/* ?? TECH ?? */}
                 {tab === "tech" && (
                   <Card title="تك — مشاريع غيرت قواعد اللعبة">
                     <div className="grid gap-4 md:grid-cols-2">
@@ -860,17 +1103,135 @@ export default function AdminPage() {
                   </Card>
                 )}
 
-                {/* ── SECURITY ── */}
+                {/* ?? REQUESTS ?? */}
+                {tab === "requests" && (
+                  <Card title="طلبات الاستشارة">
+                    <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+                      <button
+                        type="button"
+                        onClick={() => void loadConsultationRequests()}
+                        className="admin-focus rounded-xl border border-[rgba(200,151,58,0.4)] bg-[rgba(200,151,58,0.08)] px-4 py-2 text-xs font-semibold text-[var(--primary-600)] hover:bg-[rgba(200,151,58,0.15)]"
+                      >
+                        تحديث الطلبات
+                      </button>
+                      <p className="text-right text-xs text-[var(--text-muted)]">آخر 150 طلب من قاعدة البيانات</p>
+                    </div>
+
+                    <div className="mb-3 grid gap-2 md:grid-cols-[minmax(0,1fr)_180px_auto]">
+                      <input
+                        type="search"
+                        value={requestsQuery}
+                        onChange={(e) => setRequestsQuery(e.target.value)}
+                        placeholder="ابحث بالاسم أو البريد أو الهاتف أو التفاصيل..."
+                        className="admin-focus w-full rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] px-3 py-2 text-sm text-[var(--text)] placeholder:text-[var(--text-muted)]"
+                      />
+
+                      <select
+                        value={requestsDepartmentFilter}
+                        onChange={(e) => setRequestsDepartmentFilter(e.target.value)}
+                        className="admin-focus rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] px-3 py-2 text-sm text-[var(--text)]"
+                      >
+                        {requestDepartmentOptions.map((department) => (
+                          <option key={department} value={department}>
+                            {departmentLabels[department] ?? department}
+                          </option>
+                        ))}
+                      </select>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setRequestsQuery("");
+                          setRequestsDepartmentFilter("all");
+                        }}
+                        className="admin-focus rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] px-3 py-2 text-xs font-semibold text-[var(--text-soft)] hover:border-[rgba(200,151,58,0.28)]"
+                      >
+                        مسح الفلاتر
+                      </button>
+                    </div>
+
+                    <p className="mb-4 text-right text-xs text-[var(--text-muted)]">
+                      عرض {filteredConsultationRequests.length} من أصل {consultationRequests.length} طلب.
+                    </p>
+
+                    {requestsLoading ? (
+                      <p className="rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] px-4 py-3 text-right text-sm text-[var(--text-muted)]">
+                        جاري تحميل الطلبات...
+                      </p>
+                    ) : requestsError ? (
+                      <p className="rounded-xl border border-[rgba(224,92,110,0.4)] bg-[rgba(224,92,110,0.1)] px-4 py-3 text-right text-sm text-[var(--danger)]">
+                        {requestsError}
+                      </p>
+                    ) : filteredConsultationRequests.length === 0 ? (
+                      <p className="rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] px-4 py-3 text-right text-sm text-[var(--text-muted)]">
+                        {consultationRequests.length === 0 ? "لا توجد طلبات حتى الآن." : "لا توجد نتائج مطابقة للفلاتر الحالية."}
+                      </p>
+                    ) : (
+                      <div className="space-y-3">
+                        {filteredConsultationRequests.map((request) => (
+                          <article key={request.id} className="admin-card-soft space-y-3 p-4">
+                            <div className="flex flex-wrap items-center justify-between gap-2">
+                              <div className="text-right">
+                                <p className="text-sm font-bold text-[var(--text)]">{request.fullName}</p>
+                                <p className="text-xs text-[var(--text-muted)]">{request.email}</p>
+                              </div>
+                              <span className="admin-chip px-2.5 py-1 text-[10px]">
+                                {formatDateLabel(request.createdAt)}
+                              </span>
+                            </div>
+
+                            <div className="flex flex-wrap items-center justify-end gap-2">
+                              <span className="admin-chip px-2.5 py-1 text-[10px]">القسم: {departmentLabels[request.department] || request.department || "-"}</span>
+                              <span className="admin-chip px-2.5 py-1 text-[10px]">الميزانية: {request.budget || "-"}</span>
+                              <span className="admin-chip px-2.5 py-1 text-[10px]">الحالة: {request.status || "-"}</span>
+                              {request.phone ? <span className="admin-chip px-2.5 py-1 text-[10px]">الهاتف: {request.phone}</span> : null}
+                            </div>
+
+                            <div className="flex flex-wrap items-center justify-end gap-2">
+                              <button
+                                type="button"
+                                onClick={() => void handleCopyValue(request.email, `${request.id}:email`)}
+                                className="admin-focus rounded-lg border border-[var(--border)] bg-[var(--surface-subtle)] px-2.5 py-1.5 text-[11px] font-semibold text-[var(--text-soft)]"
+                              >
+                                {copiedKey === `${request.id}:email` ? "تم نسخ البريد" : "نسخ البريد"}
+                              </button>
+                              {request.phone ? (
+                                <button
+                                  type="button"
+                                  onClick={() => void handleCopyValue(request.phone, `${request.id}:phone`)}
+                                  className="admin-focus rounded-lg border border-[var(--border)] bg-[var(--surface-subtle)] px-2.5 py-1.5 text-[11px] font-semibold text-[var(--text-soft)]"
+                                >
+                                  {copiedKey === `${request.id}:phone` ? "تم نسخ الهاتف" : "نسخ الهاتف"}
+                                </button>
+                              ) : null}
+                            </div>
+
+                            <details className="rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] p-3">
+                              <summary className="cursor-pointer text-right text-xs font-semibold text-[var(--text-muted)]">
+                                تفاصيل الطلب
+                              </summary>
+                              <p className="mt-2 text-right text-xs leading-relaxed text-[var(--text-soft)]">
+                                {request.details || "لا توجد تفاصيل إضافية."}
+                              </p>
+                            </details>
+                          </article>
+                        ))}
+                      </div>
+                    )}
+                  </Card>
+                )}
+
+                {/* ?? SECURITY ?? */}
                 {tab === "security" && (
                   <Card title="إعدادات الدخول">
                     <div className="admin-card-soft p-4">
                       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
                         <span className="admin-chip px-3 py-1.5 text-xs">
-                          المستخدم: <span className="font-bold text-[#e8cc88] mr-1">{credentials.username}</span>
+                          المستخدم: <span className="font-bold text-[var(--primary-600)] mr-1">{credentials.username}</span>
                         </span>
                         <div className="text-right">
                           <p style={{ letterSpacing: "0.18em" }} className="text-[9px] font-bold uppercase text-[var(--gold-500)]">تحديث بيانات الدخول</p>
-                          <h3 className="text-base font-bold text-white">اسم المستخدم وكلمة السر</h3>
+                          <h3 className="text-base font-bold text-[var(--text)]">اسم المستخدم وكلمة السر</h3>
                         </div>
                       </div>
 
@@ -882,7 +1243,7 @@ export default function AdminPage() {
                         <Field label="تأكيد كلمة السر" value={newPassConfirm} onChange={setNewPassConfirm} dir="ltr" type="password" placeholder="••••••••" />
                         <div className="flex items-end">
                           <button type="submit"
-                            className="admin-focus w-full rounded-xl bg-gradient-to-r from-[#a87828] via-[#c8973a] to-[#b8832a] px-4 py-2.5 text-sm font-bold text-[#05070e] shadow-[0_6px_18px_rgba(200,151,58,0.22)]">
+                            className="admin-focus w-full rounded-xl bg-gradient-to-r from-[#e2c183] via-[#cfaa62] to-[#bc8a3f] px-4 py-2.5 text-sm font-bold text-[#1e2d4a] shadow-[0_6px_18px_rgba(200,151,58,0.22)]">
                             تحديث بيانات الدخول
                           </button>
                         </div>
@@ -906,7 +1267,32 @@ export default function AdminPage() {
             )}
           </section>
         </div>
+
+        <section className="admin-savebar">
+          <div className="admin-savebar-inner">
+            <div className="text-right">
+              <p className="text-xs font-semibold text-[var(--text-soft)]">
+                {hasUnsavedChanges ? "لديك تغييرات غير محفوظة" : "كل شيء محفوظ"}
+              </p>
+              <p className="text-[11px] text-[var(--text-muted)]">
+                {lastSavedAt ? `آخر حفظ: ${lastSavedAt}` : "لم يتم الحفظ بعد"}
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={save}
+                disabled={loading || saving || !hasUnsavedChanges}
+                className="admin-focus rounded-xl bg-gradient-to-r from-[#e2c183] via-[#cfaa62] to-[#bc8a3f] px-4 py-2 text-sm font-bold text-[#1e2d4a] disabled:opacity-50"
+              >
+                {saving ? "جاري الحفظ..." : "حفظ التعديلات"}
+              </button>
+            </div>
+          </div>
+        </section>
       </div>
     </main>
   );
 }
+
+

@@ -1,9 +1,16 @@
 import { NextResponse } from "next/server";
 import { readSiteContent, writeSiteContent } from "@/lib/site-content-server";
 
+export const runtime = "nodejs";
+
 export async function GET() {
-  const content = await readSiteContent();
-  return NextResponse.json({ content });
+  try {
+    const content = await readSiteContent();
+    return NextResponse.json({ content });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Failed to load content";
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
+  }
 }
 
 export async function PUT(request: Request) {
@@ -16,4 +23,3 @@ export async function PUT(request: Request) {
     return NextResponse.json({ ok: false, error: message }, { status: 400 });
   }
 }
-

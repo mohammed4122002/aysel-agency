@@ -1,68 +1,38 @@
-import { promises as fs } from "node:fs";
-import path from "node:path";
-import { Redis } from "@upstash/redis";
+import { Prisma } from "@prisma/client";
 import { deepMerge } from "@/lib/deep-merge";
+import { prisma } from "@/lib/prisma";
 import { defaultSiteContent, type SiteContent } from "@/lib/site-content-default";
 
-const contentDir = path.join(process.cwd(), "data");
-const contentFile = path.join(contentDir, "site-content.json");
-const redisKey = "site-content";
-const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
-const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
-const redis = redisUrl && redisToken ? new Redis({ url: redisUrl, token: redisToken }) : null;
-const isProd = process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
-
-async function ensureContentFile() {
-  await fs.mkdir(contentDir, { recursive: true });
-
-  try {
-    await fs.access(contentFile);
-  } catch {
-    await fs.writeFile(contentFile, JSON.stringify(defaultSiteContent, null, 2), "utf8");
-  }
-}
+const SITE_CONTENT_ID = "site-content";
 
 export async function readSiteContent(): Promise<SiteContent> {
-  if (redis) {
-    try {
-      const stored = await redis.get<SiteContent>(redisKey);
-      return deepMerge(defaultSiteContent, stored ?? {});
-    } catch {
-      return defaultSiteContent;
-    }
+  const stored = await prisma.siteContent.findUnique({ where: { id: SITE_CONTENT_ID } });
+
+  if (!stored) {
+    const seeded = structuredClone(defaultSiteContent);
+    await prisma.siteContent.create({
+      data: {
+        id: SITE_CONTENT_ID,
+        content: seeded as Prisma.InputJsonValue,
+      },
+    });
+    return seeded;
   }
 
-  if (isProd) {
-    return defaultSiteContent;
-  }
-
-  await ensureContentFile();
-
-  try {
-    const raw = await fs.readFile(contentFile, "utf8");
-    const parsed: unknown = JSON.parse(raw);
-    return deepMerge(defaultSiteContent, parsed);
-  } catch {
-    return defaultSiteContent;
-  }
+  return deepMerge(defaultSiteContent, stored.content);
 }
 
 export async function writeSiteContent(payload: unknown): Promise<SiteContent> {
   const merged = deepMerge(defaultSiteContent, payload);
-  if (redis) {
-    await redis.set(redisKey, merged);
-    return merged;
-  }
-
-  if (isProd) {
-    throw new Error("Storage is not configured. Set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN.");
-  }
-
-  await ensureContentFile();
-  await fs.writeFile(contentFile, JSON.stringify(merged, null, 2), "utf8");
+  await prisma.siteContent.upsert({
+    where: { id: SITE_CONTENT_ID },
+    create: {
+      id: SITE_CONTENT_ID,
+      content: merged as Prisma.InputJsonValue,
+    },
+    update: {
+      content: merged as Prisma.InputJsonValue,
+    },
+  });
   return merged;
-}
-
-export function getContentFilePath() {
-  return contentFile;
 }

@@ -39,7 +39,7 @@ const solutionCards = [
   },
 ];
 
-export default function BusinessNeedsSection(): JSX.Element {
+export default function BusinessNeedsSection() {
   return (
     <section className="relative w-full overflow-hidden bg-[#090e1a] py-28">
       <div className="absolute left-0 top-0 h-full w-full opacity-5">

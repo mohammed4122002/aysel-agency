@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useCallback, useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
 import Link from "next/link";
@@ -116,20 +116,20 @@ async function uploadImageFile(file: File) {
   return data.path;
 }
 
-/* ??? Card wrapper ????????????????????????????????????????????????????????? */
+/* ─── Card wrapper ─── */
 function Card({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="admin-card p-5 sm:p-6">
-      <div className="mb-5 flex items-center justify-end gap-3">
-        <h3 className="text-right text-[0.98rem] font-bold text-[var(--text)]">{title}</h3>
-        <span className="h-px flex-1 bg-gradient-to-r from-transparent to-[rgba(200,151,58,0.25)]" />
+    <section className="admin-card p-5 sm:p-7">
+      <div className="mb-6 flex items-center justify-end gap-3">
+        <h3 className="text-right text-[0.95rem] font-semibold text-[var(--text)]">{title}</h3>
+        <span className="h-px flex-1 bg-gradient-to-r from-transparent to-[rgba(255,255,255,0.06)]" />
       </div>
       {children}
     </section>
   );
 }
 
-/* ??? Field ???????????????????????????????????????????????????????????????? */
+/* ─── Field ─── */
 function Field({
   label, value, onChange, dir = "rtl", multiline = false, type = "text", placeholder,
 }: {
@@ -137,10 +137,12 @@ function Field({
   dir?: "rtl" | "ltr"; multiline?: boolean; type?: string; placeholder?: string;
 }) {
   const base =
-    "admin-focus w-full rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] px-3 py-2.5 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] focus:border-[rgba(200,151,58,0.55)] focus:bg-[var(--bg-elevated)]";
+    "admin-focus w-full rounded-[10px] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-3.5 py-2.5 text-[13px] text-[var(--text)] outline-none placeholder:text-[var(--text-muted)] hover:border-[rgba(255,255,255,0.12)] focus:border-[rgba(234,179,8,0.35)] focus:bg-[rgba(255,255,255,0.055)] transition-all duration-200";
   return (
     <label className="block text-right">
-      <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">{label}</span>
+      <span className="mb-1.5 block text-[11px] font-medium text-[var(--text-muted)]">
+        {label}
+      </span>
       {multiline ? (
         <textarea value={value} onChange={(e) => onChange(e.target.value)} rows={3}
           className={`${base} leading-relaxed`} placeholder={placeholder} />
@@ -195,16 +197,19 @@ function SingleImageUploader({ label, value, onChange }: { label: string; value:
   );
 }
 
-/* ??? Tab button ??????????????????????????????????????????????????????????? */
+/* ─── Tab button ─── */
 function TabBtn({ active, label, onClick }: { active: boolean; label: string; onClick: () => void }) {
   return (
     <button type="button" onClick={onClick}
-      className={`admin-focus w-full rounded-xl border px-4 py-2.5 text-sm font-semibold text-right transition-colors ${
+      className={`admin-focus group relative w-full rounded-[10px] border px-3.5 py-2.5 text-[13px] font-medium text-right transition-all duration-200 ${
         active
-          ? "border-[rgba(200,151,58,0.55)] bg-gradient-to-l from-[rgba(200,151,58,0.14)] to-[rgba(200,151,58,0.06)] text-[var(--primary-600)] shadow-[0_4px_20px_rgba(200,151,58,0.12)]"
-          : "border-[var(--border)] bg-[var(--panel)] text-[var(--text-muted)] hover:border-[rgba(200,151,58,0.28)] hover:text-[var(--text-soft)]"
+          ? "border-[rgba(234,179,8,0.2)] bg-[rgba(234,179,8,0.08)] text-[#fbbf24]"
+          : "border-transparent bg-transparent text-[var(--text-muted)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--text-soft)]"
       }`}>
-      {label}
+      <span className="flex items-center justify-end gap-2">
+        {label}
+        {active && <span className="h-1 w-1 rounded-full bg-[#eab308]" />}
+      </span>
     </button>
   );
 }
@@ -679,11 +684,14 @@ export default function AdminPage() {
           <section className="admin-auth-card">
             <div className="text-right">
               <p style={{ letterSpacing: "0.22em" }}
-                className="text-[9px] font-bold uppercase text-[var(--gold-500)]">
+                className="text-[10px] font-bold uppercase text-[var(--gold-400)]">
                 AYSEL ADMIN
               </p>
-              <h1 className="mt-2 text-2xl font-bold text-[var(--text)]">جاري تهيئة لوحة التحكم...</h1>
-              <p className="mt-3 text-sm text-[var(--text-muted)]">يرجى الانتظار لحظة.</p>
+              <h1 className="mt-3 text-2xl font-bold text-[var(--text)]">جاري تهيئة لوحة التحكم...</h1>
+              <div className="mx-auto mt-5 h-1 w-32 overflow-hidden rounded-full bg-[rgba(255,255,255,0.06)]">
+                <div className="h-full w-1/2 animate-pulse rounded-full bg-gradient-to-r from-[var(--gold-500)] to-[var(--gold-300)]" />
+              </div>
+              <p className="mt-4 text-sm text-[var(--text-muted)]">يرجى الانتظار لحظة.</p>
             </div>
           </section>
         </div>
@@ -698,38 +706,41 @@ export default function AdminPage() {
         <div className="admin-auth-shell">
           <section className="admin-auth-card">
             {/* Logo / brand mark */}
-            <div className="mb-8 text-right">
-              <p style={{ letterSpacing: "0.22em" }}
-                className="text-[9px] font-bold uppercase text-[var(--gold-500)]">
-                AYSEL SECURE ACCESS
-              </p>
-              <h1 className="mt-2 text-3xl font-bold text-[var(--text)]">
+            <div className="relative z-10 mb-10 text-right">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[rgba(212,175,55,0.25)] bg-[rgba(212,175,55,0.08)] px-3 py-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[var(--gold-400)] shadow-[0_0_6px_rgba(212,175,55,0.6)]" />
+                <span style={{ letterSpacing: "0.22em" }}
+                  className="text-[9px] font-bold uppercase text-[var(--gold-400)]">
+                  AYSEL SECURE ACCESS
+                </span>
+              </div>
+              <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-[var(--text)]">
                 بوابة الإدارة
               </h1>
-              <div className="mt-2 h-px w-20 mr-auto bg-gradient-to-r from-[#c8973a] via-[#e8cc88] to-transparent" />
-              <p className="mt-3 text-sm text-[var(--text-muted)]">
+              <div className="mt-3 h-[2px] w-24 mr-auto rounded-full bg-gradient-to-r from-[var(--gold-500)] via-[var(--gold-300)] to-transparent" />
+              <p className="mt-4 text-sm leading-relaxed text-[var(--text-muted)]">
                 بيانات الدخول الافتراضية:{" "}
-                <span className="font-semibold text-[var(--primary-600)]">admin / admin</span>
+                <span className="rounded-md bg-[rgba(212,175,55,0.1)] px-2 py-0.5 font-mono text-xs font-bold text-[var(--gold-300)]">admin / admin</span>
               </p>
             </div>
 
-            <form className="space-y-4" onSubmit={handleLogin}>
+            <form className="relative z-10 space-y-5" onSubmit={handleLogin}>
               <Field label="اسم المستخدم" value={loginUser} onChange={setLoginUser} dir="ltr" placeholder="admin" />
               <Field label="كلمة السر" value={loginPass} onChange={setLoginPass} dir="ltr" type="password" placeholder="••••••••" />
 
               {loginError && (
-                <div className="rounded-xl border border-[rgba(224,92,110,0.4)] bg-[rgba(224,92,110,0.1)] px-4 py-3 text-right text-xs text-[var(--danger)]">
+                <div className="rounded-xl border border-[rgba(251,113,133,0.3)] bg-[rgba(251,113,133,0.08)] px-4 py-3 text-right text-xs font-medium text-[var(--danger)]">
                   {loginError}
                 </div>
               )}
               {loginNote && (
-                <div className="rounded-xl border border-[rgba(78,201,148,0.4)] bg-[rgba(78,201,148,0.1)] px-4 py-3 text-right text-xs text-[var(--success)]">
+                <div className="rounded-xl border border-[rgba(52,211,153,0.3)] bg-[rgba(52,211,153,0.08)] px-4 py-3 text-right text-xs font-medium text-[var(--success)]">
                   {loginNote}
                 </div>
               )}
 
               <button type="submit"
-                className="admin-focus mt-2 w-full rounded-xl bg-gradient-to-r from-[#e2c183] via-[#cfaa62] to-[#bc8a3f] px-4 py-3 text-sm font-bold text-[#1e2d4a] shadow-[0_8px_24px_rgba(200,151,58,0.28)]">
+                className="admin-focus mt-3 w-full rounded-xl bg-gradient-to-r from-[#dbb654] via-[#c8973a] to-[#af7e28] px-4 py-3.5 text-sm font-extrabold text-[#0a0e1a] shadow-[0_8px_32px_rgba(212,175,55,0.3)] transition-all duration-300 hover:shadow-[0_12px_40px_rgba(212,175,55,0.4)] hover:scale-[1.02] active:scale-[0.98]">
                 دخول الإدارة
               </button>
             </form>
@@ -745,21 +756,20 @@ export default function AdminPage() {
       <div className="mx-auto w-full max-w-[1520px] px-4 py-5 sm:px-6 lg:px-8">
 
         {/* Header */}
-        <header className="admin-panel admin-glow p-5 sm:p-6">
+        <header className="admin-panel admin-glow p-4 sm:p-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="text-right">
-              <p style={{ letterSpacing: "0.2em" }}
-                className="text-[9px] font-bold uppercase text-[var(--gold-500)]">
+              <p style={{ letterSpacing: "0.15em" }}
+                className="text-[10px] font-semibold uppercase text-[var(--text-muted)]">
                 AYSEL ADMIN
               </p>
-              <h1 className="mt-1 text-xl font-bold text-[var(--text)] sm:text-2xl">
+              <h1 className="mt-0.5 text-lg font-bold text-[var(--text)] sm:text-xl">
                 لوحة التحكم
               </h1>
-              <p className="text-xs text-[var(--text-muted)]">إدارة محتوى كاملة لجميع أقسام الموقع</p>
             </div>
 
             <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto">
-              <div className="relative min-w-[220px] grow sm:grow-0">
+              <div className="relative min-w-[200px] grow sm:grow-0">
                 <input
                   type="search"
                   value={dashboardSearch}
@@ -772,11 +782,11 @@ export default function AdminPage() {
                     setTab(first.id);
                     setDashboardSearch("");
                   }}
-                  placeholder="ابحث عن قسم (ماركت، ميديا، الطلبات...)"
-                  className="admin-focus w-full rounded-xl border border-[var(--border)] bg-[var(--surface-subtle)] px-10 py-2.5 text-sm text-[var(--text)] placeholder:text-[var(--text-muted)] outline-none focus:border-[rgba(200,151,58,0.5)]"
+                  placeholder="بحث..."
+                  className="admin-focus w-full rounded-[10px] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.04)] px-9 py-2 text-[13px] text-[var(--text)] placeholder:text-[var(--text-muted)] outline-none hover:border-[rgba(255,255,255,0.12)] focus:border-[rgba(234,179,8,0.35)] transition-all duration-200"
                 />
-                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-[var(--text-muted)]">
-                  بحث
+                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                 </span>
                 {normalizedDashboardSearch && (
                   <div className="admin-search-dropdown">
@@ -791,8 +801,8 @@ export default function AdminPage() {
                           }}
                           className="admin-focus admin-search-item"
                         >
-                          <span className="text-xs text-[var(--text-muted)]">{tabDescriptions[item.id]}</span>
-                          <strong className="text-sm font-bold text-[var(--text)]">{item.label}</strong>
+                          <span className="text-[11px] text-[var(--text-muted)]">{tabDescriptions[item.id]}</span>
+                          <strong className="text-[13px] font-semibold text-[var(--text)]">{item.label}</strong>
                         </button>
                       ))
                     ) : (
@@ -802,60 +812,48 @@ export default function AdminPage() {
                 )}
               </div>
 
-              <span
-                className={`admin-chip px-3 py-2 text-[10px] ${
-                  hasUnsavedChanges ? "admin-chip-strong" : ""
-                }`}
-              >
-                {hasUnsavedChanges ? "تغييرات غير محفوظة" : "جميع التغييرات محفوظة"}
-              </span>
-
               <button type="button" onClick={save} disabled={loading || saving || !hasUnsavedChanges}
-                className="admin-focus rounded-xl bg-gradient-to-r from-[#e2c183] via-[#cfaa62] to-[#bc8a3f] px-4 py-2.5 text-sm font-bold text-[#1e2d4a] shadow-[0_6px_18px_rgba(200,151,58,0.22)] disabled:opacity-50">
-                {saving ? "جاري الحفظ..." : hasUnsavedChanges ? "حفظ كل التعديلات" : "لا يوجد تعديلات"}
+                className="admin-focus rounded-[10px] bg-[#eab308] px-4 py-2 text-[13px] font-semibold text-[#09090b] transition-all duration-200 hover:bg-[#fbbf24] disabled:opacity-30 disabled:cursor-not-allowed">
+                {saving ? "جاري الحفظ..." : "حفظ التعديلات"}
               </button>
 
               <button type="button" onClick={handleLogout}
-                className="admin-focus rounded-xl border border-[rgba(224,92,110,0.35)] bg-[rgba(224,92,110,0.08)] px-4 py-2.5 text-sm font-semibold text-[var(--danger)] hover:bg-[rgba(224,92,110,0.14)]">
-                تسجيل خروج
+                className="admin-focus rounded-[10px] border border-[rgba(255,255,255,0.08)] bg-transparent px-3 py-2 text-[13px] font-medium text-[var(--text-muted)] transition-all duration-200 hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--text-soft)]">
+                خروج
               </button>
             </div>
           </div>
         </header>
 
-        <section className="mt-4 lg:hidden">
-          <div className="admin-card p-3">
-            <p className="mb-2 text-right text-[11px] font-semibold text-[var(--text-muted)]">تنقل سريع بين الأقسام</p>
-            <div className="flex gap-2 overflow-x-auto pb-1 [direction:rtl]">
-              {tabs.map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => setTab(item.id)}
-                  className={`admin-focus shrink-0 rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
-                    tab === item.id
-                      ? "border-[rgba(200,151,58,0.55)] bg-[rgba(200,151,58,0.14)] text-[var(--primary-600)]"
-                      : "border-[var(--border)] bg-[var(--panel)] text-[var(--text-muted)]"
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
+        <section className="mt-3 lg:hidden">
+          <div className="flex gap-1.5 overflow-x-auto pb-1 [direction:rtl]">
+            {tabs.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setTab(item.id)}
+                className={`admin-focus shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium transition-all duration-200 ${
+                  tab === item.id
+                    ? "bg-[rgba(234,179,8,0.12)] text-[#fbbf24]"
+                    : "text-[var(--text-muted)] hover:text-[var(--text-soft)]"
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
           </div>
         </section>
 
-        <div className="mt-5 grid gap-4 xl:grid-cols-[300px_minmax(0,1fr)]">
+        <div className="mt-4 grid gap-4 xl:grid-cols-[260px_minmax(0,1fr)]">
 
           {/* Sidebar */}
           <aside className="space-y-3 xl:sticky xl:top-4 xl:self-start">
 
             <section className="admin-card p-4">
-              <p style={{ letterSpacing: "0.18em" }}
-                className="mb-3 text-right text-[9px] font-bold uppercase text-[var(--gold-500)]">
+              <p className="mb-3 text-right text-[11px] font-medium text-[var(--text-muted)]">
                 الأقسام
               </p>
-              <div className="space-y-1.5">
+              <div className="space-y-0.5">
                 {tabs.map((item) => (
                   <TabBtn key={item.id} active={tab === item.id} label={item.label} onClick={() => setTab(item.id)} />
                 ))}
@@ -863,37 +861,34 @@ export default function AdminPage() {
             </section>
 
             <section className="admin-card p-4">
-              <p style={{ letterSpacing: "0.18em" }}
-                className="mb-3 text-right text-[9px] font-bold uppercase text-[var(--gold-500)]">
-                إحصائيات سريعة
+              <p className="mb-3 text-right text-[11px] font-medium text-[var(--text-muted)]">
+                إحصائيات
               </p>
               <div className="space-y-2">
                 {activeStats.map((item) => (
-                  <article key={item.label} className="admin-card-soft px-3 py-2.5">
-                    <p className="text-right text-[11px] text-[var(--text-muted)]">{item.label}</p>
-                    <p className="text-right text-2xl font-extrabold text-[var(--text)]">{item.count}</p>
+                  <article key={item.label} className="admin-card-soft px-3.5 py-2.5">
+                    <div className="flex items-center justify-between">
+                      <p className="text-lg font-bold tabular-nums text-[var(--text)]">{item.count}</p>
+                      <p className="text-[11px] text-[var(--text-muted)]">{item.label}</p>
+                    </div>
                   </article>
                 ))}
               </div>
             </section>
 
             <section className="admin-card p-4">
-              <p style={{ letterSpacing: "0.18em" }}
-                className="mb-3 text-right text-[9px] font-bold uppercase text-[var(--gold-500)]">
-                إجراءات سريعة
-              </p>
               <div className="space-y-2">
-                <button type="button" onClick={() => setContent(structuredClone(defaultSiteContent))}
-                  className="admin-focus w-full rounded-xl border border-[rgba(212,168,74,0.4)] bg-[rgba(212,168,74,0.08)] px-3 py-2.5 text-sm font-semibold text-[var(--warning)] hover:bg-[rgba(212,168,74,0.14)]">
-                  إعادة المحتوى الافتراضي
-                </button>
                 <button type="button" onClick={save} disabled={loading || saving || !hasUnsavedChanges}
-                  className="admin-focus w-full rounded-xl bg-gradient-to-r from-[#e2c183] via-[#cfaa62] to-[#bc8a3f] px-3 py-2.5 text-sm font-bold text-[#1e2d4a] disabled:opacity-50">
+                  className="admin-focus w-full rounded-[10px] bg-[#eab308] px-3 py-2.5 text-[13px] font-semibold text-[#09090b] transition-all duration-200 hover:bg-[#fbbf24] disabled:opacity-30">
                   {hasUnsavedChanges ? "حفظ الآن" : "لا يوجد تعديلات"}
                 </button>
+                <button type="button" onClick={() => setContent(structuredClone(defaultSiteContent))}
+                  className="admin-focus w-full rounded-[10px] border border-[rgba(255,255,255,0.08)] px-3 py-2.5 text-[13px] font-medium text-[var(--text-muted)] transition-all duration-200 hover:bg-[rgba(255,255,255,0.04)]">
+                  إعادة المحتوى الافتراضي
+                </button>
                 <Link href="/"
-                  className="admin-focus block w-full rounded-xl border border-[var(--border)] bg-[var(--panel)] px-3 py-2.5 text-center text-sm font-semibold text-[var(--text-soft)] hover:border-[rgba(200,151,58,0.28)]">
-                  العودة للموقع
+                  className="admin-focus block w-full rounded-[10px] border border-[rgba(255,255,255,0.08)] px-3 py-2.5 text-center text-[13px] font-medium text-[var(--text-muted)] transition-all duration-200 hover:bg-[rgba(255,255,255,0.04)]">
+                  العودة للموقع ←
                 </Link>
               </div>
             </section>
@@ -903,16 +898,16 @@ export default function AdminPage() {
           <section className="admin-panel p-4 sm:p-6">
 
             {/* Section header */}
-            <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--border)] bg-[var(--surface-subtle)] p-4">
-              <span className="admin-chip inline-flex items-center gap-1.5 px-3 py-2 text-xs">
+            <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-[14px] border border-[rgba(255,255,255,0.05)] bg-[rgba(255,255,255,0.02)] px-4 py-3">
+              <span className="admin-chip inline-flex items-center gap-1.5 px-2.5 py-1.5 text-[11px]">
                 <span className="status-dot" />
-                وضع التحرير مفعل
+                تحرير
               </span>
               <div className="text-right">
-                <h2 className="text-lg font-bold text-[var(--text)]">
+                <h2 className="text-[15px] font-semibold text-[var(--text)]">
                   {tabs.find((t) => t.id === tab)?.label}
                 </h2>
-                <p className="text-xs text-[var(--text-muted)]">{tabDescriptions[tab]}</p>
+                <p className="text-[11px] text-[var(--text-muted)]">{tabDescriptions[tab]}</p>
               </div>
             </div>
 
@@ -922,13 +917,8 @@ export default function AdminPage() {
                 const width = Math.max(12, Math.round((item.count / maxStat) * 100));
                 return (
                   <article key={item.label} className="admin-card-soft admin-kpi p-4 text-right">
-                    <div className="flex items-start justify-between gap-2">
-                      <span className={`admin-chip ${i === 0 ? "admin-chip-strong" : ""} px-2.5 py-1 text-[10px]`}>
-                        {i === 0 ? "رئيسي" : "ثانوي"}
-                      </span>
-                      <p className="text-[11px] text-[var(--text-muted)]">{item.label}</p>
-                    </div>
-                    <p className="mt-2 text-2xl font-extrabold text-[var(--text)]">{item.count}</p>
+                    <p className="text-[11px] text-[var(--text-muted)]">{item.label}</p>
+                    <p className="mt-1 text-2xl font-bold tabular-nums text-[var(--text)]">{item.count}</p>
                     <div className="mt-3 admin-stat-line">
                       <span style={{ width: `${width}%` }} />
                     </div>
@@ -1271,11 +1261,11 @@ export default function AdminPage() {
         <section className="admin-savebar">
           <div className="admin-savebar-inner">
             <div className="text-right">
-              <p className="text-xs font-semibold text-[var(--text-soft)]">
-                {hasUnsavedChanges ? "لديك تغييرات غير محفوظة" : "كل شيء محفوظ"}
+              <p className="text-[13px] font-medium text-[var(--text-soft)]">
+                {hasUnsavedChanges ? "تغييرات غير محفوظة" : "كل شيء محفوظ"}
               </p>
               <p className="text-[11px] text-[var(--text-muted)]">
-                {lastSavedAt ? `آخر حفظ: ${lastSavedAt}` : "لم يتم الحفظ بعد"}
+                {lastSavedAt ? `آخر حفظ: ${lastSavedAt}` : ""}
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
@@ -1283,7 +1273,7 @@ export default function AdminPage() {
                 type="button"
                 onClick={save}
                 disabled={loading || saving || !hasUnsavedChanges}
-                className="admin-focus rounded-xl bg-gradient-to-r from-[#e2c183] via-[#cfaa62] to-[#bc8a3f] px-4 py-2 text-sm font-bold text-[#1e2d4a] disabled:opacity-50"
+                className="admin-focus rounded-[10px] bg-[#eab308] px-4 py-2 text-[13px] font-semibold text-[#09090b] transition-all duration-200 hover:bg-[#fbbf24] disabled:opacity-30"
               >
                 {saving ? "جاري الحفظ..." : "حفظ التعديلات"}
               </button>

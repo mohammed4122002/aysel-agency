@@ -157,7 +157,7 @@ export default function MarketPage() {
       
         </div>
         <Navbar />
-        <section className="relative z-10 mx-auto w-full px-4 pb-12 pt-[7.2rem] sm:px-8 sm:pb-14 sm:pt-[8rem] lg:px-10 lg:pb-96 lg:pt-[9.2rem]">
+        <section className="relative z-10 mx-auto w-full px-4 pb-10 pt-10 sm:px-8 sm:pb-14 sm:pt-[8rem] lg:px-10 lg:pb-96 lg:pt-[14rem]">
           <div className="mx-auto grid max-w-[1304px] gap-8 [direction:ltr] lg:grid-cols-[506px_734px] lg:items-start lg:justify-between lg:gap-16">
             <div className="relative mx-auto h-[470px] w-full max-w-[506px] mt-13">
               <div className="absolute left-[4%] top-[15%] w-[90%] rounded-[28px] border border-white/12 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02))] p-8 shadow-[0_22px_48px_rgba(2,8,20,0.56)]">

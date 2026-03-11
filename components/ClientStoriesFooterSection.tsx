@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
@@ -145,16 +145,16 @@ export default function ClientStoriesFooterSection() {
     <section className="bg-[#eceef2] py-20 sm:py-24">
       <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-[760px] text-center">
-          <div className="mx-auto inline-flex items-center gap-2 rounded-full bg-[#e2e5ea] px-4 py-1.5 text-xs font-semibold text-[#5f6775]">
+          <div className="mx-auto inline-flex items-center gap-2 rounded-full bg-[#e2e5ea] px-4 py-1.5 text-label text-[#5f6775]">
             <UsersIcon />
             <span>{stories?.badge ?? "آراء العملاء"}</span>
           </div>
 
-          <h2 className="mt-5 text-[clamp(2.05rem,4.2vw,3.43rem)]  leading-[1.08] text-[#121a2b]">
+          <h2 className="mt-5 heading-2 text-[#121a2b]">
             {stories?.title ?? "حقيقة قصص نجاح"}
           </h2>
 
-          <p className="mx-auto mt-4 max-w-[760px] text-[1.03rem] leading-relaxed text-[#5a6476]">
+          <p className="mx-auto mt-4 max-w-[760px] body-lg text-[#5a6476]">
             {stories?.subtitle ?? "عملاؤنا هم أفضل دليل على جودة عملنا. إليك ما يقولونه عن تجربتهم معنا."}
           </p>
         </div>
@@ -173,14 +173,14 @@ export default function ClientStoriesFooterSection() {
               exit={{ opacity: 0, y: prefersReducedMotion ? 0 : -10 }}
               transition={{ duration: 0.4 }}
             >
-              <p className="mx-auto max-w-[780px] text-center text-[1.3rem] leading-relaxed text-[#1a2537] sm:text-[1.44rem]">
+              <p className="mx-auto max-w-[780px] quote-text text-[#1a2537]">
                 &ldquo;{activeStory.quote}&rdquo;
               </p>
 
               <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <button
                   type="button"
-                  className="inline-flex items-center gap-2 rounded-lg border border-[#b9c2d1] bg-[#f4f7fb] px-4 py-2 text-sm font-semibold text-[#2b3649]"
+                  className="inline-flex items-center gap-2 rounded-lg border border-[#b9c2d1] bg-[#f4f7fb] px-4 py-2 body-sm font-semibold text-[#2b3649]"
                 >
                   <ArrowUpIcon />
                   <span>{activeStory.achievement || "نتائج ملموسة خلال أسابيع"}</span>
@@ -188,8 +188,8 @@ export default function ClientStoriesFooterSection() {
 
                 <div className="flex items-center gap-3">
                   <div className="text-right">
-                    <p className="text-base font-bold text-[#121a2b]">{activeStory.name}</p>
-                    <p className="text-sm text-[#7b8596]">{activeStory.role}</p>
+                    <p className="body-base font-bold text-[#121a2b]">{activeStory.name}</p>
+                    <p className="body-sm font-medium text-[#7b8596]">{activeStory.role}</p>
                   </div>
 
                   <div className="relative h-12 w-12 overflow-hidden rounded-full border border-white/80">
@@ -235,8 +235,8 @@ export default function ClientStoriesFooterSection() {
               <div className="mx-auto mb-2 flex h-8 w-8 items-center justify-center rounded-md bg-[#e2e6ee] text-[#5f6878]">
                 {stat.icon ?? stats[index % stats.length]?.icon}
               </div>
-              <p className="text-[1.22rem] font-bold text-[#121a2b]">{stat.value}</p>
-              <p className="text-xs text-[#7e8899]">{stat.label}</p>
+              <p className="heading-4 text-[#121a2b]">{stat.value}</p>
+              <p className="text-label mt-1 text-[#7e8899]">{stat.label}</p>
             </div>
           ))}
         </div>

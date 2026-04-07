@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 const servicesData = [
   {
     icon: "/figmaAssets/margin-wrap-15.svg",

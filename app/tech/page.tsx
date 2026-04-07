@@ -648,14 +648,14 @@ export default function TechPage() {
                 <DotIcon />
               </div>
 
-              <h1 className="mt-8 leading-[1.04]">
-                <span className="block text-[clamp(1.64rem,4vw,3.32rem)] font-extrabold text-white">نبني لك</span>
-                <span className="relative mt-1.5 inline-block whitespace-nowrap text-[clamp(1.76rem,4.25vw,3.55rem)] font-extrabold text-[var(--brand-primary)] after:absolute after:bottom-1 after:right-0 after:h-[3px] after:w-full after:rounded-full after:bg-gradient-to-l after:from-[var(--brand-primary)] after:to-[var(--brand-primary)]/15">
+              <h1 className="heading-1 mt-8 text-white">
+                <span className="block">نبني لك</span>
+                <span className="relative mt-1.5 inline-block whitespace-nowrap text-[var(--brand-primary)] after:absolute after:bottom-1 after:right-0 after:h-[3px] after:w-full after:rounded-full after:bg-gradient-to-l after:from-[var(--brand-primary)] after:to-[var(--brand-primary)]/15">
                   مستقبلك الرقمي
                 </span>
               </h1>
 
-              <p className="mt-6 max-w-[650px] text-[0.95rem] leading-relaxed text-white/57">
+              <p className="body-lg mt-6 max-w-[650px] text-white/57">
                 من الفكرة إلى الإطلاق، نحول رؤيتك إلى منتجات رقمية استثنائية
                 <br />
                 بأحدث التقنيات وأعلى معايير الجودة.
@@ -711,10 +711,10 @@ export default function TechPage() {
       <section className="bg-[#f2f4f7] py-20 sm:py-24">
         <div className="mx-auto w-full max-w-[1240px] px-4 sm:px-8 lg:px-10">
           <div className="mx-auto max-w-[760px] text-center">
-            <h2 className="text-[clamp(1.8rem,4.4vw,3.12rem)]  leading-[1.08] text-[#111827]">
+            <h2 className="heading-2 text-[#111827]">
               حلولنا <span className="text-[var(--brand-primary)]">التقنية</span>
             </h2>
-            <p className="mt-4 text-[1.01rem] text-[#6d7788]">حلول متكاملة بأعلى المعايير لكل احتياجاتك الرقمية</p>
+            <p className="body-lg mt-4 text-[#6d7788]">حلول متكاملة بأعلى المعايير لكل احتياجاتك الرقمية</p>
           </div>
 
           <div className="mt-12 grid gap-5 lg:grid-cols-4">
@@ -725,8 +725,8 @@ export default function TechPage() {
                 </span>
                 <p className="text-[2.46rem]  leading-none text-[var(--brand-primary-strong)]">{item.value}</p>
                 <p className="mt-1 text-xs font-semibold tracking-[0.04em] text-[#a0a8b7]">{item.unit}</p>
-                <h3 className="mt-5 text-[1.72rem]  leading-none text-[#111827]">{item.title}</h3>
-                <p className="mt-3 text-[0.93rem] leading-relaxed text-[#6e7889]">{item.description}</p>
+                <h3 className="heading-3 mt-5 text-[#111827]">{item.title}</h3>
+                <p className="body-sm mt-3 text-[#6e7889]">{item.description}</p>
                 <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
                   {item.badges.map((badge) => (
                     <span key={badge} className="rounded-full bg-[#edf1f7] px-3 py-1 text-[0.7rem] font-semibold text-[#9aa4b5]">
@@ -750,10 +750,10 @@ export default function TechPage() {
       <section className="bg-[#f2f4f7] py-20 sm:py-24">
         <div className="mx-auto w-full max-w-[1320px] px-4 sm:px-8 lg:px-10">
           <div className="mx-auto max-w-[860px] text-center">
-            <h2 className="text-[clamp(1.8rem,4.2vw,3.2rem)]  leading-[1.08] text-[#111827]">
+            <h2 className="heading-2 text-[#111827]">
               ما هي <span className="text-[var(--brand-primary)]">احتياجاتك؟</span>
             </h2>
-            <p className="mt-4 text-[1.1rem] text-[#6f7888]">اختر المسار المناسب لوضعك الحالي واكتشف رحلتك معنا</p>
+            <p className="body-lg mt-4 text-[#6f7888]">اختر المسار المناسب لوضعك الحالي واكتشف رحلتك معنا</p>
           </div>
 
           <div className="mt-14 grid gap-5 lg:grid-cols-3">
@@ -765,8 +765,8 @@ export default function TechPage() {
                   </span>
                 </div>
 
-                <h3 className="mt-6 text-[1.81rem]  leading-none text-[#1a2436]">{item.title}</h3>
-                <p className="mt-4 text-[1.03rem] text-[#677283]">{item.subtitle}</p>
+                <h3 className="heading-3 mt-6 text-[#1a2436]">{item.title}</h3>
+                <p className="body-sm mt-4 text-[#677283]">{item.subtitle}</p>
 
                 <div className="mt-6 flex justify-start">
                   <span className="inline-flex items-center gap-2 rounded-full bg-[#ebedf2] px-4 py-1.5 text-[0.97rem]  text-[#5f6979]">

@@ -55,7 +55,7 @@ export default function BusinessNeedsSection() {
             <div className="flex w-full flex-col items-end">
               <div className="flex w-full items-start justify-center pb-6">
                 <Badge className="h-10 gap-2 rounded-full border-0 bg-[#d4af371a] px-5 py-2.5 hover:bg-[#d4af371a]">
-                  <span className="text-center text-sm font-bold leading-5 text-[#d4af37] [direction:rtl]">
+                  <span className="text-label text-center text-[#d4af37] [direction:rtl]">
                     اختر مسارك
                   </span>
                   <Image className="h-5 w-[14.3px]" alt="Icon" src="/figmaAssets/i-312.svg" width={14} height={20} />
@@ -63,14 +63,14 @@ export default function BusinessNeedsSection() {
               </div>
 
               <div className="w-full pb-6">
-                <h2 className="text-center text-4xl font-bold leading-[52px] text-white [direction:rtl] sm:text-5xl sm:leading-[56px] lg:text-6xl lg:leading-[60px]">
+                <h2 className="heading-1 text-center text-white [direction:rtl]">
                   ماذا يحتاج عملك؟
                 </h2>
               </div>
 
               <div className="flex w-full justify-center">
                 <div className="max-w-screen-md text-center">
-                  <p className="text-xl font-normal leading-[32.5px] text-[#d0d5da] [direction:rtl]">
+                  <p className="body-lg text-[#d0d5da] [direction:rtl]">
                     اختر المجال الذي يناسب أهدافك الحالية. كل قسم مصمم لحل تحديات محددة وتحقيق نتائج قابلة للقياس
                   </p>
                 </div>
@@ -89,8 +89,8 @@ export default function BusinessNeedsSection() {
                   <img className="shrink-0" alt={service.title} src={service.icon} />
 
                   <div className="flex w-full justify-end flex-col">
-                         <h3 className="pb-4 text-3xl font-bold leading-9 text-white [direction:rtl]">{service.title}</h3>
-                  <p className="overflow-hidden pb-8 text-ellipsis text-base font-normal leading-[26px] text-[#d0d5da] [direction:rtl] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]">
+                         <h3 className="heading-3 pb-4 text-white [direction:rtl]">{service.title}</h3>
+                  <p className="body-base overflow-hidden pb-8 text-ellipsis text-[#d0d5da] [direction:rtl] [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]">
                     {service.description}
                   </p>
                   </div>
@@ -98,7 +98,7 @@ export default function BusinessNeedsSection() {
                      <div className="flex w-full flex-col gap-3 pb-10">
                     {service.features.map((feature) => (
                       <div key={feature} className="flex items-center justify-end gap-3">
-                        <span className="text-base font-normal leading-6 text-gray-400 [direction:rtl]">{feature}</span>
+                        <span className="body-sm text-gray-400 [direction:rtl]">{feature}</span>
                         <Image className="h-7 w-5" alt="Feature icon" src="/figmaAssets/i-425.svg" width={20} height={28} />
                       </div>
                     ))}
@@ -109,7 +109,7 @@ export default function BusinessNeedsSection() {
                
   <Button className="h-auto w-full items-center justify-end gap-2 bg-transparent p-0 hover:bg-transparent">
                     <Image className="h-6 w-4" alt="Arrow" src="/figmaAssets/i-391.svg" width={16} height={24} />
-                    <span className="text-base font-bold leading-6 text-[#d4af37] [direction:rtl]">{service.linkText}</span>
+                    <span className="body-base font-bold text-[#d4af37] [direction:rtl]">{service.linkText}</span>
                   </Button>
 
                 
@@ -121,7 +121,7 @@ export default function BusinessNeedsSection() {
           <div className="w-full pt-20">
             <div className="flex w-full flex-col items-end">
               <div className="w-full pb-6">
-                <p className="text-center text-lg font-normal leading-7 text-gray-400 [direction:rtl]">لست متأكدًا أي قسم تحتاج؟</p>
+                <p className="body-base text-center text-gray-400 [direction:rtl]">لست متأكدًا أي قسم تحتاج؟</p>
               </div>
               <div className="flex w-full items-start justify-center">
                 <Button className="h-14 rounded-2xl bg-white px-10 py-4 shadow-[0px_20px_25px_-5px_#0000001a,0px_8px_10px_-6px_#0000001a] hover:bg-white/90">

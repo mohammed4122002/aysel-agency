@@ -54,13 +54,13 @@ export default function PillarsSection(): JSX.Element {
             </div>
 
             <div className="flex w-full justify-center pb-6">
-              <h2 className="text-center text-5xl font-bold leading-[48px] text-[#111726] [direction:rtl]">
+              <h2 className="heading-2 text-center text-[#111726] [direction:rtl]">
                 ثلاث ركائز، رؤية واحدة
               </h2>
             </div>
 
             <div className="flex w-full max-w-screen-md flex-col items-center">
-              <p className="text-center text-xl font-normal leading-[32.5px] text-[#4a5462] [direction:rtl]">
+              <p className="body-lg text-center text-[#4a5462] [direction:rtl]">
                 بنينا نظامًا متكاملًا حيث تعمل الاستراتيجية والإبداع والتكنولوجيا معًا بسلاسة لتحقيق نتائج
                 استثنائية.
               </p>
@@ -80,11 +80,11 @@ export default function PillarsSection(): JSX.Element {
                   <img className="shrink-0" alt={service.title} src={service.icon} />
 
                   <div className="flex w-full justify-end">
-                    <h3 className="text-3xl font-bold leading-9 text-[#111726] [direction:rtl]">{service.title}</h3>
+                    <h3 className="heading-3 text-[#111726] [direction:rtl]">{service.title}</h3>
                   </div>
 
                   <div className="flex w-full justify-end pb-2">
-                    <p className="text-lg font-normal leading-[29.2px] text-[#4a5462] [direction:rtl]">
+                    <p className="body-base text-[#4a5462] [direction:rtl]">
                       {service.subtitle}
                     </p>
                   </div>
@@ -92,7 +92,7 @@ export default function PillarsSection(): JSX.Element {
                   <div className="flex w-full flex-col items-end space-y-3 pb-4">
                     {service.features.map((feature) => (
                       <div key={feature} className="flex w-full items-center justify-end gap-3">
-                        <span className="text-base font-normal leading-6 text-[#374050] [direction:rtl]">
+                        <span className="body-sm text-[#374050] [direction:rtl]">
                           {feature}
                         </span>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -102,7 +102,7 @@ export default function PillarsSection(): JSX.Element {
                   </div>
 
                   <div className="flex w-full flex-col items-end border-t border-solid border-[#e4e7eb] pt-[25px]">
-                    <p className="line-clamp-2 text-right text-sm font-normal leading-5 text-[#6a7280] [direction:rtl]">
+                    <p className="quote-text line-clamp-2 text-right text-[#6a7280] [direction:rtl]">
                       &ldquo;{service.quote}&rdquo;
                     </p>
                   </div>
@@ -119,11 +119,11 @@ export default function PillarsSection(): JSX.Element {
               <img className="shrink-0" alt="Integration" src="/figmaAssets/margin-wrap-18.svg" />
 
               <div className="flex w-full justify-center pb-4">
-                <h3 className="text-center text-3xl font-bold leading-9 text-[#111726] [direction:rtl]">قوة التكامل</h3>
+                <h3 className="heading-3 text-center text-[#111726] [direction:rtl]">قوة التكامل</h3>
               </div>
 
               <div className="flex w-full flex-col items-center">
-                <p className="text-center text-lg font-normal leading-[29.2px] text-[#374050] [direction:rtl]">
+                <p className="body-base text-center text-[#374050] [direction:rtl]">
                   عندما تعمل الاستراتيجية والإبداع والتكنولوجيا معًا، يحدث السحر. نحن لا نقدم خدمات منفصلة بل
                   نخلق حلولًا متكاملة حيث تعزز كل ركيزة الأخرى، مما يؤدي إلى نمو هائل لأعمالك.
                 </p>

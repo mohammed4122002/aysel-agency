@@ -956,8 +956,8 @@ export default function AdminPage() {
                         <Field label="نص زر عرض جميع الأعمال" value={asString(readPath(content, ["pages","agency","portfolio","viewAllLabel"]))} onChange={(v) => setField(["pages","agency","portfolio","viewAllLabel"], v)} />
                       </div>
                       <div className="mt-4"><Field label="وصف القسم" value={asString(readPath(content, ["pages","agency","portfolio","subtitle"]))} onChange={(v) => setField(["pages","agency","portfolio","subtitle"], v)} multiline /></div>
-                      <ObjListEditor title="فلاتر المعرض" path={["pages","agency","portfolio","filters"]} fields={[{key:"id",label:"ID",dir:"ltr"},{key:"label",label:"النص"}]} newItem={{id:"",label:""}} content={content} updateField={updateObjField} removeRow={removeRow} addRow={addRow} />
-                      <ObjListEditor title="المشاريع" path={["pages","agency","portfolio","projects"]} fields={[{key:"id",label:"ID",dir:"ltr"},{key:"category",label:"category",dir:"ltr"},{key:"categoryLabel",label:"التصنيف"},{key:"client",label:"العميل"},{key:"title",label:"العنوان"},{key:"description",label:"الوصف",multiline:true},{key:"duration",label:"المدة"},{key:"image",label:"الصورة",dir:"ltr"}]} newItem={{id:"",category:"",categoryLabel:"",client:"",title:"",description:"",duration:"",image:""}} content={content} updateField={updateObjField} removeRow={removeRow} addRow={addRow} />
+                      <ObjListEditor title="فلاتر المعرض" path={["pages","agency","portfolio","filters"]} fields={[{key:"label",label:"النص"}]} newItem={{id:"",label:""}} content={content} updateField={updateObjField} removeRow={removeRow} addRow={addRow} />
+                      <ObjListEditor title="المشاريع" path={["pages","agency","portfolio","projects"]} fields={[{key:"category",label:"category",dir:"ltr"},{key:"categoryLabel",label:"التصنيف"},{key:"client",label:"العميل"},{key:"title",label:"العنوان"},{key:"description",label:"الوصف",multiline:true},{key:"duration",label:"المدة"},{key:"image",label:"الصورة",dir:"ltr"}]} newItem={{id:"",category:"",categoryLabel:"",client:"",title:"",description:"",duration:"",image:""}} content={content} updateField={updateObjField} removeRow={removeRow} addRow={addRow} />
                     </Card>
 
                     <Card title="الوكالة — آراء العملاء">
@@ -989,7 +989,7 @@ export default function AdminPage() {
                           </section>
                         </div>
                         <section className="admin-card-soft p-4">
-                          <ObjListEditor title="قائمة آراء العملاء" path={["pages","agency","clientStories","items"]} fields={[{key:"id",label:"ID",dir:"ltr"},{key:"name",label:"اسم العميل"},{key:"role",label:"الدور"},{key:"achievement",label:"الإنجاز"},{key:"quote",label:"الاقتباس",multiline:true},{key:"image",label:"الصورة",dir:"ltr"}]} newItem={{id:"",name:"",role:"",achievement:"",quote:"",image:""}} content={content} updateField={updateObjField} removeRow={removeRow} addRow={addRow} />
+                          <ObjListEditor title="قائمة آراء العملاء" path={["pages","agency","clientStories","items"]} fields={[{key:"name",label:"اسم العميل"},{key:"role",label:"الدور"},{key:"achievement",label:"الإنجاز"},{key:"quote",label:"الاقتباس",multiline:true},{key:"image",label:"الصورة",dir:"ltr"}]} newItem={{id:"",name:"",role:"",achievement:"",quote:"",image:""}} content={content} updateField={updateObjField} removeRow={removeRow} addRow={addRow} />
                         </section>
                       </div>
                     </Card>
@@ -1034,7 +1034,7 @@ export default function AdminPage() {
                         <Field label="زر CTA" value={asString(readPath(content, ["pages","market","faq","ctaButton"]))} onChange={(v) => setField(["pages","market","faq","ctaButton"], v)} />
                       </div>
                       <div className="mt-4"><Field label="الوصف" value={asString(readPath(content, ["pages","market","faq","subtitle"]))} onChange={(v) => setField(["pages","market","faq","subtitle"], v)} multiline /></div>
-                      <ObjListEditor title="الأسئلة" path={["pages","market","faq","items"]} fields={[{key:"id",label:"ID",dir:"ltr"},{key:"question",label:"السؤال"},{key:"answer",label:"الإجابة",multiline:true}]} newItem={{id:"",question:"",answer:""}} content={content} updateField={updateObjField} removeRow={removeRow} addRow={addRow} />
+                      <ObjListEditor title="الأسئلة" path={["pages","market","faq","items"]} fields={[{key:"question",label:"السؤال"},{key:"answer",label:"الإجابة",multiline:true}]} newItem={{id:"",question:"",answer:""}} content={content} updateField={updateObjField} removeRow={removeRow} addRow={addRow} />
                     </Card>
                   </>
                 )}
@@ -1076,7 +1076,7 @@ export default function AdminPage() {
                         <Field label="زر CTA" value={asString(readPath(content, ["pages","media","faq","ctaButton"]))} onChange={(v) => setField(["pages","media","faq","ctaButton"], v)} />
                       </div>
                       <div className="mt-4"><Field label="الوصف" value={asString(readPath(content, ["pages","media","faq","subtitle"]))} onChange={(v) => setField(["pages","media","faq","subtitle"], v)} multiline /></div>
-                      <ObjListEditor title="أسئلة ميديا" path={["pages","media","faq","items"]} fields={[{key:"id",label:"ID",dir:"ltr"},{key:"question",label:"السؤال"},{key:"answer",label:"الإجابة",multiline:true}]} newItem={{id:"",question:"",answer:""}} content={content} updateField={updateObjField} removeRow={removeRow} addRow={addRow} />
+                      <ObjListEditor title="أسئلة ميديا" path={["pages","media","faq","items"]} fields={[{key:"question",label:"السؤال"},{key:"answer",label:"الإجابة",multiline:true}]} newItem={{id:"",question:"",answer:""}} content={content} updateField={updateObjField} removeRow={removeRow} addRow={addRow} />
                     </Card>
                   </>
                 )}
@@ -1088,8 +1088,8 @@ export default function AdminPage() {
                       <Field label="عنوان القسم" value={asString(readPath(content, ["pages","tech","projectsSection","title"]))} onChange={(v) => setField(["pages","tech","projectsSection","title"], v)} />
                     </div>
                     <div className="mt-4"><Field label="الوصف" value={asString(readPath(content, ["pages","tech","projectsSection","subtitle"]))} onChange={(v) => setField(["pages","tech","projectsSection","subtitle"], v)} multiline /></div>
-                    <ObjListEditor title="فلاتر تك" path={["pages","tech","projectsSection","filters"]} fields={[{key:"id",label:"ID",dir:"ltr"},{key:"label",label:"النص"}]} newItem={{id:"",label:""}} content={content} updateField={updateObjField} removeRow={removeRow} addRow={addRow} />
-                    <ObjListEditor title="مشاريع تك" path={["pages","tech","projectsSection","projects"]} fields={[{key:"id",label:"ID",dir:"ltr"},{key:"title",label:"العنوان"},{key:"category",label:"category",dir:"ltr"},{key:"categoryLabel",label:"اسم القسم"},{key:"description",label:"الوصف",multiline:true},{key:"year",label:"السنة"},{key:"image",label:"الصورة",dir:"ltr"}]} newItem={{id:"",title:"",category:"",categoryLabel:"",description:"",year:"",image:""}} content={content} updateField={updateObjField} removeRow={removeRow} addRow={addRow} />
+                    <ObjListEditor title="فلاتر تك" path={["pages","tech","projectsSection","filters"]} fields={[{key:"label",label:"النص"}]} newItem={{id:"",label:""}} content={content} updateField={updateObjField} removeRow={removeRow} addRow={addRow} />
+                    <ObjListEditor title="مشاريع تك" path={["pages","tech","projectsSection","projects"]} fields={[{key:"title",label:"العنوان"},{key:"category",label:"category",dir:"ltr"},{key:"categoryLabel",label:"اسم القسم"},{key:"description",label:"الوصف",multiline:true},{key:"year",label:"السنة"},{key:"image",label:"الصورة",dir:"ltr"}]} newItem={{id:"",title:"",category:"",categoryLabel:"",description:"",year:"",image:""}} content={content} updateField={updateObjField} removeRow={removeRow} addRow={addRow} />
                   </Card>
                 )}
 

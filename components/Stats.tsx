@@ -61,7 +61,7 @@ export default function Stats() {
         const suffix = stat.value.endsWith("%") ? "%" : "";
         return (
           <div key={stat.label} className="text-center">
-            <div className="text-3xl sm:text-[2rem] font-medium leading-[1.2] text-white">
+            <div className="heading-3 text-white">
               <AnimatedNumber target={stat.value} suffix={suffix} />
             </div>
             <p className="mt-1.5 text-label text-white/50">{stat.label}</p>

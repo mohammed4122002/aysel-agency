@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 
@@ -123,15 +123,15 @@ export default function AgencyAdvantageSection() {
     <section className="agency-adv-section py-20 sm:py-24">
       <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-[800px] text-center">
-          <div className="mx-auto inline-flex rounded-full bg-[#e2e5ea] px-4 py-1.5 text-xs font-semibold text-[#5f6775]">
+          <div className="text-label mx-auto inline-flex rounded-full bg-[#e2e5ea] px-4 py-1.5 font-semibold text-[#5f6775]">
             لماذا نحن
           </div>
 
-          <h2 className="mt-5 text-[clamp(1.89rem,4vw,3.2rem)] font-extrabold leading-[1.08] text-[#121a2b]">
+          <h2 className="heading-2 mt-5 text-[#121a2b]">
             ميزة الوكالة
           </h2>
 
-          <p className="mx-auto mt-4 max-w-[820px] text-[1.06rem] leading-relaxed text-[#4b5565]">
+          <p className="body-lg mx-auto mt-4 max-w-[820px] text-[#4b5565]">
             لسنا مجرد مزود خدمات. نحن شريكك الاستراتيجي الملتزم بنجاحك على المدى
             الطويل.
           </p>
@@ -147,8 +147,8 @@ export default function AgencyAdvantageSection() {
                 {item.icon}
               </div>
 
-              <h3 className="text-[1.72rem] font-extrabold leading-none text-[#121a2b]">{item.title}</h3>
-              <p className="mt-3 text-[0.93rem] leading-relaxed text-[#5f6877]">{item.description}</p>
+              <h3 className="heading-3 text-[#121a2b]">{item.title}</h3>
+              <p className="body-sm mt-3 text-[#5f6877]">{item.description}</p>
             </article>
           ))}
         </div>

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 
@@ -92,15 +92,15 @@ export default function HowWeWorkSection() {
     <section className="how-we-work-section py-20 sm:py-24">
       <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-[840px] text-center">
-          <div className="mx-auto inline-flex rounded-full bg-[#e2e5ea] px-4 py-1.5 text-xs font-semibold text-[#5f6775]">
+          <div className="text-label mx-auto inline-flex rounded-full bg-[#e2e5ea] px-4 py-1.5 font-semibold text-[#5f6775]">
             منهجيتنا
           </div>
 
-          <h2 className="mt-5 text-[clamp(1.97rem,4.2vw,3.28rem)] font-extrabold leading-[1.08] text-[#121a2b]">
+          <h2 className="heading-2 mt-5 text-[#121a2b]">
             كيف نعمل
           </h2>
 
-          <p className="mx-auto mt-4 max-w-[840px] text-[1.04rem] leading-relaxed text-[#4b5565]">
+          <p className="body-lg mx-auto mt-4 max-w-[840px] text-[#4b5565]">
             منهجية مثبتة تجمع بين التفكير الاستراتيجي والتنفيذ الإبداعي والتميز
             التقني.
           </p>
@@ -128,10 +128,10 @@ export default function HowWeWorkSection() {
                   </span>
                 </div>
 
-                <h3 className="text-[1.72rem] font-extrabold leading-none text-[#121a2b]">{step.title}</h3>
-                <p className="mt-3 text-[0.91rem] leading-relaxed text-[#5f6877]">{step.description}</p>
+                <h3 className="heading-3 text-[#121a2b]">{step.title}</h3>
+                <p className="body-sm mt-3 text-[#5f6877]">{step.description}</p>
 
-                <ul className="mt-5 space-y-2 text-[0.9rem] text-[#3c4555]">
+                <ul className="body-xs mt-5 space-y-2 text-[#3c4555]">
                   {step.bullets.map((bullet) => (
                     <li key={bullet} className="flex items-center justify-start gap-2">
                       <span className="text-[0.82rem]">✓</span>
@@ -145,8 +145,8 @@ export default function HowWeWorkSection() {
         </div>
 
         <div className="workflow-cta mt-12 rounded-[22px] px-6 py-10 text-center sm:px-8">
-          <h3 className="text-[1.89rem] font-extrabold text-[#121a2b]">مستعد للبدء؟</h3>
-          <p className="mt-3 text-[1rem] text-[#556070]">
+          <h3 className="heading-3 text-[#121a2b]">مستعد للبدء؟</h3>
+          <p className="body-base mt-3 text-[#556070]">
             دعنا نناقش مشروعك ونضع خطة مخصصة تناسب أهدافك وميزانيتك.
           </p>
           <button

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import React, { useMemo, useState } from "react";
@@ -192,16 +192,16 @@ export default function PortfolioShowcaseSection() {
     <section className="portfolio-section py-20 sm:py-24">
       <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-[840px] text-center">
-          <div className="mx-auto inline-flex items-center gap-2 rounded-full bg-[#e2e5ea] px-4 py-1.5 text-xs font-semibold text-[#5f6775]">
+          <div className="text-label mx-auto inline-flex items-center gap-2 rounded-full bg-[#e2e5ea] px-4 py-1.5 font-semibold text-[#5f6775]">
             <SectionLabelIcon />
             <span>{portfolioContent?.badge ?? "معرض الأعمال"}</span>
           </div>
 
-          <h2 className="mt-5 text-[clamp(2.13rem,4.5vw,3.59rem)]  leading-[1.06] text-[#121a2b]">
+          <h2 className="heading-2 mt-5 text-[#121a2b]">
             {portfolioContent?.title ?? "أعمال نفتخر بإنجازها"}
           </h2>
 
-          <p className="mx-auto mt-4 max-w-[860px] text-[1.06rem] leading-relaxed text-[#4b5565]">
+          <p className="body-lg mx-auto mt-4 max-w-[860px] text-[#4b5565]">
             {portfolioContent?.subtitle ??
               "نماذج من مشاريعنا الناجحة التي ساعدت عملاءنا على تحقيق أهدافهم وتجاوز توقعاتهم بنتائج استثنائية."}
           </p>
@@ -247,11 +247,11 @@ export default function PortfolioShowcaseSection() {
                   <span>{project.client}</span>
                 </p>
 
-                <h3 className="mt-2 text-[1.72rem]  leading-tight text-[#121a2b]">
+                <h3 className="heading-3 mt-2 text-[#121a2b]">
                   {project.title}
                 </h3>
 
-                <p className="mt-2 text-[0.91rem] leading-relaxed text-[#5f6877]">
+                <p className="body-sm mt-2 text-[#5f6877]">
                   {project.description}
                 </p>
 

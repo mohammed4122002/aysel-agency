@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
@@ -212,12 +212,12 @@ export default function MediaPage() {
               <span>إنتاج آيسل ميديا</span>
             </div>
 
-            <h1 className="mt-8 leading-[1.08] text-white">
-              <span className="block text-[clamp(1.84rem,4.9vw,3.86rem)] font-extrabold">نصنع محتوى</span>
-              <span className="mt-1 block text-[clamp(1.84rem,4.9vw,3.86rem)] font-extrabold">يُحدث فرقاً</span>
+            <h1 className="heading-1 mt-8 text-white">
+              <span className="block">نصنع محتوى</span>
+              <span className="mt-1 block">يُحدث فرقاً</span>
             </h1>
 
-            <p className="mt-8 max-w-[640px] text-[1.04rem] leading-relaxed text-white/58">
+            <p className="body-lg mt-8 max-w-[640px] text-white/58">
               من الفكرة إلى الشاشة، نحول رؤيتك إلى قصص بصرية تأسر الجمهور وتبني علامتك التجارية.
             </p>
 
@@ -263,8 +263,8 @@ export default function MediaPage() {
       <section className="bg-[#eef0f4] py-20 sm:py-24">
         <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
           <div className="mx-auto max-w-[760px] text-center">
-            <h2 className="text-[clamp(1.68rem,4vw,2.87rem)] font-extrabold leading-[1.1] text-[#121a2b]">ما هو هدفك؟</h2>
-            <p className="mt-4 text-[1rem] text-[#6d7687]">اختر هدفك ودعنا نساعدك في تحقيقه</p>
+            <h2 className="heading-2 text-[#121a2b]">ما هو هدفك؟</h2>
+            <p className="body-lg mt-4 text-[#6d7687]">اختر هدفك ودعنا نساعدك في تحقيقه</p>
           </div>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
@@ -282,8 +282,8 @@ export default function MediaPage() {
             <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-[26px] bg-gradient-to-b from-[var(--brand-primary)] to-[var(--brand-primary-strong)] text-white shadow-[0_16px_26px_rgba(212,168,67,0.28)]">
               <span className="text-3xl">◎</span>
             </div>
-            <h3 className="mt-8 text-[2.38rem] font-extrabold leading-none text-[#121a2b]">{goalData.title}</h3>
-            <p className="mt-5 text-[1.3rem] text-[#6d7687]">{goalData.subtitle}</p>
+            <h3 className="heading-3 mt-8 text-[#121a2b]">{goalData.title}</h3>
+            <p className="body-lg mt-5 text-[#6d7687]">{goalData.subtitle}</p>
             <div className="mx-auto mt-8 inline-flex items-center gap-3 rounded-3xl bg-[#f3f4f6] px-8 py-3.5 shadow-[0_10px_18px_rgba(15,23,42,0.08)]">
               <span className="text-[1.97rem] font-extrabold leading-none text-[#121a2b]">{goalData.metric}</span>
               <span className="text-[1.12rem] text-[#7b8392]">{goalData.metricLabel}</span>
@@ -297,14 +297,14 @@ export default function MediaPage() {
       <section className="media-services-section py-20 sm:py-24">
         <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
           <div className="grid gap-8 [direction:ltr] lg:grid-cols-2 lg:items-start">
-            <div className="text-right lg:col-start-2"><span className="inline-flex rounded-full bg-[#f2ead8] px-4 py-1.5 text-sm font-semibold text-[var(--brand-primary-strong)]">خدماتنا</span><h2 className="mt-4 text-[clamp(1.8rem,4.6vw,3.28rem)] font-extrabold leading-[1.08] text-[#121a2b]">ماذا نقدم؟</h2></div>
+            <div className="text-right lg:col-start-2"><span className="text-label inline-flex rounded-full bg-[#f2ead8] px-4 py-1.5 font-semibold text-[var(--brand-primary-strong)]">خدماتنا</span><h2 className="heading-2 mt-4 text-[#121a2b]">ماذا نقدم؟</h2></div>
             <p className="max-w-[560px] text-right text-[1.01rem] leading-relaxed text-[#717b8a] lg:col-start-1 lg:pt-6">مجموعة متكاملة من الخدمات الإبداعية لتحقيق جميع أهدافك التسويقية</p>
           </div>
           <div className="mt-10 grid gap-5 [direction:ltr] lg:grid-cols-12">
             <article className="media-service-tile media-service-purple min-h-[240px] [direction:rtl] lg:col-span-3">
               <div className="flex items-start justify-between"><p className="text-[2.38rem] font-extrabold leading-none text-white">98%</p><span className="text-white/80">◎</span></div>
-              <p className="mt-1 text-[1.17rem] text-white/82">رضا</p>
-              <div className="mt-6 text-right"><p className="text-[1.01rem] font-semibold text-white/72">هوية مميزة</p><h3 className="mt-1 text-[1.72rem] font-extrabold leading-none text-white">التصميم</h3><p className="mt-2.5 text-[0.93rem] leading-relaxed text-white/82">نصمم هوية بصرية تعكس شخصية علامتك</p></div>
+              <p className="body-sm mt-1 text-white/82">رضا</p>
+              <div className="mt-6 text-right"><p className="text-label font-semibold text-white/72">هوية مميزة</p><h3 className="heading-3 mt-1 text-white">التصميم</h3><p className="body-xs mt-2.5 text-white/82">نصمم هوية بصرية تعكس شخصية علامتك</p></div>
             </article>
 
             <article className="media-service-tile media-service-purple min-h-[240px] [direction:rtl] lg:col-span-4">
@@ -409,8 +409,8 @@ export default function MediaPage() {
 
             <div className="text-right">
               <span className="inline-flex rounded-full border border-[rgba(212,168,67,0.3)] bg-[rgba(212,168,67,0.12)] px-4 py-1.5 text-sm font-semibold text-[var(--brand-primary-soft)]">لماذا نحن</span>
-              <h2 className="mt-5 text-[clamp(1.72rem,4.2vw,3.12rem)] font-extrabold leading-[1.08] text-white"><span className="text-[var(--brand-primary)]">خدماتنا الإعلامية؟</span><br /><span>لماذا تُختار</span></h2>
-              <p className="mt-5 max-w-[560px] text-[0.98rem] leading-relaxed text-white/66">نجمع بين الإبداع والاستراتيجية لنقدّم لك حلولاً إعلامية متكاملة تحقق نتائج ملموسة.</p>
+              <h2 className="heading-2 mt-5 text-white"><span className="text-[var(--brand-primary)]">خدماتنا الإعلامية؟</span><br /><span>لماذا تُختار</span></h2>
+              <p className="body-base mt-5 max-w-[560px] text-white/66">نجمع بين الإبداع والاستراتيجية لنقدّم لك حلولاً إعلامية متكاملة تحقق نتائج ملموسة.</p>
               <div className="mt-7 grid gap-4 sm:grid-cols-2">
                 {whyFeatures.map((item) => (
                   <article key={item.title} className="rounded-2xl border border-white/10 bg-[#111b31]/78 px-4 py-4 text-right"><div className="mb-2 flex items-center justify-between"><span className="text-[1rem] font-bold text-white">{item.title}</span><span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[rgba(212,168,67,0.9)] text-white">•</span></div><p className="text-sm leading-relaxed text-white/60">{item.desc}</p></article>
@@ -423,7 +423,7 @@ export default function MediaPage() {
 
       <section className="bg-[#eef0f4] py-20 sm:py-24">
         <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
-          <div className="mx-auto max-w-[760px] text-center"><h2 className="text-[clamp(1.8rem,4.2vw,3.2rem)] font-extrabold leading-[1.08] text-[#111827]">رحلة المشروع معنا</h2><p className="mt-3 text-[1rem] text-[#6b7280]">5 خطوات بسيطة لنجاح مشروعك</p></div>
+          <div className="mx-auto max-w-[760px] text-center"><h2 className="heading-2 text-[#111827]">رحلة المشروع معنا</h2><p className="body-base mt-3 text-[#6b7280]">5 خطوات بسيطة لنجاح مشروعك</p></div>
 
           <div className="mt-12 grid gap-4 md:grid-cols-5">
             {journeySteps.map((step) => {
@@ -441,8 +441,8 @@ export default function MediaPage() {
 
           <article className="mx-auto mt-8 max-w-[1080px] rounded-[24px] border border-[#dfe3e9] bg-white px-6 py-10 text-center">
             <span className="inline-flex items-center gap-2 rounded-full bg-[#f6edd9] px-4 py-1.5 text-sm font-semibold text-[var(--brand-primary-strong)]"><span className="h-2 w-2 rounded-full bg-[var(--brand-primary)]" /><span>المدة: {activeJourney.duration}</span></span>
-            <h3 className="mt-5 text-[2.05rem] font-extrabold leading-none text-[#111827]">{activeJourney.title}</h3>
-            <p className="mx-auto mt-4 max-w-[700px] text-[1.06rem] leading-relaxed text-[#6b7280]">{activeJourney.description}</p>
+            <h3 className="heading-3 mt-5 text-[#111827]">{activeJourney.title}</h3>
+            <p className="body-lg mx-auto mt-4 max-w-[700px] text-[#6b7280]">{activeJourney.description}</p>
           </article>
 
           <div className="mt-8 flex items-center justify-center gap-2">{journeySteps.map((step, index) => <span key={step.id} className={`h-[6px] rounded-full ${index === activeJourneyIndex ? "w-10 bg-[var(--brand-primary)]" : "w-4 bg-[#d2d7df]"}`} />)}</div>
@@ -451,7 +451,7 @@ export default function MediaPage() {
 
       <section className="bg-[#eff1f4] py-20 sm:py-24">
         <div className="mx-auto w-full max-w-[1220px] px-4 sm:px-8 lg:px-10">
-          <div className="mx-auto max-w-[820px] text-center"><div className="mx-auto inline-flex items-center gap-2 rounded-full bg-[#f3ead6] px-5 py-2 text-sm font-semibold text-[var(--brand-primary-strong)]"><span className="h-2 w-2 rounded-full border border-current" /><span>الأسئلة الشائعة</span></div><h2 className="mt-6 text-[clamp(1.89rem,4.4vw,3.28rem)] font-extrabold leading-[1.08] text-[#111827]">أسئلة قد تهمك</h2><p className="mx-auto mt-4 max-w-[760px] text-[1.01rem] leading-relaxed text-[#798394]">إجابات على الأسئلة الأكثر شيوعاً حول خدماتنا</p></div>
+          <div className="mx-auto max-w-[820px] text-center"><div className="text-label mx-auto inline-flex items-center gap-2 rounded-full bg-[#f3ead6] px-5 py-2 font-semibold text-[var(--brand-primary-strong)]"><span className="h-2 w-2 rounded-full border border-current" /><span>الأسئلة الشائعة</span></div><h2 className="heading-2 mt-6 text-[#111827]">أسئلة قد تهمك</h2><p className="body-lg mx-auto mt-4 max-w-[760px] text-[#798394]">إجابات على الأسئلة الأكثر شيوعاً حول خدماتنا</p></div>
 
           <div className="mx-auto mt-12 max-w-[980px] space-y-3">
             {faqItems.map((item) => {
@@ -460,9 +460,9 @@ export default function MediaPage() {
                 <article key={item.id} className={`rounded-[16px] border px-5 py-4 sm:px-6 ${isOpen ? "border-[#e2c892] bg-white" : "border-[#e0e4eb] bg-[#f6f8fb]"}`}>
                   <button type="button" onClick={() => setActiveFaqId(item.id)} className="flex w-full items-center justify-between gap-4 [direction:ltr]" aria-expanded={isOpen}>
                     <span className={`flex h-9 w-9 items-center justify-center rounded-lg ${isOpen ? "bg-[var(--brand-primary)] text-white" : "bg-[#e9edf2] text-[#8f99aa]"}`}>{isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}</span>
-                    <div className="flex items-center gap-4 [direction:rtl]"><span className={`inline-flex h-10 min-w-10 items-center justify-center rounded-xl px-2 text-sm font-bold ${isOpen ? "bg-[var(--brand-primary)] text-white" : "bg-[#e9edf2] text-[#8f99aa]"}`}>{item.id}</span><h3 className={`text-[1.22rem] font-extrabold leading-none ${isOpen ? "text-[var(--brand-primary-strong)]" : "text-[#1f2937]"}`}>{item.question}</h3></div>
+                    <div className="flex items-center gap-4 [direction:rtl]"><span className={`inline-flex h-10 min-w-10 items-center justify-center rounded-xl px-2 text-sm font-bold ${isOpen ? "bg-[var(--brand-primary)] text-white" : "bg-[#e9edf2] text-[#8f99aa]"}`}>{item.id}</span><h3 className={`heading-3 leading-none ${isOpen ? "text-[var(--brand-primary-strong)]" : "text-[#1f2937]"}`}>{item.question}</h3></div>
                   </button>
-                  {isOpen && <p className="mx-auto mt-4 max-w-[92%] border-t border-[#ecdcb7] pt-4 text-center text-[0.95rem] leading-relaxed text-[#6f798a]">{item.answer}</p>}
+                  {isOpen && <p className="body-base mx-auto mt-4 max-w-[92%] border-t border-[#ecdcb7] pt-4 text-center text-[#6f798a]">{item.answer}</p>}
                 </article>
               );
             })}

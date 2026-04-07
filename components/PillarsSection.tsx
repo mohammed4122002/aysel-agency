@@ -41,7 +41,7 @@ const servicesData = [
   },
 ];
 
-export default function PillarsSection(): JSX.Element {
+export default function PillarsSection() {
   return (
     <section className="w-full px-6 py-20">
       <div className="mx-auto max-w-screen-xl">
